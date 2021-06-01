@@ -1,0 +1,67 @@
+Array of 与 Array from
+
+## Array.of()
+Array.of() 方法创建一个具有'可变数量参数'的'新数组实例'，而不考虑参数的数量或类型。看兼容那块，可以认识的更清楚。
+
+* 语法：
+```javascript
+Array.of(element0[, element1[, ...[, elementN]]])
+```
+
+* Array.of() 和 Array 构造函数之间的区别在于'处理整数参数'：
+> * Array.of(7) 创建一个具有单个元素 7 的数组;
+> * Array(7) 创建一个长度为7的空数组（注意：这是指一个有7个空位(empty)的数组，而不是由7个undefined组成的数组）。
+
+```javascript
+Array.of(7);       // [7]
+Array.of(1, 2, 3); // [1, 2, 3]
+
+Array(7);          // [ , , , , , , ]
+Array(1, 2, 3);    // [1, 2, 3]
+
+Array.of(undefined); // [undefined]
+```
+
+### 兼容旧环境：arguments
+如果原生不支持的话，在其他代码之前执行以下代码会创建 Array.of()：
+```javascript
+if (!Array.of) {
+  Array.of = function() {
+    return Array.prototype.slice.call(arguments);
+  };
+}
+```
+
+## Array.from()
+Array.from() 方法从一个'类似数组'或'可迭代对象'创建一个新的，浅拷贝的数组实例。
+
+* 语法：
+```javascript
+Array.from(arrayLike[, mapFn[, thisArg]])
+
+Array.from(obj, mapFn, thisArg) 就相当于 Array.from(obj).map(mapFn, thisArg),
+
+// 参数：
+// arrayLike：想要转换成数组的伪数组对象或可迭代对象。
+// mapFn(可选)：新数组中的每个元素会执行该回调函数。
+// thisArg(可选)：执行回调函数 mapFn 时 this 对象。
+``` 
+* 应用
+1. 从 String 生成数组
+```javascript
+Array.from('foo');
+// [ "f", "o", "o" ]
+```
+
+2. Set, Map, arguments等 转为数组
+
+3. 数组去重合并
+```javascript
+function combine(){
+    let arr = [].concat.apply([], arguments);  //没有去重复的新数组
+    return Array.from(new Set(arr));
+}
+
+var m = [1, 2, 2], n = [2,3,3];
+console.log(combine(m,n));                     // [1, 2, 3]
+```
