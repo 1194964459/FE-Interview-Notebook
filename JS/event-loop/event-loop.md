@@ -56,7 +56,7 @@ javascript从诞生之日起就是一门'单线程'的'非阻塞'的脚本语言
 
 ### 4.浏览器事件循环
 1. 事件循环过程：
-![浏览器事件循环](./icon_event loop.jpg)
+![浏览器事件循环](https://github.com/1194964459/FE-Interview-Notebook/blob/main/JS/event-loop/icon_browser-event-loop.jpg?raw=true)
 
 2. Micro-Task 与 Macro-Task
 浏览器端事件循环中的异步队列有两种：macro（宏任务）队列和 micro（微任务）队列。宏任务队列可以有多个，微任务队列只有一个。
@@ -68,13 +68,13 @@ javascript从诞生之日起就是一门'单线程'的'非阻塞'的脚本语言
 
 
 ### 5.Node事件循环
-![Node 事件循环](./icon_node 事件循环.jpg)
+![Node 事件循环](https://github.com/1194964459/FE-Interview-Notebook/blob/main/JS/event-loop/icon_node-event-loop.jpg?raw=true)
 
 ### 6.Node/浏览器 事件循环的异同
 1. 浏览器环境下，microtask的任务队列是每个macrotask执行完之后执行。
 2. Node.js中，microtask会在事件循环的各个阶段之间执行，也就是一个阶段执行完毕，就会去执行microtask队列的任务。
 
-![差异](./icon_浏览器与node事件循环 异同.jpg)
+![差异](https://github.com/1194964459/FE-Interview-Notebook/blob/main/JS/event-loop/icon_differences.jpg?raw=true)
 
 ### 7. 示例：
 ```javascript
@@ -92,7 +92,7 @@ setTimeout(()=>{
 }, 0)
 ```
 浏览器端运行结果：timer1=>promise1=>timer2=>promise2
-![浏览器](./icon_浏览器 动画演示)
+![浏览器](https://user-gold-cdn.xitu.io/2019/1/12/16841d6392e8f537?imageslim)
 
 Node端运行结果分两种情况：
 1. node11版本：一旦执行一个阶段里的一个宏任务(setTimeout,setInterval和setImmediate)就立刻执行微任务队列，这就跟浏览器端运行一致，最后的结果为timer1=>promise1=>timer2=>promise2
@@ -100,6 +100,6 @@ Node端运行结果分两种情况：
 
 * 如果是第二个定时器还未在完成队列中，最后的结果为timer1=>promise1=>timer2=>promise2
 * 如果是第二个定时器已经在完成队列中，则最后的结果为timer1=>timer2=>promise1=>promise2(下文过程解释基于这种情况下)
-![node](./icon_node 动画演示)
+![node](https://user-gold-cdn.xitu.io/2019/1/12/16841d5f85468047?imageslim)
 
 
