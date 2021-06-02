@@ -1,0 +1,117 @@
+# 跨域
+
+## 什么是跨域？
+- 协议
+- 域名
+- 端口号
+三者都一样就是同源，三者只要有一个不同，就是同源。
+- 同源策略请求：ajax / fetch
+- 非同源(跨域)请求:
+在早期的时候，前端和后端没有进行分离，前端和后端都部署在同一台服务器上，他们的ip地址(域名)，端口都相同，
+因此不存在跨域的问题。但是在本地进行开发的时候，还是会面临跨域的问题，比如：
+本地的服务器是：
+```js
+http://127.0.0.1/index.html
+```
+但是，服务器请求的api是：
+```js
+http://api/baidu.com/getData
+```
+这样的话就会由于域名不同，导致跨域，因此通常会修改host:
+```js
+127.0.0.1:8080 http://api/baidu.com
+```
+
+## 跨域是如何产生的？
+
+在部署服务器的时候，为了保证每个服务器的资源都能够被合理利用，通常我们会将服务器进行拆分：
+1. web服务器：项目的静态资源部署在这种服务器上。(aa.baidu.com)
+2. data服务器：后台api接口开发等，业务逻辑，数据分析。(api/baidu.com)
+3. 图片/音视频服务器：这种请求慢的资源单独部署在服务器上。
+4. 第三方服务部署在单独的服务器上。
+每一台服务器都有它自己的域名，比如web服务器的域名是`aa.baidu.com`，而后台接口的服务器是`api/baidu.com`，不同的域名，在进行请求时就出现了跨域了。
+在日常开发中，服务器分开部署是最常见的，因此，跨域也是工作开发过程中遇到的最多的。
+
+## 跨域的解决方案
+
+
+### JSONP
+浏览器中存在的以下标签：
+```html
+script
+img
+link
+iframe
+...
+```
+这些标签请求资源时不存在跨域的问题，如下所示无论是通过cdn请求资源还是本地请求资源都不涉及跨域。
+```js
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+<script src = "./1.js"></script>
+```
+而JSONP就是利用`script`标签的这种无跨域的特性实现的。
+须一致。
+![jsonp原理](https://ftp.bmp.ovh/imgs/2021/03/183348b65c44d9e6.png)
+
+如上图所示：JSONP的流程大致如下：
+1. 通过script的src标签发送一个请求，请求中传递一个`callback`参数，这个参数可以是任意的，参数的值是定义的一个全局函数。
+2. 服务器端接收到请求，就会拿到callback这个参数，然后它开始准备返回数据，将返回的数据和接收的函数进行包装，包装成一个函数带参数执行的字符串，'func('+JSON.stringify(data)+'))'；
+3. 客户端接收到参数以后会执行这个函数，函数的参数就是服务器端返回的数据。
+
+**JSONP的特点：**
+1. 必须基于script之类的标签
+2. func最好是个全局函数
+3. jsonp必须跟服务器端统一设置，callback参数必须跟后端一致。
+
+**JSONP的缺点：**
+1. 所有的script,link等资源文件请求都是get请求，因此JSONP也只能实现get请求。
+2. jsonp返回的内容会默认执行，因此如果被拦截后返回一个垃圾代码，可能也会带来安全问题。
+
+
+### CORS跨域资源共享
+
+- 客户端（发送ajax/fetch请求）
+  客户端使用ajax发送请求时，浏览器发现这次跨域请求是简单请求，就会在头信息中增加`origin`字段
+  ```js
+        GET /cors HTTP/1.1
+        Origin: http://api.bob.com  // 增加origin字段
+        Host: api.alice.com
+        Accept-Language: en-US
+        Connection: keep-alive
+        User-Agent: Mozilla/5.0...
+  ```
+  如果Origin指定的源，不在许可范围内，服务器会返回一个正常的HTTP回应。浏览器发现，这个回应的头信息没有包含`Access-Control-Allow-Origin`字段（详见下文），就知道出错了，从而抛出一个错误，被XMLHttpRequest的onerror回调函数捕获。注意，这种错误无法通过状态码识别，因为HTTP回应的状态码有可能是200。
+  如果Origin指定的域名在许可范围内，服务器返回的响应，会多出几个头信息字段。
+- 服务器端设置相关的头信息（需要处理options试探请求）
+服务器端接收CORS请求时，会首先接收一个options试探请求，然后根据`origin`判断是否运行进行跨域，如果不允许就向前端抛出错误，如果允许就会在返回的头信息中增加以下几个字段。但是一旦服务器通过了"预检"请求，以后每次浏览器正常的CORS请求，就都跟简单请求一样，会有一个Origin头信息字段。服务器的回应，也都会有一个Access-Control-Allow-Origin头信息字段。
+```js
+app.use((req,res,next) => {
+    res.header("Access-Control-Allow-Origin", "http://api.bob.com");
+    res.header("Access-Control-Allow-Credentials",true);
+    res.header("Access-Control-Allow-Headers","Content-Type,Content-Length,Authorization,Accept,X-Requested-With");
+    res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,HEAD,OPTIONS"),
+    // 预检请求
+    if(req.method === "OPTIONS"){
+        res.send('OK!');
+        return;
+    }
+    next();
+})
+```
+多出的几个头信息字段，主要是告诉前端可以获取哪些头信息，如上面代码所设置：
+```js
+Access-Control-Allow-Credentials:cors默认是不支持携带cookie的，想要携带cookie需要前后端都开启
+"Access-Control-Allow-Methods:cors支持的方法
+Access-Control-Allow-Headers:指定浏览器CORS请求会额外发送的头信息字段
+```
+
+**CORS的弊端：**
+1. cors必须设置`Access-Control-Allow-Origin`这个字段，这个字段要么是要给具体的请求路径，比如`http://api.bob.com`，也就是只允许这个源进行访问，但是只能写一个(在node中只能设置一个,其他php之类好像可以设置白名单)，，要么是`*`，标识允许所有的源进行跨域，但是不支持携带`cookie`了。
+
+
+### http-proxy
+需要配合webpack和webpack-dev-server使用。
+
+### nginx实现代理
+
+### postMessage
