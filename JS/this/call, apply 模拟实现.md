@@ -1,4 +1,5 @@
 # call, apply 模拟实现
+参考：https://github.com/mqyqingfeng/Blog/issues/11
 
 ## 一、Call 模拟实现
 首先，看下call, apply 实现了哪些功能：

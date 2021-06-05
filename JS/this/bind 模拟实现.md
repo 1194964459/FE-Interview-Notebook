@@ -1,4 +1,6 @@
 # bind 模拟实现
+参考：https://github.com/mqyqingfeng/Blog/issues/12
+
 bind 函数的两个特点：
 * 返回一个函数
 * 可以传入参数
