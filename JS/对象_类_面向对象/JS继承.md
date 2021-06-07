@@ -195,7 +195,7 @@ console.log(person.friends); // "Shelby,Court,Van,Rob,Barbie"
 ```
 person.friends 不仅是 person 的属性，也会跟 anotherPerson 和 yetAnotherPerson 共享。
 
-**ECMAScript 5 通过增加 Object.create()方法将原型式继承的概念规范化了。**这个方法接收两个
+**ECMAScript 5 通过增加 Object.create()方法将原型式继承的概念规范化了**。这个方法接收两个
 参数：作为新对象原型的对象，以及给新对象定义额外属性的对象（第二个可选）。在只有第一个参数时，
 Object.create()与这里的 object()方法效果相同
 
@@ -213,7 +213,7 @@ let anotherPerson = Object.create(person, {
 }); 
 console.log(anotherPerson.name); // "Greg"
 ```
-原型式继承**非常适合不需要单独创建构造函数，但仍然需要在对象间共享信息的场合。**但要记住，属性中包含的引用值始终会在相关对象间共享，跟使用原型模式是一样的。
+原型式继承**非常适合不需要单独创建构造函数，但仍然需要在对象间共享信息的场合**。但要记住，属性中包含的引用值始终会在相关对象间共享，跟使用原型模式是一样的。
 
 ## 五、寄生式继承
 寄生式继承（parasitic inheritance）是一种与原型式继承比较接近的一种继承方式。
@@ -238,7 +238,7 @@ anotherPerson.sayHi(); // "hi"
 ```
 这个例子基于 person 对象返回了一个新对象。新返回的 anotherPerson 对象具有 person 的所有属性和方法，还有一个新方法叫 sayHi()。
 
-**寄生式继承 存在的问题：**通过寄生式继承 **给对象添加函数会导致函数难以重用**，与构造函数模式类似。
+**寄生式继承 存在的问题**：通过寄生式继承 **给对象添加函数会导致函数难以重用**，与构造函数模式类似。
 
 ## 六、寄生组合式继承
 
