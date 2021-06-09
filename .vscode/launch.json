@@ -11,7 +11,7 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/JS/ES6/code/array.js"
+            "program": "${workspaceFolder}/JS/promise, generator, async/code/珠峰_promise_then.js"
         }
     ]
 }

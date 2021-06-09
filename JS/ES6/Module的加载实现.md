@@ -159,10 +159,36 @@ obj = {}; // TypeError
 ```
 
 ## 三、Node.js 的模块加载方法
+**1. Node 应用由模块组成，采用 CommonJS 模块规范**。
+
+* 每个模块内部，都有一个module对象，代表当前模块。它有以下属性：
+    > * module.id       模块的识别符，通常是带有绝对路径的模块文件名。
+    > * module.filename 模块的文件名，带有绝对路径。
+    > * module.loaded   返回一个布尔值，表示模块是否已经完成加载。
+    > * module.parent   返回一个对象，表示调用该模块的模块。
+    > * module.children 返回一个数组，表示该模块要用到的其他模块。
+    > * module.exports  表示模块对外输出的值。
+
+* 它的exports属性（即module.exports）是对外的接口。加载某个模块，其实是加载该模块的module.exports属性。
+* 为了方便，Node为每个模块提供一个**exports变量，指向module.exports**。这等同在每个模块头部，有一行这样的命令。在对外输出模块接口时，可以向exports对象添加方法。
+```JS
+var exports = module.exports;
+```
+```js
+// 通过 exports 对外 输出模块接口
+exports.area = function (r) {
+    return Math.PI * r * r;
+};
+
+// 不得擅自更改 exports 指向，否则会切断exports与module.exports的联系，导致不能输出变量。
+exports = function(x) {console.log(x)};
+```
+若觉得，exports与module.exports之间的区别很难分清，可以直接放弃使用exports，只使用module.exports。
+
+**2. 从 Node.js v13.2 版本开始，Node.js 已经默认打开了 ES6 模块支持**。
 
 CommonJS 模块使用require()和module.exports。ES6 模块使用import和export。
 
-从 Node.js v13.2 版本开始，Node.js 已经默认打开了 ES6 模块支持。
 * .mjs 文件（module）总是以 ES6 模块加载；
 * .cjs 文件（commonJs）总是以 CommonJS 模块加载；
 * .js 文件的加载取决于项目 package.json 里面 type 字段的设置（该字段默认为 CommonJS 模块）。
@@ -174,7 +200,8 @@ CommonJS 模块使用require()和module.exports。ES6 模块使用import和expor
 ```
 ES6 模块与 CommonJS 模块尽量不要混用。
 
-**内部变量**：ES6 模块应该是通用的，同一个模块不用修改，就可以用在浏览器环境和服务器环境。但是，要想达到这个目的，ES6 模块之中不能使用 CommonJS 模块的一些 特有的 内部变量。
+**3. 内部变量**：
+ES6 模块应该是通用的，同一个模块不用修改，就可以用在浏览器环境和服务器环境。但是，要想达到这个目的，ES6 模块之中不能使用 CommonJS 模块的一些 特有的 内部变量。
 
 * this关键字：ES6 模块之中，顶层的this指向undefined；CommonJS 模块的顶层this指向当前模块。这也是两者的一个重大差异
 * arguments
