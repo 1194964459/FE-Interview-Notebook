@@ -11,7 +11,7 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/算法及编程实现/经典面试Top/简单/字符串中的第一个唯一字符.js"
+            "program": "${workspaceFolder}/JS/ES6/code/array.js"
         }
     ]
 }

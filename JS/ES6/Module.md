@@ -1,0 +1,239 @@
+# ES6 模块化
+参考：
+* [JavaScript 模块简史](https://www.css88.com/archives/7628)
+* [官方](http://nodejs.cn/api/modules.html#modules_the_module_object)
+* [commonJs 阮一峰](https://javascript.ruanyifeng.com/nodejs/module.html#)
+* [commonJS](https://zhuanlan.zhihu.com/p/113009496)
+* [ES6的模块化](https://es6.ruanyifeng.com/#docs/module)
+
+## 概述
+* 在 ES6 之前，社区制定了一些模块加载方案，最主要的有 CommonJS（用于：服务器） 和 AMD（用于：浏览器） 两种。
+
+（1）两者都是在运行时才确定模块间依赖关系，及输入 输出变量等；
+（2）CommonJS 模块就是对象，输入时必须查找对象属性。
+
+```JS
+// CommonJS模块
+let { stat, exists, readfile } = require('fs');
+
+// 等同于
+let _fs = require('fs');
+let stat = _fs.stat;
+let exists = _fs.exists;
+let readfile = _fs.readfile;
+```
+* ES6 在语言标准的层面上，实现了模块功能，完全可以取代 CommonJS 和 AMD 规范，成为浏览器和服务器通用的模块解决方案。
+
+（1）ES6 模块的设计思想是尽量的静态化，使得编译时就能确定模块的依赖关系，以及输入和输出的变量。
+（2）ES6 模块不是对象，而是通过export命令显式指定输出的代码
+```JS
+// ES6模块
+import { stat, exists, readFile } from 'fs';
+```
+上面代码的实质是从fs模块加载 3 个方法，其他方法不加载。这种加载称为“编译时加载”或者静态加载
+
+## export 命令
+一个模块就是一个独立的文件。该文件内部的所有变量，外部无法获取。如果你希望外部能够读取模块内部的某个变量，就必须使用export关键字输出该变量。
+```JS
+// 报错
+export 1;
+
+// 报错
+var m = 1;
+export m;
+
+// 写法一
+export var m = 1;
+
+// 写法二
+var m = 1;
+export {m};
+```
+同样的，function和class的输出，也必须遵守这样的写法。
+
+## import 命令
+* 由于import是静态执行，所以不能使用表达式和变量，这些只有在运行时才能得到结果的语法结构。
+```JS
+// 报错
+import { 'f' + 'oo' } from 'my_module';
+
+// 报错
+let module = 'my_module';
+import { foo } from module;
+
+// 报错
+if (x === 1) {
+  import { foo } from 'module1';
+} else {
+  import { foo } from 'module2';
+}
+```
+上面三种写法都会报错，因为它们用到了表达式、变量和if结构。在静态分析阶段，这些语法都是没法得到值的。
+* 如果多次重复执行同一句import语句，那么只会执行一次，而不会执行多次。
+* CommonJS 模块的require命令和 ES6 模块的import命令，可以写在同一个模块里面，但是最好不要这样做。因为import在静态解析阶段执行，所以它是一个模块之中最早执行的。
+
+## 模块的整体加载
+* 除了指定加载某个输出值，还可以使用整体加载，即用星号（*）指定一个对象，所有输出值都加载在这个对象上面。
+* 注意：模块整体加载所在的那个对象（上例是circle），应该是可以静态分析的，所以不允许运行时改变。下面的写法都是不允许的。
+```JS
+import * as circle from './circle';
+
+// 下面两行都是不允许的
+circle.foo = 'hello';
+circle.area = function () {};
+```
+
+## export default 命令
+* 使用import命令的时候，用户需要知道所要加载的变量名或函数名，否则无法加载。
+* 默认输出一个函数，export default命令既可用在**匿名函数**前，也可用在**非匿名函数**前。
+```JS
+// 写法一：匿名函数
+export default function () {
+  console.log('foo');
+}
+
+// 写法二：非匿名函数
+export default function foo() {
+  console.log('foo');
+}
+
+// 写法三：
+function foo() {
+  console.log('foo');
+}
+export default foo;
+```
+* 默认输出 和 正常输出 区别：
+```JS
+// 第一组
+export default function crc32() { } // 输出
+import crc32 from 'crc32'; // 输入
+
+// 第二组
+export function crc32() {  };  // 输出 
+import {crc32} from 'crc32'; // 输入
+```
+一个模块只能有一个默认输出，因此export default命令只能使用一次。所以，import命令后面才不用加大括号，因为只可能唯一对应export default命令。
+* export default就是输出一个叫做default的变量或方法，然后系统允许你为它取任意名字。所以，下面的写法是有效的。
+```JS
+function add(x, y) {
+  return x * y;
+}
+export {add as default};
+// 等同于
+// export default add;
+
+import { default as foo } from 'modules';
+// 等同于
+// import foo from 'modules';
+```
+* export default命令其实只是输出一个叫做default的变量，所以它后面不能跟变量声明语句。
+```js
+export var a = 1;
+// 正确
+
+var a = 1;
+export default a;
+// 正确：将变量a 赋值给 default 变量
+
+export default var a = 1;
+// 错误：又额外声明了变量a
+```
+* export default命令的本质是将后面的值，赋给default变量，所以可以直接将一个值写在export default之后。
+```js
+// 正确
+export default 42;
+
+// 报错
+export 42;
+```
+
+## export 与 import 的复合写法
+如果在一个模块之中，先输入后输出同一个模块，import语句可以与export语句写在一起。
+
+```JS
+export { foo, bar } from 'my_module';
+
+// 可以简单理解为
+import { foo, bar } from 'my_module';
+export { foo, bar };
+```
+但需要注意的是，写成一行以后，foo和bar实际上并没有被导入当前模块，只是相当于对外转发了这两个接口，导致当前模块不能直接使用foo和bar。
+
+```js
+// 接口改名
+export { foo as myFoo } from 'my_module';
+
+// 整体输出
+export * from 'my_module'
+
+// 默认接口
+export { default } from 'foo';
+```
+具名改默认：
+```JS
+export { es6 as default } from './someModule';
+
+// 等同于
+import { es6 } from './someModule';
+export default es6;
+```
+
+默认改具名：
+```JS
+export { default as es6 } from './someModule';
+```
+
+## import()
+import命令会被 JavaScript 引擎静态分析，先于模块内的其他语句执行。所以，下面的代码会报错。
+```JS
+// 报错
+if (x === 2) {
+  import MyModual from './myModual';
+}
+```
+这样固然有利于编译器提高效率，但也导致**无法在运行时加载模块**。在语法上，**条件加载就不可能实现**。import命令要取代 Node 的require方法，这就形成了一个障碍。
+
+**ES2020提案 引入import()函数，支持动态加载模块**。
+
+* import()返回一个 Promise 对象。
+```JS
+const main = document.querySelector('main');
+
+import(`./section-modules/${someVariable}.js`)
+  .then(module => {
+    module.loadPageInto(main);
+  })
+  .catch(err => {
+    main.textContent = err.message;
+  });
+```
+* import()类似于 Node 的require方法，区别主要是**前者是异步加载**，**后者是同步加载**。
+* 适用场合：
+    （1） 按需加载：如放在'click'事件监听器中
+
+    （2） 条件加载：import()可以放在if代码块
+
+    （3） 模块路劲可动态生成（如依据函数返回值等...）
+* import()加载模块成功以后，这个模块会作为一个对象，当作then方法的参数。
+```JS
+import('./myModule.js')
+.then(({export1, export2}) => {
+  // ...·
+});
+```
+如果想同时加载多个模块：
+```JS
+Promise.all([
+  import('./module1.js'),
+  import('./module2.js'),
+  import('./module3.js'),
+])
+.then(([module1, module2, module3]) => {
+   ···
+});
+```
+
+
+
+

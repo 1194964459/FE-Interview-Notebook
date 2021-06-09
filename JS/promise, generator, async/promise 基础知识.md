@@ -220,7 +220,7 @@ Promise.race() 与 Promise.all()方法类似，都是将多个 Promise 实例，
 ```javascript
 const p = Promise.race([p1, p2, p3]);
 ```
-**区别在于：只要**p1、p2、p3之中**有一个实例率先改变状态，p的状态就跟着改变。**那个率先改变的 Promise 实例的返回值，就传递给p的回调函数。（race 的中文含义是‘比赛’）
+**区别在于：只要**p1、p2、p3之中**有一个实例率先改变状态，p的状态就跟着改变**。那个率先改变的 Promise 实例的返回值，就传递给p的回调函数。（race 的中文含义是‘比赛’）
 
 示例：
 ```javascript
@@ -286,6 +286,7 @@ new Promise(resolve => resolve('foo'))
 ```
 
 Promise.resolve() 方法的参数分成四种情况：
+
 （1）参数是一个 Promise 实例
 
 Promise.resolve将不做任何修改、原封不动地返回这个实例。

@@ -1,4 +1,6 @@
-参考：https://juejin.cn/post/6844903625769091079
+参考：
+    https://juejin.cn/post/6844903625769091079
+    https://juejin.cn/post/6844903665686282253
 
 ```JS
 class Promise{

@@ -1,0 +1,52 @@
+# Symbol
+
+ES6 引入Symbol的原因: 从根本上防止对象属性名的冲突。
+
+## 概述
+```JS
+let s = Symbol();  // 新建Symbol类型的值
+typeof s     // "symbol"
+```
+
+* Symbol函数前不能使用new命令；
+* Symbol 值是类似于字符串的基本数据类型，不是对象，所以不能添加属性。
+* 若 Symbol 的参数是一个对象，就会调用该对象的toString方法，将其转为字符串，然后才生成一个 Symbol 值。
+* 相同参数的Symbol函数的返回值是不相等的（因为：Symbol函数的参数只是表示对当前 Symbol 值的描述）。
+```js
+// 没有参数的情况
+let s1 = Symbol();
+let s2 = Symbol();
+s1 === s2 // false
+
+// 有参数的情况
+let s1 = Symbol('foo');
+let s2 = Symbol('foo');
+s1 === s2 // false
+```
+
+* Symbol 值可以显式转为字符串/布尔值，但是不能转为数值。
+```JS
+let sym = Symbol();
+Boolean(sym) // true
+String(sym) // 'Symbol()'
+Number(sym) // TypeError
+```
+
+* Symbol 值不能与其他类型的值进行运算，会报错。
+```JS
+let sym = Symbol('My symbol');
+
+"your symbol is " + sym       // TypeError: can't convert symbol to string
+`your symbol is ${sym}`       // TypeError: can't convert symbol to string
+```
+
+## 其他
+* Symbol.prototype.description ：获取Symbol 的描述。
+* Symbol 值作为对象属性名时，不能用点运算符。
+
+> 因为：点运算符后面总是字符串，所以不会读取mySymbol作为标识名所指代的那个值，导致对象的属性名实际上是一个字符串，而不是一个 Symbol 值。
+
+* 属性名的遍历
+    1. Symbol 作为属性名，遍历对象的时候，该属性不会出现在for...in、for...of循环中，也不会被Object.keys()、Object.getOwnPropertyNames()、JSON.stringify()返回。
+
+    2. 但是，它也不是私有属性，有一个Object.getOwnPropertySymbols()方法，可以获取指定对象的所有 Symbol 属性名。该方法返回一个数组，成员是当前对象的所有用作属性名的 Symbol 值。
