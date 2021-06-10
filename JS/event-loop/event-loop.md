@@ -56,7 +56,7 @@ javascript从诞生之日起就是一门'单线程'的'非阻塞'的脚本语言
 
 ### 4.浏览器事件循环
 1. 事件循环过程：
-![浏览器事件循环](https://github.com/1194964459/FE-Interview-Notebook/blob/main/JS/event-loop/icon_browser-event-loop.jpg?raw=true)
+![浏览器事件循环](./icon/browser-event-loop.jpg)
 
 2. Micro-Task 与 Macro-Task
 浏览器端事件循环中的异步队列有两种：macro（宏任务）队列和 micro（微任务）队列。宏任务队列可以有多个，微任务队列只有一个。
@@ -68,13 +68,13 @@ javascript从诞生之日起就是一门'单线程'的'非阻塞'的脚本语言
 
 
 ### 5.Node事件循环
-![Node 事件循环](https://github.com/1194964459/FE-Interview-Notebook/blob/main/JS/event-loop/icon_node-event-loop.jpg?raw=true)
+![Node 事件循环](./icon/node-event-loop.jpg)
 
 ### 6.Node/浏览器 事件循环的异同
 1. 浏览器环境下，microtask的任务队列是每个macrotask执行完之后执行。
 2. Node.js中，microtask会在事件循环的各个阶段之间执行，也就是一个阶段执行完毕，就会去执行microtask队列的任务。
 
-![差异](https://github.com/1194964459/FE-Interview-Notebook/blob/main/JS/event-loop/icon_differences.jpg?raw=true)
+![差异](./icon/differences.jpg)
 
 ### 7. 示例：
 ```javascript
