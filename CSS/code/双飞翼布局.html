@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<html>
+    <title>双飞翼布局</title>
+    <body>
+        <div id="header"></div>
+        <!--中间栏需要放在前面-->
+        <div id="parent">
+            <div id="center">
+                <div id="center_inbox">中间自适应</div>
+                <hr>  <!--方便观察原理-->
+            </div>
+            <div id="left">左列定宽</div>
+            <div id="right">右列定宽</div>
+        </div>
+        <div id="footer"></div>
+    </body>
+    
+    <style>
+        #header {
+        height: 60px;
+        background-color: #ccc;
+    }
+    #left {
+        float: left;
+        width: 100px;
+        height: 500px;
+        margin-left: -100%; /*调整#left的位置,值等于自身宽度*/
+        background-color: #f00;
+        opacity: 0.5;
+    }
+    #center {
+        height: 500px;
+        float: left;
+        width: 100%;
+        background-color: #eeff2b;
+    }
+    #center_inbox{
+        height: 480px;
+        border: 1px solid #000;
+        margin: 0 220px 0 120px;  /*关键!!!左右边界等于左右盒子的宽度,多出来的为盒子间隔*/
+    }
+    #right {
+        float: left;
+        width: 200px;
+        height: 500px;
+        /* margin-left: -100%; */
+        margin-left: -200px;  
+        /* 使right到指定的位置,值等于自身宽度 */
+        background-color: #0f0;
+        opacity: 0.5;
+    }
+    #footer {
+        clear: both;  /*注意清除浮动!!*/
+        height: 60px;
+        background-color: #ccc;
+    }
+    </style>
+</html>
