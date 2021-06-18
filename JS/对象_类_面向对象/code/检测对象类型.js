@@ -56,7 +56,7 @@ console.log('数组: ', Object.prototype.toString.call([]))  //" [object Array]"
 
 
 function type(obj) {
-  return Object.prototype.toString.call(obj).replace(/\[object\s/g, "");
+  return Object.prototype.toString.call(obj).replace(/\[object\s|\]/g, "");
 }
 
 function isArray(list) {
