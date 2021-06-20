@@ -1,5 +1,11 @@
 # setState执行机制
-
+参考：
+* 官网：https://zh-hans.reactjs.org/docs/react-component.html#setstate
+* https://juejin.cn/post/6844903781813993486
+* https://juejin.cn/post/6844903667426918408
+* https://juejin.cn/post/6844903637513142285
+* https://juejin.cn/post/6844903636749778958#heading-8
+* https://juejin.cn/post/6942659949054918664
 
 **为什么 React 不同步地更新 this.state？**
 答：在开始重新渲染之前，React 会有意地进行“等待”，直到所有在组件的事件处理函数内调用的 setState() 完成之后。这样可以通过**避免不必要的重新渲染**来提升性能。
