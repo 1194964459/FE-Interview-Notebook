@@ -89,9 +89,10 @@ State 与 props 类似，但是 state 是私有的，并且完全受控于当前
 除 props、state 外，还可以向 class 中随意添加不参与数据流（比如计时器 ID）的额外字段。
 
 **1. 正确使用state**:
-* 不要直接修改 State, 使用<code>setState()</code>
-* State 的更新会被合并
-* State 的更新可能是异步的：此时setState() 接收一个函数而不是一个对象
+* 不要直接修改 State, 使用<code>setState()</code>，构造函数是唯一可以给 this.state 赋值的地方；
+* 出于性能考虑，React 会把多个 State 的更新合并成一个调用；
+* State 的更新可能是异步的，所以不要依赖他们的值来更新下一个状态；
+* <code>setState()</code> 接收一个函数而不是一个对象，这时 函数会用上一个state作为第一个参数，可解决上一步的问题；
 ```JS
 // Wrong
 this.setState({
@@ -199,17 +200,6 @@ function NumberList(props) {
     );
 }
 ```
-
-
-
-
-
-### 元素（Element）和组件（Component）的区别是什么？
-### 如何在 React 中创建组件？
-### Pure Components 是什么？
-### React 中的 state 是什么？
-### React 中的 props 是什么
-### state 和 props 的区别是什么？
 
 
 

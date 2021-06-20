@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>菜鸟教程(runoob.com)</title>
+<style>
+    #content{
+        width: 100%;
+        height: 300px;
+        background-color: aquamarine;
+    }
+</style>
+</head>
+<body>
+    <p id="content"></p>
+    <script>
+        let num = 1;
+        let content = document.getElementById('content');
+        
+        function count() {
+            content.innerHTML = num++;
+        };
+        
+        // 防抖：非立即执行版
+        // function debounce(func, wait) {
+        //     var timeout;
+
+        //     return function () {
+        //         var context = this;
+        //         var args = arguments;
+
+        //         if(timeout) clearTimeout(timeout)
+        //         timeout = setTimeout(function(){
+        //             func.apply(context, args)
+        //         }, wait);
+        //     }
+        // }
+
+        // 防抖：立即执行版
+        // function debounce(func, wait){
+        //     let timer 
+        //     return function(){
+        //         let context = this
+        //         let args = arguments
+
+        //         var callNow = !timer;
+        //         timer = setTimeout(function(){
+        //             timer = null;
+        //         }, wait)
+
+        //         if (callNow) func.apply(context, args)
+        //     }
+        // }
+
+        // 节流：时间戳版
+        // function throttle(func, wait){
+        //     let previous = 0
+        //     return function(){
+        //         let timer = Date.now()
+
+        //         let context = this 
+        //         let args = arguments
+
+        //         if(timer - previous > wait){
+        //             func.apply(context, args)
+        //             previous = Date.now()
+        //         }
+        //     }
+        // }
+
+        // 节流：定时器版
+        function throttle(func, wait){
+            let timer
+            return function(){
+                let context = this 
+                let args = arguments 
+                
+                if(!timer){
+                    timer = setTimeout(()=>{
+                        timer = null;
+                        func.apply(context, args)
+                    }, wait)
+                } 
+            }
+        }
+
+
+        // content.onmousemove = debounce(count,1000)
+        content.onmousemove = throttle(count,1000)
+
+
+    </script>
+</body>
+</html>
+
+
+

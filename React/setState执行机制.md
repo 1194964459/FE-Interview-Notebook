@@ -1,0 +1,57 @@
+# setState执行机制
+
+
+**为什么 React 不同步地更新 this.state？**
+答：在开始重新渲染之前，React 会有意地进行“等待”，直到所有在组件的事件处理函数内调用的 setState() 完成之后。这样可以通过**避免不必要的重新渲染**来提升性能。
+
+## 1. setState介绍
+```js
+// 第一个参数为 对象
+setState(stateChange[, callback])
+
+// 第一个参数为 函数
+setState(updater, [callback])
+```
+* setState() 将对**组件 state 的更改**排入队列，并通知 React 需要使用更新后的 state 重新渲染此组件及其子组件。
+
+* 将 setState() **视为请求**而不是立即更新组件的命令，为了更好的感知性能，React 会延迟调用它，然后通过一次传递更新多个组件（批量推迟更新）。
+
+* 这使得在**调用 setState() 后立即读取 this.state** 成为了隐患。为了消除隐患，请使用 componentDidUpdate 或者 setState 的回调函数（setState(updater, callback)），这两种方式都可以保证在应用更新后触发。
+
+**可以总结为**：
+**React 管的着的地方，是异步 且批量更新的（如：生命周期函数、事件处理函数等）**
+**React 管不着的地方，是同步更新的（如：setTimeout）**
+
+具体样例见：[setState Demo展示](https://github.com/1194964459/react-demo/blob/master/src/test/setState_parent.jsx)
+
+
+## 2. updater 函数
+```js
+(prevState, props) => stateChange
+```
+```js
+this.setState((state, props) => {
+  return {counter: state.counter + props.step};
+});
+```
+updater 函数中接收的 state 和 props 都保证为最新（这里的最新是相对于**上次 render后的值**，而不是连续调用setState的值，这里可能会让有些人有点误解）。updater 的返回值会与 state 进行浅合并。
+
+setState() 的第二个参数为可选的回调函数，它将在 setState 完成合并并重新渲染组件后执行。通常，我们建议使用 componentDidUpdate() 来代替此方式。
+
+
+## 3. setState第一个参数为对象
+```js
+setState(stateChange[, callback])
+```
+stateChange 会将传入的对象浅层合并到新的 state 中，
+这种形式的 setState() 也是异步的，并且在同一周期内会对多个 setState 进行批处理。
+
+```js
+Object.assign(
+  previousState,
+  {quantity: state.quantity + 1},
+  {quantity: state.quantity + 1},
+  ...
+)
+```
+后调用的 setState() 将覆盖同一周期内先调用 setState 的值，因此商品数仅增加一次。

@@ -11,7 +11,8 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/JS/对象_类_面向对象/code/检测对象类型.js"
+            "program": "src/test/setState_实现.js"
+            // "program": "${workspaceFolder}/JS/对象_类_面向对象/code/检测对象类型.js"
         }
     ]
 }
