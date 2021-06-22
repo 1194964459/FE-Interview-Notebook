@@ -21,45 +21,172 @@ Hook 是 React 16.8 的新增特性。它可以让你在不编写 class 的情�
 
 Hook 没有破坏性改动：无需重写任何已有代码就可以在一些组件中尝试 Hook。没有计划从 React 中移除 class。 
 
+Hook 是向下兼容的。
+
+Hook 是一个特殊的函数，它可以让你在函数组件里“钩入” React state 及生命周期等特性的函数。
+
+Hook 不能在 class 组件中使用。
+
+什么时候我会用 Hook？你在编写函数组件并意识到需要向其添加一些 state时，可以使用。
+
 ## 动机：
-Hook 解决了我们五年来编写和维护成千上万的组件时遇到的各种各样看起来不相关的问题。
+Hook 主要解决了如下几个问题：
 
-**1. 在组件之间复用状态逻辑很难**
+**1. 在组件之间复用状态逻辑很难**    
 
-    React 没有提供将可复用性行为“附加”到组件的途径（例如，把组件连接到 store）
-    
-    使用 Hook 从组件中提取状态逻辑，使得这些逻辑可以单独测试并复用。Hook 使你在无需修改组件结构的情况下复用状态逻辑。 
+使用 Hook 从组件中提取状态逻辑，使得这些逻辑可以单独测试并复用。
 
 **2. 复杂组件变得难以理解**
 
-    我们经常维护一些组件，组件起初很简单，但是逐渐会被状态逻辑和副作用充斥。
-    
-    在多数情况下，**不可能将组件拆分为更小的粒度**，因为状态逻辑无处不在。这也给测试带来了一定挑战。同时，这也是很多人将 **React 与状态管理库结合使用**的原因之一。但是，这往往**会引入了很多抽象概念，需要你在不同的文件之间来回切换，使得复用变得更加困难**。
-    
-    为了解决这个问题，**Hook 将组件中相互关联的部分拆分成更小的函数**（比如设置订阅或请求数据），而并非强制按照生命周期划分。你还可以使用 reducer 来管理组件的内部状态，使其更加可预测
+* 通常，组件起初很简单，但是逐渐会**被 状态逻辑 和 副作用 充斥** 变得难以维护。
+    => 将 组件拆分为更小的粒度？不可能，因为状态逻辑无处不在。
+    => 将 React 与 状态管理库 结合使用？会引入很多抽象概念，而且需要在不同的文件之间来回切换，复用会更加困难
+
+* 为了解决这个问题，**Hook 将组件中相互关联的部分拆分成更小的函数**（比如设置订阅或请求数据），而并非强制按照生命周期划分。
 
 **3. 难以理解的 class**
+* class 组件会无意中鼓励开发者使用一些**让优化措施无效的方案**。
+    => class 不能很好的压缩，
+    => 使**热重载**出现不稳定的情况。
 
-    除了代码复用和代码管理会遇到困难外，我们还发现 class 是学习 React 的一大屏障（需理解this 的工作方式，这与其他语言存在巨大差异）。
-    
-    class 组件会无意中鼓励开发者使用一些让优化措施无效的方案。class 不能很好的压缩，并且会使热重载出现不稳定的情况。
-    
-    为了解决这些问题，Hook 使你在非 class 的情况下可以使用更多的 React 特性。 
+* 为了解决这些问题，Hook 使你在**非 class 的情况下可以使用更多的 React 特性**。 
+
+## 一、使用 State Hook
+
+**useState** 就是一个 Hook 。通过在函数组件里调用它来给组件添加一些内部 state。
+类似 class 组件的 this.setState，但是它不会把新的 state 和旧的 state 进行合并。
+
+**1. 声明 State 变量**
+```js
+import React, { useState } from 'react';
+
+function Example() {
+  // 声明一个叫 “count” 的 state 变量
+  const [count, setCount] = useState(0);
+```
+
+**(1) 调用 useState 方法的时候做了什么**? 它定义一个 “state 变量”。我们的变量叫 count(可以是任意名字)。一般来说，在函数退出后变量就会”消失”，而 state 中的变量会被 React 保留。
+
+**(2) useState 需要哪些参数**？ useState() 方法里面唯一的参数就是初始 state。参数可以是数字、字符串、对象。
+
+**(3) useState 方法的返回值是什么**？ 返回值为：当前 state 以及更新 state 的函数。
+
+```js
+import React, { useState } from 'react';
+
+function Example() {
+  // 声明一个叫 “count” 的 state 变量。
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>You clicked {count} times</p>
+      <button onClick={() => setCount(count + 1)}>
+        Click me
+      </button>
+    </div>
+  );
+}
+```
+
+**2. 读取 State**
+
+可以直接用 count：
+```html
+  <p>You clicked {count} times</p>
+```
+
+**3. 更新 State**
+
+在函数中，我们已经有了 setCount 和 count 变量，所以我们不需要 this:
+```html
+  <button onClick={() => setCount(count + 1)}>
+    Click me
+  </button>
+```
+
+## 二、使用 Effect Hook
+* **数据获取、设置订阅、手动更改 React 组件中的 DOM** 都属于副作用。
+* 默认情况下，React 会在**每次渲染后调用副作用函数** —— **包括第一次渲染的时候**。
+
+**在 React 组件中有两种常见副作用操作：需要清除的、不需要清除的**。
+
+### 1. 无需清除的 effect
+* 有时候，我们只想在 React 更新 DOM 之后运行一些额外的代码。比如发送网络请求，手动变更 DOM，记录日志，这些都是常见的无需清除的操作。
+
+* **useEffect** 就是一个 Effect Hook，给函数组件增加了操作副作用的能力。它跟 class 组件中的 <code>componentDidMount、componentDidUpdate 和 componentWillUnmount</code> 具有相同的用途，只不过**被合并成了一个 API**。useEffect 会在**每次渲染后（第一次渲染之后和每次更新之后）**都执行。
+
+```js
+import React, { useState, useEffect } from 'react';
+
+function Example() {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    document.title = `You clicked ${count} times`;
+  });
+
+  return (
+    <div>
+      <p>You clicked {count} times</p>
+      <button onClick={() => setCount(count + 1)}>
+        Click me
+      </button>
+    </div>
+  );
+}
+```
+
+### 2. 需要清除的 effect
+* 清除工作是非常重要的，如：订阅外部数据源。可以防止引起内存泄露！
+* 在 **React class** 中，会在 componentDidMount 中设置订阅，并在 componentWillUnmount 中清除它。**effect 中，添加和删除订阅 是在同一个地方执行**。
+* **为什么要在 effect 中 返回一个函数**？React 将会在执行清除操作时调用它。
+* **React 何时清除 effect**？ React 会在组件卸载的时候执行清除操作，即调用函数。
 
 
+```js
+import React, { useState, useEffect } from 'react';
 
+function FriendStatus(props) {
+  const [isOnline, setIsOnline] = useState(null);
 
-**不像 class 中的 this.setState，更新 state 变量总是替换它而不是合并它。**
+  useEffect(() => {
+    function handleStatusChange(status) {
+      setIsOnline(status.isOnline);
+    }
+    // 添加订阅
+    ChatAPI.subscribeToFriendStatus(props.friend.id, handleStatusChange);
 
+    // return 一个函数，执行订阅清除逻辑
+    return function cleanup() {
+      ChatAPI.unsubscribeFromFriendStatus(props.friend.id, handleStatusChange);
+    };
+  });
 
+  if (isOnline === null) {
+    return 'Loading...';
+  }
+  return isOnline ? 'Online' : 'Offline';
+}
+```
 
+## 三、Hook 使用规则
+Hook 就是 JavaScript 函数，但是使用它们会有两个额外的规则：
 
+* **只能在函数最外层调用 Hook**。不要在循环、条件判断或者子函数中调用。
+遵守这条规则，你就**能确保 Hook 在每一次渲染中都按照同样的顺序被调用**。这让 **React 能够在多次的 useState 和 useEffect 调用之间保持 hook 状态的正确**。
 
+* **只能在 React 函数中调用 Hook**。
+* **不要**在**普通的 JavaScript 函数**中调用。 
+* 可以在 **React 的 函数组件、自定义的 Hook 中 调用**。
 
+## 四、自定义Hook
 
+* 组件之间重用一些状态逻辑。目前为止，有两种主流方案来解决这个问题：**高阶组件和 render props**。**自定义 Hook** 可以让你在**不增加组件的情况下达到 状态逻辑复用 的目的**。
 
+* 自定义 Hook 是一个函数，就像一个正常的函数。但是它的名字应该 **必须 且 始终 以 “use” 开头**，函数内部可以调用其他的 Hook。
 
-
+* **在两个组件中使用相同的 Hook 会共享 state 吗？不会**。自定义 Hook 是一种重用状态逻辑的机制(例如设置为订阅并存储当前值)，所以每次使用自定义 Hook 时，其中的所有 state 和副作用都是完全隔离的。
 
 
 

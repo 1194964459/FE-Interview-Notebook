@@ -1,0 +1,117 @@
+# virtualDom Diff 算法实现
+
+参考：
+* https://juejin.cn/post/6844903740487516167（普适性讲解）
+* https://juejin.cn/post/6844903806132568072
+* https://github.com/livoras/blog/issues/13(很不错，原理实现)
+* https://react.docschina.org/docs/reconciliation.html（React 官网）
+
+维护状态，更新视图。
+
+
+我的"hello world"项目对于React来说是不公平的，原因在于他们仅仅处理的是初次渲染页面的性能比较。React设计的目的是用来更新网页。
+
+## Virtual DOM
+**1. DOM 重新渲染**：最简单粗暴的办法就是**重新构建DOM 替换 旧DOM**,问题也很明显：
+* 性能消耗高
+* 无法保存状态(聚焦,滚动等)
+
+
+**2. Virtual DOM**:
+
+实际也是操作Dom树进行渲染更新，但是它只是**针对修改部分进行局部渲染，将影响降到最低**，大体步骤如下:
+
+* 用 *Javascript 对象结构* **描述*** Dom树结构*,然后用它来**构建真正的Dom树插入文档**
+* 当**状态发生改变之后**,重新构造*新的Javascript对象结构*和*旧的* **作对比**得出差异
+* **针对差异**之处进行**重新构建更新视图**(真实DOM)
+
+无非就是利用Js做一层映射比较,操作简单并且速度远远高于直接比较Dom树
+
+
+**3. 虚拟 DOM 过程**：
+* 构建虚拟DOM
+* 通过虚拟DOM构建真正的DOM
+* 生成新的虚拟DOM
+* 比较两棵虚拟DOM树的不同
+* 在真正的DOM元素上应用变更
+
+## Diffing 算法
+当对比两棵树时，React 首先比较两棵树的根节点。不同类型的根节点元素会有不同的形态。
+
+**1. 对比*不同类型的元素***
+* 当根节点为不同类型的元素时，React 会拆卸原有的树并且建立起新的树。
+* 当卸载一棵树时，对应的 DOM 节点也会被销毁。
+* 在根节点以下的组件也会被卸载，它们的状态会被销毁。
+```html
+<div>
+  <Counter />
+</div>
+
+<span>
+  <Counter />
+</span>
+```
+React 会销毁 Counter 组件并且重新装载一个新的组件。
+
+
+**2. 对比*同一类型的元素***
+当对比两个相同类型的 React 元素时，React 会保留 DOM 节点，仅比对及更新**有改变的属性**。
+```html
+<div className="before" title="stuff" />
+
+<div className="after" title="stuff" />
+```
+通过对比这两个元素，React 知道只需要修改 DOM 元素上的 className 属性
+
+**当更新 style 属性时，React 仅更新有所更变的属性**。比如：
+```html
+<div style={{color: 'red', fontWeight: 'bold'}} />
+
+<div style={{color: 'green', fontWeight: 'bold'}} />
+```
+通过对比这两个元素，React 知道只需要修改 DOM 元素上的 color 样式，无需修改 fontWeight。
+
+在处理完当前节点之后，React 继续对子节点进行递归。
+
+**3. 对比同类型的*组件元素***
+当一个**组件更新时，组件实例会保持不变**，因此需要将不同的渲染时保持 state 一致。React 将更新该组件实例的 props 以保证与最新的元素保持一致。并且调用该实例的 <code>UNSAFE_componentWillReceiveProps()、UNSAFE_componentWillUpdate() 以及 componentDidUpdate()</code> 方法。
+
+**4. 对子节点进行递归**
+默认情况下，当递归 DOM 节点的子元素时，React 会同时遍历两个子元素的列表；当产生差异时，生成一个 mutation。
+
+* 在子元素列表末尾新增元素时，更新开销比较小。
+```html
+<ul>
+  <li>first</li>
+  <li>second</li>
+</ul>
+
+<ul>
+  <li>first</li>
+  <li>second</li>
+  <li>third</li>
+</ul>
+```
+* 表头新增元素，更新开销会比较大。此时 React 会重建每一个子元素
+```html
+<ul>
+  <li>Duke</li>
+  <li>Villanova</li>
+</ul>
+
+<ul>
+  <li>Connecticut</li>
+  <li>Duke</li>
+  <li>Villanova</li>
+</ul>
+```
+
+**5. Keys**
+为了解决上述问题，React 引入了 key 属性。
+
+Key 应该具有**稳定，可预测，以及列表内唯一**的特质。不稳定的 key（比如通过 Math.random() 生成的）会导致许多**组件实例和 DOM 节点被不必要地重新创建**，这可能**导致性能下降**和**子组件中的状态丢失**。
+
+* 当子元素拥有 key 时，React 使用 key 来匹配原有树上的子元素以及最新树上的子元素；
+* 生成 key：新增一个 ID 字段 或 利用一部分内容作为哈希值来生成一个 key；
+* 可以使用元素在数组中的下标作为 key。但这个策略在元素**不进行重新排序时比较合适**，如果**有顺序修改**，**diff 就会变慢**。
+> 原因： 组件实例是基于它们的 key 来决定是否更新以及复用，如果 key 是一个下标，那么修改顺序时会修改当前的 key，导致非受控组件的 state（比如输入框）可能相互篡改，会出现无法预期的变动
