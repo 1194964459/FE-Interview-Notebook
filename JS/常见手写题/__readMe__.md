@@ -1,5 +1,8 @@
-参考：https://juejin.cn/post/6873513007037546510#heading-10
-
+参考：
+* https://juejin.cn/post/6873513007037546510#heading-10
+* https://juejin.cn/post/6844903911686406158#heading-15
+* https://juejin.cn/post/6875152247714480136#heading-15
+* https://juejin.cn/post/6946022649768181774#heading-11
 
 * 防抖
 * 节流
@@ -21,3 +24,4 @@
 * 函数柯里化
 * 异步并发数限制
 * 异步串行 | 异步并行
+
