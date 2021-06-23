@@ -3,17 +3,19 @@
 ES6是对5.1 版以后的 JavaScript 的下一代标准的统称，涵盖了 ES2015、ES2016、ES2017等。
 
 ES6 包含的新特性有：
-* [let 与 const](./let与const.md)
-* [解构赋值](./解构赋值.md)
-* [Symbol](./Symbol.md)
-* [对象 扩展与新增](./扩展与新增_对象.md)
-* [数组 扩展与新增](./扩展与新增_数组.md)
-* [字符串 扩展与新增](./扩展与新增_字符串.md)
-* [Set 与 Map](./Set与Map.md)
+* [let 与 const](./1.0_let与const.md)
+* [解构赋值](./2.0_解构赋值.md)
+* [箭头函数](./3.0_箭头函数_普通函数.md)
+* [Set 与 Map](./4.0_Set与Map.md)
+* [Symbol](./4.1_Symbol.md)
+* [对象 扩展与新增](./5.0_扩展与新增_对象.md)
+* [数组 扩展与新增](./5.1_扩展与新增_数组.md)
+* [字符串 扩展与新增](./5.2_扩展与新增_字符串.md)
 * [Promise 对象](https://github.com/1194964459/FE-Interview-Notebook/blob/main/JS/promise%2C%20generator%2C%20async/promise%20%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.md)
+* [Class 基本语法](./https://github.com/1194964459/FE-Interview-Notebook/blob/main/JS/%E5%AF%B9%E8%B1%A1_%E7%B1%BB_%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/Class%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95.md)
+* [Class 继承](https://github.com/1194964459/FE-Interview-Notebook/blob/main/JS/%E5%AF%B9%E8%B1%A1_%E7%B1%BB_%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/Class%E7%BB%A7%E6%89%BF.md)
+* [Module_模块化](./6.0_Module.md)
+* [Module加载实现](./6.1_Module的加载实现)
 * [Generator 函数](./Generator函数.md)
 * [Generator函数的异步应用](./Generator函数的异步应用.md)
-* [Class](./)
-* [模块化](./Module.md)
-* 异步遍历器
 

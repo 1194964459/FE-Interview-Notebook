@@ -11,7 +11,6 @@ class Mypromise {
 
       let resolve = val => {
       
-          // 保持状态改变不可变（resolve和reject只准触发一种）
           if (this.state !== "pending") return;
 
           // 成功触发时机  改变状态 同时执行在then注册的回调事件
@@ -66,7 +65,8 @@ class Mypromise {
                   
                   //（最难的一点）：
                   // 如果回调函数结果是普通值 那么就resolve出去给下一个then链式调用  
-                  // 如果回调函数结果是一个promise对象，那么调用x的then方法 将resolve和reject传进去 等到x内部的异步 执行完毕的时候（状态完成）就会自动执行传入的resolve 这样就控制了链式调用的顺序
+                  // 如果回调函数结果是一个promise对象，那么调用x的then方法 将resolve和reject传进去
+                  // 等到x内部的异步 执行完毕的时候（状态完成）就会自动执行传入的resolve 这样就控制了链式调用的顺序
                   x instanceof Mypromise ? x.then(resolve, reject) : resolve(x);
 
               } catch (error) {

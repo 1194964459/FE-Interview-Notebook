@@ -1,17 +1,32 @@
 let Promise = require('./珠峰_promise_手写实现.js')
 
-let fs = require('fs')
-fs.readFile('./name.txt', 'utf8', function(err, data){
-    fs.readFile('./age.txt', 'utf8', function(err, data){
-        console.log(data)
-    })
-})
-
-
-let promise = new Promise((resolve, reject)=>{
+let p = new Promise((resolve, reject)=>{
     resolve(123)
+    // reject(123)
 })
 
-promise.then(data =>{
-    console.log(data)    
+let promise2 = p.then(data =>{
+    // 默认返回 undefined
+    // console.log(data) 
+
+    // return data 
+    
+    // throw new Error(123)
+
+    return new Promise()
+}, err =>{
+    // console.log(err)
+    return err+400
 })
+
+promise2.then(data =>{
+    console.log(data, '****')
+    // return 456
+},err =>{
+    console.log(err, '----')
+})
+
+// 123
+// x : undefined
+// undefined ----
+// x : undefined

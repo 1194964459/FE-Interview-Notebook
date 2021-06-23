@@ -7,6 +7,7 @@
 https://juejin.cn/post/6844903872842956814
 https://juejin.cn/post/6844904096525189128
 https://juejin.cn/post/6844903617619558408
+https://zhuanlan.zhihu.com/p/144058361（通俗易懂）
 
 **思考**：
 * 为什么能在异步事件执行完成的回调之后再去触发 then 中的函数?
