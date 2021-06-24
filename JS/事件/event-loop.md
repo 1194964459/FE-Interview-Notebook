@@ -56,10 +56,26 @@ javascript从诞生之日起就是一门'单线程'的'非阻塞'的脚本语言
 
 ### 4.浏览器事件循环
 1. Micro-Task 与 Macro-Task
-浏览器端事件循环中的异步队列有两种：macro（宏任务）队列和 micro（微任务）队列。宏任务队列可以有多个，微任务队列只有一个。
+浏览器端事件循环中的异步队列有两种：macro（宏任务）队列和 micro（微任务）队列。宏任务队列可以有多个，微任务队列只有一个。 
 
-常见的 macro-task 比如：setTimeout、setInterval、script（整体代码）、 I/O 操作、UI 渲染等。
-常见的 micro-task 比如: new Promise().then(回调)、MutationObserver(html5新特性) 等。
+**常见的 宏任务**：
+|  -   | 浏览器  | Node  |
+|  ----  | ----  | ----  |
+| I/O  | √ | √ |
+| setTimeout  | √ | √ |
+| setInterval  | √ | √ |
+| setImmediate  | × | √ |
+| requestAnimationFrame  | √ | × |
+| script  | √ | × |
+| UI渲染  | √ | × |
+
+**常见的 微任务**：
+|  表头   | 浏览器  | Node  |
+|  ----  | ----  | ----  |
+| process.nextTick	  | × | √ |
+| MutationObserver  | √ | × |
+| Promise.then catch finally | √ | √ |
+
 
 2. 事件循环过程：
 ![浏览器事件循环](./icon/browser-event-loop.jpg)
