@@ -1,5 +1,0 @@
-在前端页面中，把Model用纯JavaScript对象表示，View负责显示，两者做到了最大限度的分离。
-
-把Model和View关联起来的就是ViewModel。ViewModel负责把Model的数据同步到View显示出来，还负责把View的修改同步回Model。
-
-MVVM框架自动把Model的变化映射到DOM结构上，
