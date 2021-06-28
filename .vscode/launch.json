@@ -12,7 +12,7 @@
                 "<node_internals>/**"
             ],
             // "program": "${workspaceFolder}/JS/promise, generator, async/code/珠峰_promise_then.js"
-            "program": "${workspaceFolder}/JS/常见手写题/code/reduce.js"
+            "program": "${workspaceFolder}/JS/ES6/code/async.js"
         }
     ]
 }
