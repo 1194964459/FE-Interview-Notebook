@@ -1,22 +1,5 @@
 # Context
 
-何时使用 Context
-使用 Context 之前的考虑
-API
-
-React.createContext
-Context.Provider
-Class.contextType
-Context.Consumer
-Context.displayName
-示例
-
-动态 Context
-在嵌套组件中更新 Context
-使用多个 Context
-注意事项
-
-
 React 中，数据是通过 props 属性自上而下（由父及子）进行传递的，但此种用法对于某些类型的属性而言是极其繁琐的。
 
 Context 提供了一种在组件之间共享此类值的方式，而不必显式地通过组件树的逐层传递 props。
@@ -104,13 +87,21 @@ MyClass.contextType = MyContext;   // Context值 挂载在 Class 组件的 conte
 ```
 此组件可以让你在**函数式组件**中可以订阅 context 的变更。
 
+<br/>
+目录：
+* 何时使用 Context
+* 使用 Context 之前的考虑
 
+* API
+* React.createContext
+* Context.Provider
+* Class.contextType
+* Context.Consumer
+* Context.displayName
+* 示例
 
-
-
-
-
-
-
-
+* 动态 Context
+* 在嵌套组件中更新 Context
+* 使用多个 Context
+* 注意事项
 

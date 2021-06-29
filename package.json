@@ -1,0 +1,20 @@
+{
+  "name": "fe-interview-notebook",
+  "version": "1.0.0",
+  "description": "前端面试复习笔记",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1194964459/FE-Interview-Notebook.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/1194964459/FE-Interview-Notebook/issues"
+  },
+  "homepage": "https://github.com/1194964459/FE-Interview-Notebook#readme"
+}

@@ -52,7 +52,7 @@ const element = {
 
 * JSX 属性名 使用 camelCase（小驼峰命名）来定义；
 * class 变成了 className；tabindex 则变为 tabIndex
-* JSX 可防止注入攻击，因为React DOM 在渲染用户输入内容之前，默认会进行转义。
+* **JSX 可防止注入攻击**，因为React DOM 在**渲染用户输入内容之前，默认会进行转义**。
 * JSX 可以生成 React 元素，React 通过读取这些对象，然后使用它们来构建 DOM 以及保持随时更新。
 
 ## 二、元素渲染
