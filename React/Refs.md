@@ -38,6 +38,5 @@ const node = this.myRef.current;
 ```
 CustomTextInput为 自定义组件
 
-* (3) **不能在函数组件上使用 ref 属性**，因为他们没有实例。
-
+* (3) **不能在函数组件上使用 ref 属性**，因为他们没有实例。 函数组件中可以使用 useRef 这种 Hook。
 

@@ -2,14 +2,7 @@
 
 React 中，数据是通过 props 属性自上而下（由父及子）进行传递的，但此种用法对于某些类型的属性而言是极其繁琐的。
 
-Context 提供了一种在组件之间共享此类值的方式，而不必显式地通过组件树的逐层传递 props。
-
-优点：
-缺点：
-
-
-Context 主要应用场景在于很多不同层级的组件需要访问同样一些的数据。请谨慎使用，因为这会使得组件的复用性变差。
-
+Context 提供了一种在组件之间共享此类值的方式（不同层级的组件需要访问同样一些的数据），而不必显式地通过组件树的逐层传递 props。请谨慎使用，因为这会使得组件的复用性变差。
 
 如果你只是想避免层层传递一些属性，组件组合（component composition）有时候是一个比 context 更好的解决方案。
 
@@ -51,14 +44,13 @@ const MyContext = React.createContext(defaultValue);
 ```
 每个 Context 对象都会返回一个 Provider React 组件，它允许消费组件订阅 context 的变化。
 
-* Provider 接收一个 **value 属性，传递给消费组件**。
+* Provider 接收一个 **value 属性，传递给消费组件**。**value 值发生变化**时，它内部的**所有消费组件都会重新渲染**。
 * **一个 Provider** 可以和**多个消费组件**有对应关系。
 * **多个 Provider 可以嵌套使用**，里层的会覆盖外层的数据。
-* 当 Provider 的 **value 值发生变化**时，它内部的**所有消费组件都会重新渲染**。
 * Provider 及其内部 consumer 组件**都不受制于 shouldComponentUpdate 函数**，因此当 **consumer 组件在其祖先组件不更新的情况下也能更新**。
 
 **3. Class.contextType**
-* **挂载在 class 组件** 上的 contextType 属性会被重赋值为一个由 React.createContext() 创建的 Context 对象。
+* **挂载在 class 组件** 上的 contextType 属性会被重赋值为一个由 React.createContext() 创建的 Context 对象。  
 * 此属性能让你**使用 this.context 来消费最近 Context 上的那个值**。你**可以在任何生命周期中访问到它，包括 render 函数中**。
 ```js
 class MyClass extends React.Component {
