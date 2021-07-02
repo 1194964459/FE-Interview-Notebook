@@ -106,12 +106,13 @@ function Example() {
 ```
 
 ## 二、使用 Effect Hook
-* **数据获取、设置订阅、手动更改 React 组件中的 DOM、设置定时器、日志记录** 都属于副作用。
+* **发送网络请求、设置订阅、手动更改 React 组件中的 DOM、设置定时器、日志记录** 都属于副作用。
 * 默认情况下，React 会在**每次渲染后调用副作用函数（赋值给 useEffect 的函数）** —— **包括第一次渲染的时候**。即effect 在每次渲染的时候都会执行。
 
 
-effect 的执行时机
-useEffect 会在浏览器布局与绘制之后延迟执行，但会保证在任何新的渲染前执行。这使得它适用于许多常见的副作用场景，比如设置订阅和事件处理等情况，因此不应在函数中执行阻塞浏览器更新屏幕的操作。
+**effect 的执行时机**：
+
+**useEffect 会在浏览器布局与绘制之后延迟执行，但会保证在任何新的渲染前执行**。这使得它适用于许多常见的副作用场景，比如设置订阅和事件处理等情况，因此不应在函数中执行阻塞浏览器更新屏幕的操作。
 
 
 
@@ -120,7 +121,7 @@ useEffect 会在浏览器布局与绘制之后延迟执行，但会保证在任�
 ### 1. 无需清除的 effect
 * 有时候，我们只想在 React 更新 DOM 之后运行一些额外的代码。比如发送网络请求，手动变更 DOM，记录日志，这些都是常见的无需清除的操作。
 
-* **useEffect** 就是一个 Effect Hook，给函数组件增加了操作副作用的能力。它跟 class 组件中的 <code>componentDidMount、componentDidUpdate 和 componentWillUnmount</code> 具有相同的用途，只不过**被合并成了一个 API**。useEffect 会在**每次渲染后（第一次渲染之后和每次更新之后）**都执行。不用再去考虑“挂载”还是“更新”，这种更易被接受！
+* **useEffect** 就是一个 Effect Hook，给函数组件增加了操作副作用的能力。它跟 class 组件中的 <code>componentDidMount、componentDidUpdate 和 componentWillUnmount</code> 具有相同的用途，只不过**被合并成了一个 API**。useEffect 会在**每次渲染后，第一次渲染及之后的每次更新**都执行。不用再去考虑“挂载”还是“更新”，这种更易被接受！
 
   > 与 componentDidMount 或 componentDidUpdate 不同，使用 useEffect 调度的 effect（多数情况下，不需要同步执行）不会阻塞浏览器更新屏幕，这让你的应用看起来响应更快。
 
@@ -258,7 +259,7 @@ Hook 就是 JavaScript 函数，但是使用它们会有两个额外的规则：
 ### 1. 只在最顶层使用 Hook
 **不要在循环，条件或嵌套函数中调用 Hook**， 确保总是在你的 React 函数的最顶层调用他们。遵守这条规则，你就**能确保 Hook 在每一次渲染中都按照同样的顺序被调用**。这让 **React 能够在多次的 useState 和 useEffect 调用之间保持 hook 状态的正确**。
 
-````js
+```js
 // 🔴 在条件语句中使用 Hook 违反第一条规则
 if (name !== '') {
     useEffect(function persistForm() {
@@ -291,12 +292,3 @@ useEffect(function persistForm() {
 * 自定义 Hook 是一个函数，就像一个正常的函数，参数、返回值可以依据自己的需求来自定义。但是它的名字应该 **必须 且 始终 以 “use” 开头**，函数内部可以调用其他的 Hook。
 
 * **在两个组件中使用相同的 Hook 会共享 state 吗？不会**。自定义 Hook 是一种重用状态逻辑的机制(例如设置为订阅并存储当前值)，所以每次使用自定义 Hook 时，其中的所有 state 和副作用都是完全隔离的。
-
-
-
-
-
-
-
-
-
