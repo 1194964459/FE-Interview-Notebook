@@ -22,3 +22,5 @@ https://github.com/ljianshu/Blog
 前端工程师手册：https://leohxj.gitbooks.io/front-end-database/content/javascript-basic/index.html
 
 https://juejin.cn/post/6940945178899251230#heading-24
+
+知乎大佬：https://www.zhihu.com/people/pany-ang/answers

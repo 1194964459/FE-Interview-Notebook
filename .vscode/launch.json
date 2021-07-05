@@ -12,7 +12,7 @@
                 "<node_internals>/**"
             ],
             // "program": "${workspaceFolder}/JS/promise, generator, async/code/珠峰_promise_then.js"
-            "program": "${workspaceFolder}/算法及编程实现/常见排序算法/归并排序.js"
+            "program": "${workspaceFolder}/常见手写题/code/0.1+0.2.js"
         }
     ]
 }
