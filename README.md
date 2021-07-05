@@ -17,5 +17,6 @@ https://github.com/ljianshu/Blog
 
 前端面试宝典：https://www.kancloud.cn/pillys/qianduan/2049475
 
+冴羽：https://github.com/mqyqingfeng/Blog
 
-
+前端工程师手册：https://leohxj.gitbooks.io/front-end-database/content/javascript-basic/index.html
