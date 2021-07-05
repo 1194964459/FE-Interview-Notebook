@@ -12,7 +12,7 @@
                 "<node_internals>/**"
             ],
             // "program": "${workspaceFolder}/JS/promise, generator, async/code/珠峰_promise_then.js"
-            "program": "${workspaceFolder}/常见手写题/面试题/并发控制.js"
+            "program": "${workspaceFolder}/常见手写题/code/deepClone1.js"
         }
     ]
 }

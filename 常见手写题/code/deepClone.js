@@ -1,30 +1,4 @@
-# 深浅拷贝
-
-## Map 与 WeakMap
-
-如果我们使用 Map 的话，那么对象间是存在强引用关系的：
-
-```js
-let obj = { name : 'ConardLi'}
-const target = new Map();
-target.set(obj,'code秘密花园');
-obj = null;
-```
-虽然我们手动将obj，进行释放，然是target依然对obj存在强引用关系，所以这部分内存依然无法被释放。
-
-再来看WeakMap：
-```js
-let obj = { name : 'ConardLi'}
-const target = new WeakMap();
-target.set(obj,'code秘密花园');
-obj = null;
-```
-如果是WeakMap的话，target和obj存在的就是弱引用关系，当下一次垃圾回收机制执行时，这块内存就会被释放掉。
-
-
-
-```js
-function deepClone(target, cache = new WeakMap()) {
+function deepClone(target, cache = new Map()) {
     // 环状对象的爆栈问题
     // 判断一个对象是否已经被克隆过了，如果被克隆过了，就直接使用克隆后的对象，不再进行递归。
     if(cache.get(target)){
@@ -70,5 +44,5 @@ function deepClone(target, cache = new WeakMap()) {
     }
 }
 
+
 export { deepClone }
-```
