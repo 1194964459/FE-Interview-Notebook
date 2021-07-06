@@ -26,3 +26,12 @@
 **3. 其他**：
 css的@import规则：只有执行到@import时，浏览器才会去下载其他css文件，这导致页面加载起来特别慢。
 sass的@import规则，sass的@import规则在生成css文件时就把相关文件导入进来。这意味着所有相关的样式被归纳到了同一个css文件中，而无需发起额外的下载请求。
+
+**4. px 转 vw 示例：**
+```css
+/* iPhone 6 尺寸作为设计稿基准 */
+$vw_base: 375px;
+@function vw($px) {
+    @return ($px / $vw_base) * 100vw;
+}
+```
