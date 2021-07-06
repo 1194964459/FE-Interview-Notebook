@@ -1,13 +1,3 @@
-# 单例模式
-
-参考：https://www.cnblogs.com/dengyao-blogs/p/11652566.html
-
-* 定义：保证一个类仅有一个实例，并且提供一个可以访问它的访问点
-* 实现：用一个变量来标识实例是否已经存在，如果存在，则直接返回已经创建好的实例，反之就创建一个对象
-* 场景：模态框、浏览器window对象，等等
-
-简单实现 (ES6)：
-```js
 class Singleton {
     constructor(name) {
         this.name = name
@@ -32,5 +22,3 @@ var b = Singleton.getInstance('b');
 a.getName(); //a
 b.getName(); //a
 console.log(a === b);//true
-```
-
