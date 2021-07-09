@@ -1,12 +1,16 @@
 # 面试公司统计
 
 感觉答得不错的：
-* Ucloud，待二面
-* 诺亚财富，待二面
-* 平安健康，待HR面
-* leetcode
-* 商汤科技，偏AI，反馈我的是广度不够(webAssembly，webSocKet)
-* 携程，toB，前端团队大致6人左右，React，偶尔会做一些 toC 的需求
+* Ucloud，三面 + HR面，已结束
+* 诺亚财富，二面已结束
+* 平安健康，待二面（共2轮技术面）
+* 商汤科技，待三面
+    > 偏AI，反馈我的是广度不够(webAssembly，webSocKet)
+* 携程，待三面
+    > toB，前端团队大致6人左右，React，偶尔会做一些 toC 的需求
+
+
+
 
 
 
