@@ -30,6 +30,7 @@ var sortArray = function(nums) {
             arr[high] = arr[low]
         }
         // low == high
+        // 跳出循环时low和high相等,此时的low或high就是tmp的正确索引位置
         arr[low] = tmp
         return low
     }
