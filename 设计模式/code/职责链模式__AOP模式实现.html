@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    var order500yuan = function( orderType, pay, stock ){
+        console.log('500')
+        if ( orderType === 1 && pay === true ){
+          console.log('500元定金预购，得到100优惠券');
+        }else{
+          return 'nextSuccessor';    // 我不知道下一个节点是谁，反正把请求往后面传递
+        }
+    };
+
+    var order200yuan = function( orderType, pay, stock ){
+        console.log('200')
+
+        if ( orderType === 2 && pay === true ){
+          console.log('200元定金预购，得到50优惠券');
+        }else{
+          return 'nextSuccessor';    // 我不知道下一个节点是谁，反正把请求往后面传递
+        }
+    };
+
+    var orderNormal = function( orderType, pay, stock ){
+      console.log('normal')
+
+        if ( stock > 0 ){
+          console.log('普通购买，无优惠券');
+        }else{
+          console.log('手机库存不足');
+        }
+    };
+
+    Function.prototype.after = function( fn ){
+        var self = this;
+        console.error('self: ', self)
+
+        return function(){
+          var ret = self.apply( this, arguments );
+          if ( ret === 'nextSuccessor' ){
+              return fn.apply( this, arguments );
+          }
+
+          return ret;
+        }
+    };
+
+    var order = 
+      order500yuan
+      .after( order200yuan ) // self为order500yuan，fn 为 order200yuan
+      .after( orderNormal ); 
+      // self为function(){
+      //   var ret = order500yuan.apply(this, arguments)};
+      //     if ( ret === 'nextSuccessor' ){
+      //        return fn.apply( this, arguments );
+      //      }
+      //   return ret;
+      // }
+      // fn 为 orderNormal
+    console.error('order: ', order)
+
+    order( 1, true, 500 );    // 输出：500元定金预购，得到100优惠券
+    order( 2, true, 500 );    // 输出：200元定金预购，得到50优惠券
+    order( 1, false, 500 );   // 输出：普通购买，无优惠券
+
+  </script>
+</body>
+</html>
