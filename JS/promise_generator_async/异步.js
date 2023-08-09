@@ -24,29 +24,29 @@ function clickMe() {
     addQueue(() => request(index++))
 }
 
-function addQueue(item){
+function addQueue(item) {
     queue.push(item)
-    if(queue.length > 0 && !running){
+    if (queue.length > 0 && !running) {
         running = true
         processMulti(syncCount)
     }
 }
 
-function processMulti(count){
+function processMulti(count) {
     let arr = []
-    for(let i = 0; i<count;i++){
+    for (let i = 0; i < count; i++) {
         const item = queue.shift()
         item && arr.push(item())
     }
 
-    if(arr.length){
+    if (arr.length) {
         Promise.all(arr).then(
-            res =>{
+            res => {
                 console.log(res)
-                processMulti(count)
+                processMulti(count)   // TODO:这里是为什么？
             }
         )
-    }else{
+    } else {
         running = false
     }
 }
