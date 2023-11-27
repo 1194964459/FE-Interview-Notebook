@@ -238,6 +238,10 @@ p
 如果 5 秒之内fetch方法无法返回结果，变量p的状态就会变为rejected，从而触发catch方法指定的回调函数。
 
 ## 8. Promise.allSettled()
+用来确定一组操作是否全部结束？（不管成功或失败）
+
+TODO:疑问 await到底是个啥？返回的是个promise吗？await后面的请求 异步顺序？
+
 * Promise.allSettled() 与 Promise.race()、Promise.all()方法类似，都是将多个 Promise 实例，包装成一个新的 Promise 实例。
 * 有时候，我们不关心异步操作的结果，只关心这些操作有没有结束。这时，Promise.allSettled()方法就很有用。
 
