@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>demo for animation</title>
+        <style>
+            div{
+                height: 100px;
+                width: 100px;
+
+                /*
+                详情见：https://www.runoob.com/cssref/css3-pr-animation-timing-function.html
+
+                steps第一个参数：
+                  将动画时长等分为“几”等分；
+                
+                stpes第二个参数：
+                  若为start：默认展示 green、blue 两种颜色； 
+                  若为end：默认展示 red、green 两种颜色； 
+                */
+                -webkit-animation: run 1s steps(1,start);
+            }
+            @-webkit-keyframes run{
+                0%{
+                    background-color: red;
+                }
+                50%{
+                    background-color: green;
+                }
+                100%{
+                    background-color: blue;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div></div>
+    </body>
+</html>

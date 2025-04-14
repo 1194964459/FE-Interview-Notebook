@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 这种给对象动态增加职责的方式，并没有真正地改动对象自身，而是将对象放入另一个对象之中，这些对象以一条链的方式进行引用，形成一个聚合对象。这些对象都拥有相同的接口（fire方法），当请求达到链中的某个对象时，这个对象会执行自身的操作，随后把请求转发给链中的下一个对象。
+    
+      // 普通
+      var Plane = function(){}
+
+      Plane.prototype.fire = function(){
+          console.log( '发射普通子弹' );
+      }
+
+      // 导弹
+      var MissileDecorator = function( plane ){
+          this.plane = plane;
+      }
+      MissileDecorator.prototype.fire = function(){
+          this.plane.fire();
+          console.log( '发射导弹' );
+      }
+
+      // 原子弹
+      var AtomDecorator = function( plane ){
+          this.plane = plane;
+      }
+
+      AtomDecorator.prototype.fire = function(){
+          this.plane.fire();
+          console.log( '发射原子弹' );
+      }
+
+      // 使用
+      var plane = new Plane();
+      plane = new MissileDecorator( plane );
+      plane = new AtomDecorator( plane );
+
+      plane.fire();
+      // 分别输出：发射普通子弹、发射导弹、发射原子弹
+  </script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<html>
+    <button id="button"></button>
+    <script>
+      Function.prototype.before = function( beforefn ){
+          // 保存原函数的引用
+          var __self = this;  
+          
+          // 返回包含了原函数和新函数的"代理"函数
+          return function(){    
+          
+            // 执行新函数，且保证this不被劫持，新函数接受的参数
+            // 也会被原封不动地传入原函数，新函数在原函数之前执行
+            beforefn.apply( this, arguments ); 
+
+            // 执行原函数并返回原函数的执行结果，
+            // 并且保证this不被劫持
+            return __self.apply( this, arguments );  
+          }
+      }
+
+      Function.prototype.after = function( afterfn ){
+          var __self = this;
+          return function(){
+            var ret = __self.apply( this, arguments );
+            afterfn.apply( this, arguments );
+            return ret;
+          }
+      };
+
+      // document.getElementById = document.getElementById.before(function(){
+      //   alert (1);
+      // });
+
+      // var button = document.getElementById( 'button' );
+      // console.log( button );
+    </script>
+
+    <script>
+        window.onload = function(){
+            alert (1);
+        }
+
+        window.onload = ( window.onload || function(){} ).after(function(){
+            alert (2);
+        }).after(function(){
+            alert (3);
+        }).after(function(){
+            alert (4);
+        });
+    </script>
+
+    <script>
+      // 上面是基于AOP实现，在Function.prototype上添加before和after方法，但许多人不喜欢这种污染原型
+      var before = function( fn, beforefn ){
+            return function(){
+              beforefn.apply( this, arguments );
+              return fn.apply( this, arguments );
+            }
+        }
+
+        var a = before(
+            function(){alert (3)},
+            function(){alert (2)}
+        );
+
+        a = before( a, function(){alert (1); } );
+        a();
+    </script>
+</html>

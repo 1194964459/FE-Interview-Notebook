@@ -1,0 +1,715 @@
+.normal-z-index {
+  z-index: 4;
+}
+
+.loading {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: linear-gradient(211.84deg, #53EDD6 -1.3%, #108247 98.43%);
+  animation: bkg 5s steps(1, end);
+}
+
+@keyframes bkg {
+  0% {
+    background: linear-gradient(211.84deg, #53EDD6 -1.3%, #108247 98.43%);
+  }
+  42% {
+    background: linear-gradient(213.25deg, #B83AF3 8.29%, #5C41FB 98.32%);
+  }
+  68% {
+    background: linear-gradient(198.83deg, #69D7E3 14.73%, #6950FB 85.35%);
+  }
+  100% {
+    background: linear-gradient(198.83deg, #69D7E3 14.73%, #6950FB 85.35%);
+  }
+}
+
+@-webkit-keyframes bkg {
+  0% {
+    background: linear-gradient(211.84deg, #53EDD6 -1.3%, #108247 98.43%);
+    opacity: 1;
+  }
+  42% {
+    background: linear-gradient(213.25deg, #B83AF3 8.29%, #5C41FB 98.32%);
+  }
+  68% {
+    background: linear-gradient(198.83deg, #69D7E3 14.73%, #6950FB 85.35%);
+  }
+  100% {
+    background: linear-gradient(198.83deg, #69D7E3 14.73%, #6950FB 85.35%);
+  }
+}
+
+.icon-content {
+  display: block;
+  margin: 158rpx 148rpx 0;
+  width: 453rpx;
+  height: 389rpx;
+}
+
+.icon-cloud-lowVersion {
+  width: 750rpx;
+  height: 526rpx;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.resource-is-loading {
+  position: absolute;
+  left: 124rpx;
+  top: calc(50% - 42rpx/2 + 119rpx);
+  color: #ffffff;
+  text-align: center;
+}
+
+.load-content {
+  height: 42rpx;
+  font-family: PingFang SC;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 30rpx;
+  line-height: 42rpx;
+  color: #FFFFFF;
+  margin: 0 auto;
+}
+
+.progress-bar {
+  width: 500rpx;
+  height: 28rpx;
+  background: linear-gradient(313.37deg, rgba(255, 255, 255, 0.15) 28.72%, rgba(255, 255, 255, 0.15) 80%);
+  backdrop-filter: blur(5.43656px);
+  border-radius: 14rpx;
+  margin-top: 28rpx;
+  margin-bottom: 28rpx;
+}
+
+.been-loaded {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.105467) 0%, #ADD7FF 100%);
+  border-radius: 14rpx;
+  height: 28rpx;
+  width: 30rpx;
+}
+
+/* .been-loaded::after {
+  content: ' ';
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 28rpx;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.105467) 0%, #ADD7FF 100%);
+} */
+
+.progress-text {
+  font-size: 30rpx;
+  font-family: PingFang SC;
+  font-weight: 500;
+  line-height: 42rpx;
+  color: #ffffff;
+}
+
+.error {
+  position: absolute;
+  left: 28%;
+  top: calc(50% - 42rpx/2 + 119rpx);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon-error {
+  width: 80rpx;
+  height: 80rpx;
+}
+
+.text-error {
+  margin-bottom: 50rpx;
+  display: block;
+  height: 42rpx;
+  font-size: 30rpx;
+  font-family: PingFang SC;
+  font-weight: 500;
+  line-height: 42rpx;
+  color: #ffffff;
+}
+
+.bg-layer {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+}
+
+.green {
+  z-index: 3;
+  background: linear-gradient(211.84deg, #53EDD6 -1.3%, #108247 98.43%);
+  transition: all 1.4516s ease;
+  opacity: 1;
+}
+
+.purple {
+  z-index: 2;
+  background: linear-gradient(213.25deg, #B83AF3 8.29%, #5C41FB 98.32%);
+  transition: all 1s ease;
+  opacity: 1;
+}
+
+.blue {
+  z-index: 1;
+  background: linear-gradient(198.83deg, #69D7E3 14.73%, #6950FB 85.35%);
+  transition: all 1.4516s ease;
+  opacity: 1;
+}
+
+.load-animation {
+  position: absolute;
+  top: 500rpx;
+  left: 180rpx;
+  z-index: 4;
+  height: 220px;
+  width: 220px;
+  background-repeat: no-repeat;
+  background-image: url('/packages/ar/navigation/assets/animation/loading/css_sprites.png');
+  animation: girlRun 5s steps(1, end) infinite;
+  -webkit-animation: girlRun 5s steps(1, end) infinite;
+}
+
+@keyframes girlRun {
+  0% {
+    background-position: -0 -0;
+  }
+  1.25% {
+    background-position: -210p -0;
+  }
+  2.5% {
+    background-position: -0 -210px;
+  }
+  3.75% {
+    background-position: -210px -210px;
+  }
+  5% {
+    background-position: -420px -0;
+  }
+  6.25% {
+    background-position: -420px -210px;
+  }
+  7.5% {
+    background-position: -0 -420px;
+  }
+  8.75% {
+    background-position: -210px -420px;
+  }
+  10% {
+    background-position: -420px -420px;
+  }
+  11.25% {
+    background-position: -630px -0;
+  }
+  12.5% {
+    background-position: -630px -210px;
+  }
+  13.75% {
+    background-position: -630px -420px;
+  }
+  15% {
+    background-position: -0 -630px;
+  }
+  16.25% {
+    background-position: -210px -630px;
+  }
+  17.5% {
+    background-position: -420px -630px;
+  }
+  18.75% {
+    background-position: -630px -630px;
+  }
+  20% {
+    background-position: -840px -210px;
+  }
+  21.25% {
+    background-position: -840px -0;
+  }
+  22.5% {
+    background-position: -840px -420px;
+  }
+  23.75% {
+    background-position: -840px -630px;
+  }
+  25% {
+    background-position: -0 -840px;
+  }
+  26.25% {
+    background-position: -210px -840px;
+  }
+  27.5% {
+    background-position: -420px -840px;
+  }
+  28.75% {
+    background-position: -630px -840px;
+  }
+  30% {
+    background-position: -840px -840px;
+  }
+  31.25% {
+    background-position: -1050px -0;
+  }
+  32.5% {
+    background-position: -1050px -210px;
+  }
+  33.75% {
+    background-position: -1050px -420px;
+  }
+  35% {
+    background-position: -0 -1050px;
+  }
+  36.25% {
+    background-position: -1050px -630px;
+  }
+  37.5% {
+    background-position: -1050px -840px;
+  }
+  /* 35% {
+    background-position: -1050px -630px;
+  }
+  36.25% {
+    background-position: -1050px -840px;
+  }
+  37.5% {
+    background-position: -0 -1050px;
+  } */
+  38.75% {
+    background-position: -210px -1050px;
+  }
+  40% {
+    background-position: -420px -1050px;
+  }
+  41.25% {
+    background-position: -840px -1050px;
+  }
+  42.5% {
+    background-position: -630px -1050px;
+  }
+  /* 41.25% {
+    background-position: -630px -1050px;
+  }
+  42.5% {
+    background-position: -840px -1050px;
+  } */
+  43.75% {
+    background-position: -1050px -1050px;
+  }
+  45% {
+    background-position: -1260px -0;
+  }
+  46.25% {
+    background-position: -1260px -210px;
+  }
+  47.5% {
+    background-position: -1260px -420px;
+  }
+  /* 48.75% {
+    background-position: -1260px -630px;
+  }
+  50% {
+    background-position: -1260px -840px;
+  } */
+  48.75% {
+    background-position: -1260px -840px;
+  }
+  50% {
+    background-position: -1260px -630px;
+  }
+  51.25% {
+    background-position: -1260px -1050px;
+  }
+  52.5% {
+    background-position: -0 -1260px;
+  }
+  53.75% {
+    background-position: -210px -1260px;
+  }
+  55% {
+    background-position: -420px -1260px;
+  }
+  56.25% {
+    background-position: -630px -1260px;
+  }
+  57.5% {
+    background-position: -840px -1260px;
+  }
+  58.75% {
+    background-position: -1050px -1260px;
+  }
+  60% {
+    background-position: -1260px -1260px;
+  }
+  61.25% {
+    background-position: -1470px -0;
+  }
+  62.5% {
+    background-position: -1470px -210px;
+  }
+  63.75% {
+    background-position: -1470px -420px;
+  }
+  65% {
+    background-position: -1470px -630px;
+  }
+  66.25% {
+    background-position: -1470px -840px;
+  }
+  67.5% {
+    background-position: -1470px -1050px;
+  }
+  68.75% {
+    background-position: -1470px -1260px;
+  }
+  70% {
+    background-position: -0 -1470px;
+  }
+  71.25% {
+    background-position: -210px -1470px;
+  }
+  72.5% {
+    background-position: -420px -1470px;
+  }
+  73.75% {
+    background-position: -630px -1470px;
+  }
+  75% {
+    background-position: -840px -1470px;
+  }
+  76.25% {
+    background-position: -1050px -1470px;
+  }
+  77.5% {
+    background-position: -1260px -1470px;
+  }
+  78.75% {
+    background-position: -1470px -1470px;
+  }
+  80% {
+    background-position: -1680px -0;
+  }
+  81.25% {
+    background-position: -1680px -210px;
+  }
+  82.5% {
+    background-position: -1680px -420px;
+  }
+  83.75% {
+    background-position: -1680px -630px;
+  }
+  85% {
+    background-position: -1680px -840px;
+  }
+  86.25% {
+    background-position: -1680px -1050px;
+  }
+  87.5% {
+    background-position: -1680px -1260px;
+  }
+  88.75% {
+    background-position: -1680px -1470px;
+  }
+  90% {
+    background-position: -0 -1680px;
+  }
+  91.25% {
+    background-position: -210px -1680px;
+  }
+  92.5% {
+    background-position: -420px -1680px;
+  }
+  93.75% {
+    background-position: -630px -1680px;
+  }
+  95% {
+    background-position: -840px -1680px;
+  }
+  96.25% {
+    background-position: -1050px -1680px;
+  }
+  97.5% {
+    background-position: -1260px -1680px;
+  }
+  98.75% {
+    background-position: -1470px -1680px;
+  }
+  100% {
+    background-position: -1470px -1680px;
+  }
+}
+
+@-webkit-keyframes girlRun {
+  0% {
+    background-position: -0 -0;
+  }
+  1.25% {
+    background-position: -210p -0;
+  }
+  2.5% {
+    background-position: -0 -210px;
+  }
+  3.75% {
+    background-position: -210px -210px;
+  }
+  5% {
+    background-position: -420px -0;
+  }
+  6.25% {
+    background-position: -420px -210px;
+  }
+  7.5% {
+    background-position: -0 -420px;
+  }
+  8.75% {
+    background-position: -210px -420px;
+  }
+  10% {
+    background-position: -420px -420px;
+  }
+  11.25% {
+    background-position: -630px -0;
+  }
+  12.5% {
+    background-position: -630px -210px;
+  }
+  13.75% {
+    background-position: -630px -420px;
+  }
+  15% {
+    background-position: -0 -630px;
+  }
+  16.25% {
+    background-position: -210px -630px;
+  }
+  17.5% {
+    background-position: -420px -630px;
+  }
+  18.75% {
+    background-position: -630px -630px;
+  }
+  20% {
+    background-position: -840px -210px;
+  }
+  21.25% {
+    background-position: -840px -0;
+  }
+  22.5% {
+    background-position: -840px -420px;
+  }
+  23.75% {
+    background-position: -840px -630px;
+  }
+  25% {
+    background-position: -0 -840px;
+  }
+  26.25% {
+    background-position: -210px -840px;
+  }
+  27.5% {
+    background-position: -420px -840px;
+  }
+  28.75% {
+    background-position: -630px -840px;
+  }
+  30% {
+    background-position: -840px -840px;
+  }
+  31.25% {
+    background-position: -1050px -0;
+  }
+  32.5% {
+    background-position: -1050px -210px;
+  }
+  33.75% {
+    background-position: -1050px -420px;
+  }
+  35% {
+    background-position: -0 -1050px;
+  }
+  36.25% {
+    background-position: -1050px -630px;
+  }
+  37.5% {
+    background-position: -1050px -840px;
+  }
+  /* 35% {
+    background-position: -1050px -630px;
+  }
+  36.25% {
+    background-position: -1050px -840px;
+  }
+  37.5% {
+    background-position: -0 -1050px;
+  } */
+  38.75% {
+    background-position: -210px -1050px;
+  }
+  40% {
+    background-position: -420px -1050px;
+  }
+  41.25% {
+    background-position: -840px -1050px;
+  }
+  42.5% {
+    background-position: -630px -1050px;
+  }
+  /* 41.25% {
+    background-position: -630px -1050px;
+  }
+  42.5% {
+    background-position: -840px -1050px;
+  } */
+  43.75% {
+    background-position: -1050px -1050px;
+  }
+  45% {
+    background-position: -1260px -0;
+  }
+  46.25% {
+    background-position: -1260px -210px;
+  }
+  47.5% {
+    background-position: -1260px -420px;
+  }
+  /* 48.75% {
+    background-position: -1260px -630px;
+  }
+  50% {
+    background-position: -1260px -840px;
+  } */
+  48.75% {
+    background-position: -1260px -840px;
+  }
+  50% {
+    background-position: -1260px -630px;
+  }
+  51.25% {
+    background-position: -1260px -1050px;
+  }
+  52.5% {
+    background-position: -0 -1260px;
+  }
+  53.75% {
+    background-position: -210px -1260px;
+  }
+  55% {
+    background-position: -420px -1260px;
+  }
+  56.25% {
+    background-position: -630px -1260px;
+  }
+  57.5% {
+    background-position: -840px -1260px;
+  }
+  58.75% {
+    background-position: -1050px -1260px;
+  }
+  60% {
+    background-position: -1260px -1260px;
+  }
+  61.25% {
+    background-position: -1470px -0;
+  }
+  62.5% {
+    background-position: -1470px -210px;
+  }
+  63.75% {
+    background-position: -1470px -420px;
+  }
+  65% {
+    background-position: -1470px -630px;
+  }
+  66.25% {
+    background-position: -1470px -840px;
+  }
+  67.5% {
+    background-position: -1470px -1050px;
+  }
+  68.75% {
+    background-position: -1470px -1260px;
+  }
+  70% {
+    background-position: -0 -1470px;
+  }
+  71.25% {
+    background-position: -210px -1470px;
+  }
+  72.5% {
+    background-position: -420px -1470px;
+  }
+  73.75% {
+    background-position: -630px -1470px;
+  }
+  75% {
+    background-position: -840px -1470px;
+  }
+  76.25% {
+    background-position: -1050px -1470px;
+  }
+  77.5% {
+    background-position: -1260px -1470px;
+  }
+  78.75% {
+    background-position: -1470px -1470px;
+  }
+  80% {
+    background-position: -1680px -0;
+  }
+  81.25% {
+    background-position: -1680px -210px;
+  }
+  82.5% {
+    background-position: -1680px -420px;
+  }
+  83.75% {
+    background-position: -1680px -630px;
+  }
+  85% {
+    background-position: -1680px -840px;
+  }
+  86.25% {
+    background-position: -1680px -1050px;
+  }
+  87.5% {
+    background-position: -1680px -1260px;
+  }
+  88.75% {
+    background-position: -1680px -1470px;
+  }
+  90% {
+    background-position: -0 -1680px;
+  }
+  91.25% {
+    background-position: -210px -1680px;
+  }
+  92.5% {
+    background-position: -420px -1680px;
+  }
+  93.75% {
+    background-position: -630px -1680px;
+  }
+  95% {
+    background-position: -840px -1680px;
+  }
+  96.25% {
+    background-position: -1050px -1680px;
+  }
+  97.5% {
+    background-position: -1260px -1680px;
+  }
+  98.75% {
+    background-position: -1470px -1680px;
+  }
+  100% {
+    background-position: -1470px -1680px;
+  }
+}

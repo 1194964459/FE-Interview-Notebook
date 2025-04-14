@@ -1,9 +1,6 @@
 # FE-Interview-Notebook
 前端面试复习笔记
 
-复习指南：
-https://cwbu70kc3s.feishu.cn/sheets/shtcnPHJWvOcQ1kHaQ6GqlGElHh
-
 百川：https://www.yuque.com/baichuan/notes/oixqby
 
 pingan8787（大佬）：https://juejin.cn/user/1011206425950605/posts
@@ -24,3 +21,5 @@ https://github.com/ljianshu/Blog
 https://juejin.cn/post/6940945178899251230#heading-24
 
 知乎大佬：https://www.zhihu.com/people/pany-ang/answers
+
+#test

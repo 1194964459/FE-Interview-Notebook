@@ -1,0 +1,32 @@
+<view class="loading" disable-scroll="true">
+  <view style="height:{{topHeightOfModal}}px"></view>
+  
+  <view class="green bg-layer" 
+    style="opacity:{{firstOpacity}}"></view>
+  <view class="purple bg-layer" 
+    style="opacity:{{secondOpacity}}"></view>
+  <view class="blue bg-layer" 
+    style="opacity:{{thirdOpacity}}"></view>
+  
+  <view class="load-animation"></view>
+  
+  <!-- 加载失败 -->
+  <!--<view class="error normal-z-index" 
+    onTap="initResourceReload"><label class="text-error normal-z-index">{{loadFailText}}</label><image class="icon-error normal-z-index" 
+      src="../../assets/icons/loading-retry.png" /></view> -->
+
+  <view a:if="{{resourceLoadingFail}}" 
+    class="error normal-z-index" 
+    onTap="initResourceReload">
+    <label class="text-error normal-z-index">{{loadFailText}}</label>
+    <image class="icon-error normal-z-index" 
+      src="../../assets/icons/loading-retry.png" />
+  </view>
+  <view a:else 
+    class="resource-is-loading normal-z-index">
+    <view class="load-content normal-z-index">{{loadContent}}</view>
+    <view class="progress-bar">
+      <view class="been-loaded" 
+        style="width:{{progressBarWidth}}px"></view></view>
+    <text class="progress-text">加载中...{{resourceLoadingProgress}}</text></view>
+</view>

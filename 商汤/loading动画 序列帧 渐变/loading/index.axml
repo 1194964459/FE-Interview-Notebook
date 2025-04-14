@@ -1,0 +1,16 @@
+<view class="loading" disable-scroll="true">
+  <view style="height:{{topHeightOfModal}}px"></view>
+  <image class="icon-content" src="../../assets/icons/loading-content.png" />
+  <view a:if="{{resourceLoadingFail}}" class="error" onTap="initResourceReload">
+    <image class="icon-error" src="../../assets/icons/loading-retry.png" />
+    <label class="text-error">加载失败，点击重试</label>
+  </view>
+  <view a:else class="resource-is-loading">
+    <view class="progress-bar">
+      <view class="been-loaded" style="width:{{progressBarWidth}}px"></view>
+    </view>
+    <text class="progress-text">加载中...{{resourceLoadingProgress}}</text>
+  </view>
+
+  <image class="icon-cloud-lowVersion" src="../../assets/icons/loading-cloud.png" />
+</view>
