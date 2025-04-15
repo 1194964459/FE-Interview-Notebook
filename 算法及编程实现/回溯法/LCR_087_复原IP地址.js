@@ -35,7 +35,7 @@ var restoreIpAddresses = function (s) {
   let res = [];
   helper(s, 0, [], res);
   console.log(res);
-  return res;
+  // return res;
 };
 
 function helper(s, start, zuhe, res) {
@@ -46,13 +46,26 @@ function helper(s, start, zuhe, res) {
     return;
   }
 
+  //start不变，只是后面的id变化
   for (let i = start; i < s.length; i++) {
-    if (s[i] === '0') {
-      break; // 为啥？？？
-    }
     let str = s.substring(start, i + 1);
+    if (str[0] === '0' && str.length > 1) {
+      break;
+    }
+    if (Number(str) > 255) {
+      break;
+    }
     zuhe.push(str);
     helper(s, i + 1, zuhe, res);
     zuhe.pop();
   }
 }
+
+// restoreIpAddresses('25525511135');
+
+// restoreIpAddresses('0000');
+// restoreIpAddresses('1100')
+restoreIpAddresses('010010')
+// restoreIpAddresses('1111');
+// restoreIpAddresses('010010');
+// restoreIpAddresses('10203040');
