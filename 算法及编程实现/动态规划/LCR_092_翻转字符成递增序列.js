@@ -31,24 +31,23 @@ var minFlipsMonoIncr = function (s) {
   if (end_0 < start_1) {
     return 0
   }
-  // 从前往后遍历，遇到0将其变为1
-  let cnt1 = 0, cnt2 = 0
-  for (let i = start_1; i < s.length; i++) {
-    if (s[i] == 0) {
-      cnt1++
+  let f = Array(s.length).fill(0) // 前i-1个单调递增,第i个翻转为0
+  let g = Array(s.length).fill(0) // 前i-1个单调递增,第i个翻转为1
+  f[0] = s[0] === '0' ? 0 : 1
+  g[0] = s[0] === '1' ? 0 : 1
+  for (let i = 1; i < s.length; i++) {
+    if (s[i] === '0') {
+      f[i] = f[i - 1]
+      g[i] = Math.min(f[i - 1], g[i - 1]) + 1
+    } else {
+      f[i] = f[i - 1] + 1
+      g[i] = Math.min(f[i - 1], g[i - 1])
     }
   }
-  // 从后往前遍历，遇到 1将其变为0
-  for (let i = end_0; i >= 0; i--) {
-    if (s[i] == 1) {
-      cnt2++
-    }
-  }
-  console.log(cnt1, '||', cnt2);
-  return Math.min(cnt1, cnt2)
+  return Math.min(f[s.length - 1], g[s.length - 1])
 };
 
-// console.log(minFlipsMonoIncr("00110"));
+console.log(minFlipsMonoIncr("00110"));
 // console.log(minFlipsMonoIncr("010110"));
 // console.log(minFlipsMonoIncr("00011000"));
 console.log(minFlipsMonoIncr("10011111110010111011"));
