@@ -39,6 +39,7 @@ function helper(s, start, zuhe, res) {
   }
   for (let i = start; i < s.length; i++) {
     let str = s.substring(start, i + 1);
+    // console.log(str);
     if (isHuiwen(str)) {
       zuhe.push(str);
       helper(s, i + 1, zuhe, res);
@@ -62,3 +63,14 @@ function isHuiwen(str) {
 }
 
 partition("google");
+// partition("aab");
+partition('abc')
+
+/**
+a
+b
+c
+bc
+ab
+abc
+ */
