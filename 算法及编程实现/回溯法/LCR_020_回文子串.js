@@ -12,6 +12,8 @@
   输入：s = "aaa"
   输出：6
   解释：6个回文子串: "a", "a", "a", "aa", "aa", "aaa"
+
+   "a", "a", "aa", 
  */
 
 /**
@@ -20,26 +22,19 @@
 */
 var countSubstrings = function (s) {
   let res = [];
-  helper(s, 0, [], res);
-  return res;
-};
 
-function helper(s, start, zuhe, res) {
-  if (start === s.length) {
-    return;
-  }
-  for (let i = start; i < s.length; i++) {
-    let str = s.substring(start, i + 1);
-    console.log(str);
-    if (isHuiwen(str)) {
-      // zuhe.push(str);
-      res.push(str)
-      helper(s, i + 1, zuhe, res);
-      // res.pop();
+  for (let i = 0; i < s.length; i++) {
+    for (let j = i; j < s.length; j++) {
+      let str = s.substring(i, j + 1);
+      if (isHuiwen(str)) {
+        res.push(str);
+      }
     }
   }
 
-}
+  return res;
+};
+
 // 是否是回文串？
 function isHuiwen(str) {
   let left = 0;
@@ -54,5 +49,5 @@ function isHuiwen(str) {
   return true;
 }
 
-// console.log(countSubstrings("abc"));
+console.log(countSubstrings("abc"));
 console.log(countSubstrings("aaa"));
