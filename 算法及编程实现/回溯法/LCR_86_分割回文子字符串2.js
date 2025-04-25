@@ -39,8 +39,10 @@ function helper(s, start, zuhe, res) {
   }
   for (let i = start; i < s.length; i++) {
     let str = s.substring(start, i + 1);
-    console.log(str);
+    // console.log(str);
     if (isHuiwen(str)) {
+      console.log('回文：', str);
+
       zuhe.push(str);
       helper(s, i + 1, zuhe, res);
       zuhe.pop();
@@ -64,7 +66,7 @@ function isHuiwen(str) {
 
 partition("google");
 // partition("aab");
-partition('abc')
+// partition('abc')
 
 /**
 a
@@ -73,4 +75,43 @@ c
 bc
 ab
 abc
+ */
+
+/**
+ * 
+g
+o
+o
+g
+l
+e
+
+le
+
+gl
+gle
+
+og
+ogl
+ogle
+
+oo
+g // 若是回文，需进到对应的判断中..
+l
+e
+le
+gl
+gle  //
+oog
+oogl
+oogle
+
+go
+goo
+goog
+l
+e
+le
+googl
+google
  */

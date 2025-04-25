@@ -19,9 +19,9 @@
 * @return {boolean}
 */
 var isPalindrome = function (s) {
-  s.toLowerCase();
+  let ss = s.toLowerCase();
   // 过滤掉除数字、字符外的字符
-  let str = s.replace(/[^0-9a-zA-Z]/g, '').toLocaleLowerCase(); // 正则[]表示是一个字符集合，^表示取反
+  let str = ss.replace(/[^0-9a-zA-Z]/g, ''); // 正则[]表示是一个字符集合，^表示取反
   // console.log('str: ', str);
   let left = 0;
   let right = str.length - 1;
@@ -40,4 +40,3 @@ var isPalindrome = function (s) {
 // console.log(isPalindrome("race a car")); // false
 // console.log(isPalindrome(" ")); // true
 // console.log(isPalindrome("0P")); // false
-console.log(isPalindrome('a'))  // 单个的字符也是回文串
