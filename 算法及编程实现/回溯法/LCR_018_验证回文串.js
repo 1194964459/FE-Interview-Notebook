@@ -19,7 +19,7 @@
 * @return {boolean}
 */
 var isPalindrome = function (s) {
-  s = s.toLowerCase();
+  let ss = s.toLowerCase();
   // 过滤掉除数字、字符外的字符
   let str = ss.replace(/[^0-9a-zA-Z]/g, ''); // 正则[]表示是一个字符集合，^表示取反
   // console.log('str: ', str);
