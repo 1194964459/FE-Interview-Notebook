@@ -24,15 +24,19 @@ var rob = function (nums) {
   if (nums.length < 3) {
     return Math.max(...nums)
   }
+  // dp[i]表示从标号为0的房屋开始到标号为i的房屋为止最多能偷取到的财物的最大值
   let dp = new Array(nums.length)
+
   dp[0] = nums[0]
   // dp[1] = nums[1]
   dp[1] = Math.max(nums[0], nums[1])   //TODO:
+
   for (let i = 2; i < nums.length; i++) {
     dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i])
   }
   console.log(dp);
-  return Math.max(...dp)
+  // return Math.max(...dp)
+  return dp[nums.length - 1]
 };
 // console.log(rob([1, 2, 3, 1]))
 // console.log(rob([2, 7, 9, 3, 1]))

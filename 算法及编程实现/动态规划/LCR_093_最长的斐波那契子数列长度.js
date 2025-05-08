@@ -20,12 +20,25 @@ n >= 3
  */
 
 /**
+ * 思路： 
+ *      当处理到数字6时，既可以和1、5、6组成斐波那契数列，也可以和2、4、6组成斐波那契数列。也就是说，每处理到一个数字时可能面临若干选择，需要从这些选择中找出最长的斐波那契数列。
+ * 
+ * 将数组记为A，A[i]表示数组中下标为i的数字。对于每个j(0≤j<i), A[j]都有可能是在某个斐波那契数列中A[i]的前一个数字。
+ * 如果存在一个k(0≤k<j)满足A[k]+A[j]=A[i]，那么这3个数字就组成一个斐波那契数列。
+ * 
+ * 这个以“A[i]结尾，前一个数字是A[j]的斐波那契数列长度(计为dp[j][i])”应该是“A[j]结尾，前一个数字是A[k]的斐波那契数列长度（计为dp[k][j]）”值再加1
+ * 
+ * 
+ * */
+/**
  * @param {number[]} arr
  * @return {number}
  */
 var lenLongestFibSubseq = function (arr) {
     const indices = new Map();
     const n = arr.length;
+
+    // 哈希表map来记录每个数字在数组中的下标。有了这个哈希表就可以用O（1）的时间判断数组中是否存在一个数字A[k]满足A[k]=A[i]-A[j] 
     for (let i = 0; i < n; i++) { // hash表，提升效率
         indices.set(arr[i], i);
     }
@@ -37,7 +50,7 @@ var lenLongestFibSubseq = function (arr) {
             if (indices.has(arr_k)) {
                 let k = indices.get(arr_k)
                 if (indices.get(arr_k) < j) {
-                    dp[j][i] = Math.max(dp[k][j] + 1, 3);   // [k, j，i] 三个数构成斐波那契数列
+                    dp[j][i] = Math.max(dp[k][j] + 1, 3);   // [k, j，i] 三个数构成斐波那契数列, 所以 max 函数中参与比较的值是3
                     ans = Math.max(ans, dp[j][i]);
                 }
             }
