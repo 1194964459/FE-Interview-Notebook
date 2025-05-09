@@ -35,6 +35,8 @@
  * 否则，f(i, j) = max(f(i-1, j), f(i, j-1))
  * 
  * TODO:若i,j为0时，会取到f(-1,-1)、f(0, -1)或f(-1,0)的值，所以dp长度为len1+1
+ * 
+ * TODO:注意，f（i，j）的值保存在“dp[i+1, j+1]​”的位置。
  */
 /**
 * @param {string} text1
