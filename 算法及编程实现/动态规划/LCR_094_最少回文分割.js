@@ -14,7 +14,7 @@
 
 示例 3：
   输入：s = "ab"
-  输出：1~~`
+  输出：1`
  */
 
 /**
@@ -73,44 +73,44 @@ var minCut = function (s) {
 /**
  * 时间复杂度 O(n^3): n为1000时，超出时间限制
  */
-var minCut2 = function (s) {
-  let n = s.length;
+// var minCut2 = function (s) {
+//   let n = s.length;
 
-  // 存放f(i)的结果，最小分割次数
-  let dp = new Array(n).fill(0);
-  for (let i = 0; i < n; i++) {
-    dp[i] = i
-    for (let j = 0; j <= i; j++) {
-      if (isPalindrome(s.slice(j, i + 1))) {
-        if (j === 0) {
-          dp[i] = 0;
-        } else {
-          dp[i] = Math.min(dp[i], dp[j - 1] + 1)
-        }
-      }
-    }
-  }
-  return dp[n - 1];
-}
+//   // 存放f(i)的结果，最小分割次数
+//   let dp = new Array(n).fill(0);
+//   for (let i = 0; i < n; i++) {
+//     dp[i] = i
+//     for (let j = 0; j <= i; j++) {
+//       if (isPalindrome(s.slice(j, i + 1))) {
+//         if (j === 0) {
+//           dp[i] = 0;
+//         } else {
+//           dp[i] = Math.min(dp[i], dp[j - 1] + 1)
+//         }
+//       }
+//     }
+//   }
+//   return dp[n - 1];
+// }
 
 
 // 是否是回文串
-var isPalindrome = function (s) {
-  // 过滤掉除数字、字符外的字符
-  let str = s.toLowerCase().replace(/[^0-9a-zA-Z]/g, ''); // 正则[]表示是一个字符集合，^表示取反
-  // console.log('str: ', str);
-  let left = 0;
-  let right = str.length - 1;
+// var isPalindrome = function (s) {
+//   // 过滤掉除数字、字符外的字符
+//   let str = s.toLowerCase().replace(/[^0-9a-zA-Z]/g, ''); // 正则[]表示是一个字符集合，^表示取反
+//   // console.log('str: ', str);
+//   let left = 0;
+//   let right = str.length - 1;
 
-  while (left < right) {
-    if (str[left] !== str[right]) {
-      return false;
-    }
-    left++;
-    right--;
-  }
-  return true;
-};
+//   while (left < right) {
+//     if (str[left] !== str[right]) {
+//       return false;
+//     }
+//     left++;
+//     right--;
+//   }
+//   return true;
+// };
 
 console.log(minCut("aab")); // 1
 console.log(minCut("a")); // 0
