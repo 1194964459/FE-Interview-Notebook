@@ -51,6 +51,7 @@ console.log(minFlipsMonoIncr("00110"));
 // console.log(minFlipsMonoIncr("010110"));
 // console.log(minFlipsMonoIncr("00011000"));
 console.log(minFlipsMonoIncr("10011111110010111011"));
+
 /**
  * 翻转下标为i的字符依赖于前i个字符翻转之后最后一个字符是'0'还是'1':
  *    f(i): 把字符串从0到i翻转成单调递增的最小翻转次数，且翻转后的最后一个字符(下标i)是'0'
