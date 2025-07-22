@@ -1,3 +1,27 @@
+/**
+ * 注意，callback的具体位置应该看 func的具体使用
+ * 如：小程序中success、fail等都被{}包裹起来了，共同组成一个参数
+ *      my.navigateTo({
+            url: '/pages/pageB/index?id=1',
+            success: function(res) {
+            // 通过 eventChannel 向 B 页面传送数据
+            res.eventChannel.emit('PageA_Data', { 
+                data: 'hi～ 我是 pageA' 
+            })
+            }
+        })
+
+    Node.js中：多个参数，success、fail的回调函数通常是最后一个参数
+        const fs = require('node:fs');
+        fs.readFile('/Users/joe/test.txt', 'utf8', (err, data) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
+        console.log(data);
+        });
+
+ */
 function promisify(func, options = {}) {
     const {
         successKey = 'success',  // 成功回调的键名
