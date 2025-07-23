@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue撤销重做示例</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.4.24/dist/vue.global.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pinia@2.1.6/dist/pinia.iife.prod.js"></script>
+  </head>
+  <body class="bg-gray-100 min-h-screen">
+    <div id="app" class="max-w-4xl mx-auto p-6">
+      <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+        <h1 class="text-2xl font-bold text-gray-800 mb-4">Vue撤销重做示例</h1>
+        <div class="flex gap-3 mb-6">
+          <button
+            @click="undo"
+            :disabled="!canUndo"
+            class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg transition-colors flex items-center disabled:opacity-50"
+          >
+            <i class="fa fa-undo mr-2"></i>撤销
+          </button>
+          <button
+            @click="redo"
+            :disabled="!canRedo"
+            class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg transition-colors flex items-center disabled:opacity-50"
+          >
+            <i class="fa fa-repeat mr-2"></i>重做
+          </button>
+        </div>
+
+        <div class="mb-6">
+          <label
+            for="text-input"
+            class="block text-sm font-medium text-gray-700 mb-1"
+            >编辑区域</label
+          >
+          <textarea
+            v-model="currentText"
+            id="text-input"
+            rows="6"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+            placeholder="输入一些文本，然后尝试撤销和重做操作..."
+          ></textarea>
+        </div>
+
+        <div class="flex justify-between items-center text-sm text-gray-500">
+          <div>历史记录长度: {{ historyLength }}</div>
+          <div>
+            当前位置: {{ currentPosition + 1 }} / {{ historyLength || 1 }}
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl shadow-lg p-6">
+        <h2 class="text-xl font-bold text-gray-800 mb-4">历史记录</h2>
+        <div class="space-y-2 max-h-60 overflow-y-auto pr-2">
+          <div
+            v-for="(item, index) in history"
+            :key="index"
+            class="p-2 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors border-l-4 :border-gray-300 :border-blue-500"
+            :class="{ 'bg-blue-50 border-blue-500': index === currentPosition }"
+          >
+            <div class="text-xs text-gray-500 mb-1">步骤 {{ index + 1 }}</div>
+            <div class="text-sm truncate">{{ item || "(空)" }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const { createApp, ref, computed, watch } = Vue;
+      const { createPinia, defineStore } = Pinia;
+
+      // 创建历史记录存储
+      const useHistoryStore = defineStore("history", () => {
+        const history = ref([]);
+        const currentPosition = ref(-1);
+
+        // 初始化状态
+        function init(initialValue) {
+          history.value = [initialValue];
+          currentPosition.value = 0;
+        }
+
+        // 添加新状态到历史记录
+        function addState(newState) {
+          // 如果当前不在历史记录的末尾，删除后面的所有记录
+          if (currentPosition.value < history.value.length - 1) {
+            history.value = history.value.slice(0, currentPosition.value + 1);
+          }
+
+          // 避免添加重复状态
+          const lastState = history.value[history.value.length - 1];
+          if (newState !== lastState) {
+            history.value.push(newState);
+            currentPosition.value = history.value.length - 1;
+          }
+        }
+
+        // 撤销
+        function undo() {
+          if (canUndo.value) {
+            currentPosition.value--;
+            return history.value[currentPosition.value];
+          }
+          return null;
+        }
+
+        // 重做
+        function redo() {
+          if (canRedo.value) {
+            currentPosition.value++;
+            return history.value[currentPosition.value];
+          }
+          return null;
+        }
+
+        // 计算属性：是否可以撤销
+        const canUndo = computed(() => currentPosition.value > 0);
+
+        // 计算属性：是否可以重做
+        const canRedo = computed(
+          () => currentPosition.value < history.value.length - 1
+        );
+
+        // 计算属性：历史记录长度
+        const historyLength = computed(() => history.value.length);
+
+        return {
+          history,
+          currentPosition,
+          init,
+          addState,
+          undo,
+          redo,
+          canUndo,
+          canRedo,
+          historyLength,
+        };
+      });
+
+      // 创建应用
+      const app = createApp({
+        setup() {
+          const store = useHistoryStore();
+          const currentText = ref("");
+
+          // 初始化历史记录
+          store.init(currentText.value);
+
+          // 监听文本变化，更新历史记录
+          watch(currentText, (newValue) => {
+            store.addState(newValue);
+          });
+
+          // 撤销操作
+          const undo = () => {
+            const previousState = store.undo();
+            if (previousState !== null) {
+              currentText.value = previousState;
+            }
+          };
+
+          // 重做操作
+          const redo = () => {
+            const nextState = store.redo();
+            if (nextState !== null) {
+              currentText.value = nextState;
+            }
+          };
+
+          return {
+            currentText,
+            undo,
+            redo,
+            canUndo: store.canUndo,
+            canRedo: store.canRedo,
+            historyLength: store.historyLength,
+            history: store.history,
+            currentPosition: store.currentPosition,
+          };
+        },
+      });
+
+      // 使用Pinia
+      app.use(createPinia());
+
+      // 挂载应用
+      app.mount("#app");
+    </script>
+  </body>
+</html>
