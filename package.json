@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "前端面试复习笔记",
   "main": "index.js",
-  "type": "commonjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,10 +10,15 @@
     "type": "git",
     "url": "git+https://github.com/1194964459/FE-Interview-Notebook.git"
   },
+  "keywords": [],
   "author": "",
   "license": "ISC",
+  "type": "commonjs",
   "bugs": {
     "url": "https://github.com/1194964459/FE-Interview-Notebook/issues"
   },
-  "homepage": "https://github.com/1194964459/FE-Interview-Notebook#readme"
+  "homepage": "https://github.com/1194964459/FE-Interview-Notebook#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
 }
