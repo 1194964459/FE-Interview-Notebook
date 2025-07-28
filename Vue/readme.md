@@ -1,1 +1,15 @@
-# Vue 原理学习
+# Vue 源码学习
+
+## Vue 源码结构与核心模块
+Vue 3 源码采用 TypeScript 编写，核心模块包括：
+
+* 响应式系统（packages/reactivity）：实现数据劫持和依赖收集。
+* 渲染器（packages/runtime-core）：虚拟 DOM 到真实 DOM 的转换。
+* 编译器（packages/compiler-core）：将模板字符串编译为渲染函数。
+* 全局 API（packages/vue）：整合各模块的入口。
+
+## 推荐学习路线
+* 响应式原理：从reactive()、effect()、Reflect和Proxy的实现入手。
+* 虚拟 DOM 与渲染流程：学习h()函数、render()过程和组件生命周期。
+* 组件系统：理解组件注册、props、slots 和事件机制。
+* 编译过程：了解模板如何转换为 JavaScript 代码。
