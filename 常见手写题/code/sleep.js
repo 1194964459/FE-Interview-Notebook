@@ -1,0 +1,13 @@
+// 实现 sleep 函数
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// 使用示例
+async function example() {
+    console.log('开始执行');
+    await sleep(2000); // 暂停 2 秒
+    console.log('2 秒后继续执行');
+}
+
+example();
