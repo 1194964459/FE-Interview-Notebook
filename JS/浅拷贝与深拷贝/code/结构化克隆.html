@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        const original = {
+            name: 'John',
+            details: { age: 30 },
+            func: () => { },
+            // sym: Symbol('key'),
+            undef: undefined,
+
+        };
+        // 该方法兼容性不好，目前暂不考虑
+        const clone = structuredClone(original);
+        console.log(clone); // {}，所有属性都被忽略了
+    </script>
+</body>
+
+</html>

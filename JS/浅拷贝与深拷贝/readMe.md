@@ -58,6 +58,12 @@ JSON只支持object,array,string,number,true,false,null这几种数据或者值�
  * 值为Date对象，转为字符串；
  * 循环引用（属性值指向自身），报错
 
+
+  * 丢失特殊对象：无法处理Date（转为字符串）、RegExp（转为空对象）、Map、Set、函数等。
+  undefined、symbol、函数会被直接忽略
+  循环引用（属性值指向自身），报错
+  丢失不可枚举属性：无法复制enumerable: false的属性。
+
 ```js
 // 全部符合预期
 const obj = {
@@ -207,5 +213,11 @@ a.self = a;   // a的self属性指向a
 ```
 因此，我们需要添加递归终止条件。所谓的递归终止条件，就是判断一个对象是否已经被克隆过了，如果被克隆过了那么就直接使用克隆后的对象(用map)，不再进行递归。
 
+循环引用的几种格式：
 ```js
+const objA = {};
+const objB = { a: objA };
+objA.b = objB; // 形成循环：objA.b.b.b... 无限嵌套
+
+console.log(objA); // 不会报错，但在控制台可能显示为 "[Circular]"
 ```

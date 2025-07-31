@@ -3,9 +3,6 @@
  * 时间类型 会被变成字符串类型数据
  * undefined和function会直接丢失
  * NaN、Infinity和-Infinity--- 会变成null
-
- * 
- * 其他的比如函数，undefined，Date，RegExp等数据类型都不支持。对于它不支持的数据都会直接忽略该属性。
  */
 
 let obj1 = {
