@@ -1,6 +1,8 @@
 # FE-Interview-Notebook
 前端面试复习笔记
 
+前端学习资料库，持续更新👉👉：https://y03l2iufsbl.feishu.cn/wiki/space/7514144813348978716
+
 百川：https://www.yuque.com/baichuan/notes/oixqby
 
 pingan8787（大佬）：https://juejin.cn/user/1011206425950605/posts
