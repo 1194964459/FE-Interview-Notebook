@@ -2,14 +2,15 @@
 参考：https://blog.csdn.net/sinat_36422236/article/details/88763187
 
 ## 一、BFC
+BFC 即（Block Formatting Context，块级格式化上下文）
 
 ### 布局规则：
 * 内部的Box会在垂直方向，一个接一个地放置。
-* Box垂直方向的距离由margin决定。属于同一个BFC的两个相邻Box的margin会发生重叠。
+* Box垂直方向的距离由margin决定。属于**同一个BFC的两个相邻Box的margin会发生重叠**。
 * 每个盒子（块盒与行盒）的margin box的左边，与包含块border box的左边相接触(对于从左往右的格式化，否则相反)。即使存在浮动也是如此。
-* BFC的区域不会与float box重叠。（浮动，自适应2列布局）
-* BFC就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素。反之也如此。
-* 计算BFC的高度时，浮动元素也参与计算。(高度塌陷)
+* **BFC的区域不会与 浮动元素 重叠**。（浮动，自适应2列布局）（可用于清除浮动影响）
+* BFC就是页面上的一个**隔离的独立容器**，*容器里面的子元素不会影响到外面的元素。反之也如此*。
+* 计算**BFC的高度时，浮动元素也参与计算**。(高度塌陷)（清除浮动）
 
 
 ### 如何创建：
@@ -17,18 +18,22 @@
 * float的属性不为none；
 * position为absolute或fixed；
 * display为inline-block，table-cell，table-caption，flex；
-* overflow不为visible
+* overflow不为visible（如 hidden、auto、scroll）
 
 
 ### 应用场景：
 * 自适应两栏布局
+    > 如：left元素是 height=50px 的浮动元素，right元素是 height=100px 的元素；那么这两个子元素都会和父元素的左边界相邻，具体参考链接中的案例！
+    > 解决：使left、right两个不在同一个BFC内，即将右边那个变成一个单独的 BFC(如：添加overflow:hidden属性)
 * 撑起浮动高度
+    > 如：不给父元素设置高度，子元素都是浮动元素时，会发生高度塌陷！
+    > 解决：原理（计算BFC的高度时，浮动元素也参与计算），给父节点设置 BFC 相关的属性即可
 * margin重叠
-
+    > 解决：使两者不在同一个BFC内，可以用 div块 把另一个包裹住
 
 
 ## 二、IFC
-IFC（inline Formatting Context）叫做“行级格式化上下”
+IFC（inline Formatting Context）叫做“行内格式化上下”
 
 **局规则如下：**
 * 内部的盒子会在水平方向，一个个地放置；

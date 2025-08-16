@@ -1,0 +1,127 @@
+# interface 与 type
+* type，类型别名；
+* interface，接口
+
+使用情况：
+1. **优先interface**：定义**对象结构**、需要**扩展、合并**时，或描述**类/函数的规范**时。它的设计更贴合 "接口即契约" 的语义，且在面向对象编程场景中更自然。
+
+2. **优先type**：定义**联合类型、交叉类型、基本类型别名、映射类型、条件类型**等场景；（定义的时候 需要用“=”）
+
+
+简单示例：
+```js
+// interface 定义对象
+interface User {
+  name: string;
+  age: number;
+  greet: () => string;
+}
+```
+
+```js
+// type 定义对象
+type User = {
+  name: string;
+  age: number;
+  greet: () => string;
+};
+```
+
+## 一、interface 与 type 共同点：
+两者有很多相同点，并且可以互相混用!
+
+> 简化版总结：5个共同点！      
+> 都可定义对象、函数，支持**泛型**，被类实现，可**扩展**、可用于**类型注解**（变量、函数参数/返回值）
+
+1. 都可定义对象结构、函数，定义对象结构 如上，定义函数如下：
+```js
+// interface 定义函数
+interface Add {
+  (a: number, b: number): number;
+}
+
+// type 定义函数
+type Add = (a: number, b: number) => number;
+```
+2. 都支持泛型
+```js
+interface Box<T>{
+    value: T
+}
+
+type Box<T> = {
+  value: T;
+};
+```
+
+3. 都可被类实现（通过 implements 关键字）
+```js
+interface Person {}
+
+class Student implements Person {}
+```
+
+4. 都可扩展  
+* interface：通过 extends 关键字扩展，**支持多继承**
+* type：通过交叉类型（&）扩展，不支持 extends 关键字
+
+5. 都可用于类型注解
+在变量、函数参数/返回值 等位置的类型注解中，两者的使用方式一致：
+```js
+interface User { name: string }
+type Age = number;
+
+function greet(user: User, age: Age): string {
+  return `Hello, ${user.name}, age ${age}`;
+}
+```
+
+## 二、interface 与 type 不同点：
+### interface 独有的能力
+1. **声明合并**：同名 interface 会自动合并属性，这在扩展第三方类型时非常有用
+```js
+// 扩展全局类型（如Window）
+interface Window {
+  customProp: string;
+}
+window.customProp = "hello"; // 不报错
+```
+2. **声明合并函数重载**：可以通过多次声明同一个 interface 来扩展函数重载
+```js
+interface Format {
+  (value: string): string;
+}
+interface Format {
+  (value: number): string;
+}
+const format: Format = (value: any) => String(value);
+```
+
+### type 独有的能力
+1. **定义非对象类型**：type 可以为基本类型、联合类型、元组等创建别名
+```js
+type ID = string | number; // 联合类型
+type Status = "pending" | "success" | "error"; // 字符串字面量类型
+type Point = [number, number]; // 元组类型
+type Nullable<T> = T | null; // 泛型工具类型
+```
+2. **声明类型别名**：为已有类型创建更*简洁的名称*
+```js
+type ComplexType = { a: number } & { b: string } | null;
+type ShortName = ComplexType; // 简化类型引用
+```
+3. **条件类型**：通过 extends 实现条件判断的类型逻辑
+```js
+type IsString<T> = T extends string ? true : false;
+
+// 使用
+type A = IsString<string>; // true
+type B = IsString<number>; // false
+```
+
+4. **使用映射类型**：结合 in 关键字创建映射类型（如实现 Partial、Readonly 等工具类型）
+```js
+type Readonly<T> = {
+  readonly [P in keyof T]: T[P];
+};
+```
