@@ -46,6 +46,7 @@ async function extractDependencies(filePath) {
 
             // 处理require()调用
             CallExpression(p) {
+                // TODO:函数调用的类型/名称、参数个数及类型
                 if (
                     p.node.callee.type === 'Identifier' &&
                     p.node.callee.name === 'require' &&

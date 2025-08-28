@@ -1,5 +1,7 @@
 # Babel
 
+参考：[JS 语法转成 AST](https://astexplorer.net/)
+
 Babel 是JavaScript 语法的 “翻译官”！
 
 通过 “**解析 → 转换 → 生成**” 三个步骤，将**高版本 JavaScript 代码（如 ES6+）、TypeScript、JSX** 等转换为**低版本 JavaScript 代码**，确保其能在**所有浏览器**（包括老旧浏览器如 IE）和**运行环境**中正常运行。让开发者可以自由使用**最新的语言特性**，无需担心**运行环境**支持问题。
