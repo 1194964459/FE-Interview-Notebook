@@ -96,7 +96,8 @@ module.exports = {
 <br/>
 Webpack 通过 **optimization** 下的配置项，控制 **“如何标记未使用的导出”** 和 **“是否保留副作用代码”**。
 <br/><br/>
-**(1) optimization.usedExports**   
+
+**(1) optimization.usedExports**     
 开启 “未使用导出标记”，Webpack 会在打包过程中分析每个模块的导出，对**未被引用的导出成员**添加 <code>/* unused harmony export xxx */ </code>注释（仅在生产模式下可见），为后续压缩工具（Terser）提供删除依据。
 
 **(2) optimization.sideEffects**   
