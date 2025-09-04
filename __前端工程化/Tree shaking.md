@@ -144,6 +144,8 @@ Webpack 标记未使用代码后，需依赖压缩工具（如 Terser）完成�
 **控制是否启用代码压缩**，压缩工具会删除 Webpack 标记的未使用代码（usedExports 标记的内容）。   
 > 注意：若 minimize: false，即未启用代码压缩！即使 usedExports 标记了未使用代码，也不会被删除，Tree Shaking 最终失效。
 ```js
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+
 module.exports = {
   optimization: {
     minimize: true, // 生产模式默认 true，开发模式默认 false
@@ -157,7 +159,10 @@ module.exports = {
             dead_code: true // 删除死代码（默认开启）
           }
         }
-      })
+      }),
+      
+      // 压缩CSS
+      new CssMinimizerPlugin() 
     ]
   }
 };
