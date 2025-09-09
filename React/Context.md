@@ -80,20 +80,3 @@ MyClass.contextType = MyContext;   // Context值 挂载在 Class 组件的 conte
 此组件可以让你在**函数式组件**中可以订阅 context 的变更。
 
 <br/>
-目录：
-* 何时使用 Context
-* 使用 Context 之前的考虑
-
-* API
-* React.createContext
-* Context.Provider
-* Class.contextType
-* Context.Consumer
-* Context.displayName
-* 示例
-
-* 动态 Context
-* 在嵌套组件中更新 Context
-* 使用多个 Context
-* 注意事项
-
