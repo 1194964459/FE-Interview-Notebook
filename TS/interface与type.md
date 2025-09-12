@@ -7,7 +7,6 @@
 
 2. **优先type**：定义**联合类型、交叉类型、基本类型别名、映射类型、条件类型**等场景；（定义的时候 需要用“=”）
 
-
 简单示例：
 ```js
 // interface 定义对象
@@ -26,6 +25,9 @@ type User = {
   greet: () => string;
 };
 ```
+
+### interface 
+参考：[interface中定义函数：具名函数、匿名函数](./interface中定义函数.md)
 
 ## 一、interface 与 type 共同点：
 两者有很多相同点，并且可以互相混用!
