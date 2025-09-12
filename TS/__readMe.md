@@ -23,7 +23,7 @@ function getFirstElement<T>(arr: T[]): T | undefined {
 }
 ```
 ## 泛型
-参考：[泛型详解](./泛型.md)
+参考：[泛型详解](./3.0__泛型.md)
 
 ## 类型断言
 强行指定类型，解决编译器类型推断不足的问题！但是破坏类型安全（如果断言错误，运行时可能出问题）
@@ -78,29 +78,8 @@ interface SquareConfig {
 最简单判断该用readonly还是const的方法是看要把它做为变量使用还是做为一个属性。 做为变量使用的话用 const，若做为属性则使用readonly。
 
 ## type 和 interface
-参考：[interface与type详解](./interface与type.md)
+参考：[interface与type详解](./1.1__interface中定义函数.md)
 
 
 ## 类型声明文件
-TS 的类型定义文件（.d.ts）是专门存放类型声明的文件，仅为 TS编译器 提供类型信息，不包含任何可执行代码。解决 “TypeScript 不认识非 TS 代码中的变量/函数/模块” 的问题（避免出现 ```xxx is not defined``` 的类型错误）。
-
-类型定义文件（.d.ts） 中有一堆 declare，declare 关键字主要用于声明类型信息。 
-
-类型声明有什么好处？
-1. 类型校验，类型不对会报错
-2. 代码编写时，可以自动补全
-3. 鼠标悬停时也会提示类型定义、参数说明啥的
-
-如何生成类型声明文件？
-答：基于tsc，然后扫描指定目录下的 .ts 文件
-```js
-tsc --emitDeclarationOnly 
-```
-它会为每个符合条件的 .ts 文件生成对应的 .d.ts 文件。例如，src/index.ts 会生成 src/index.d.ts。
-
-若不想全部都生成.d.ts 文件，只想针对某个具体的文件 生成，那么直接指定文件路径即可：
-```js
-tsc --emitDeclarationOnly src/someFile.ts
-```
-
-
+参考：[.d.ts类型声明文件 详细介绍](./4.0__.d.ts类型声明文件.md)
