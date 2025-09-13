@@ -15,7 +15,8 @@ const emit = defineEmits(['change', 'update'])
 
 假如*传入了不符合逻辑类型的参数*，但代码不会在**编译阶段**报错，也不会在**运行时**进行参数校验，依然可以触发事件执行相关逻辑。
 
-**2. 基于选项**
+**2. 基于选项**  
+给defineEmits函数的参数 定义类型
 ```js
 const emit = defineEmits({
   change: (id: number) => {
@@ -31,7 +32,7 @@ const emit = defineEmits({
 校验函数返回true 表示参数合法，false 表示不合法（不合法时事件不会触发，Vue 会警告）。
 何时校验？**函数真正运行的时候校验**。
 
-**3. 基于类型（依赖 TypeScript）**
+**3. 基于类型（依赖 TypeScript）**   
 ```js
 // 写法 1（Vue 3.3 前）
 const emit = defineEmits<{
