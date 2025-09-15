@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // var name = "The Window";
+
+        // var object = {
+        //     name: "My Object",
+
+        //     getNameFunc: function () {
+        //         return function () {
+        //             return this.name;
+        //         };
+        //     }
+        // };
+
+        // console.log(object.getNameFunc()());
+
+
+        var name = "The Window";
+
+        var object = {
+            name: "My Object",
+
+            getNameFunc: function () {
+                var that = this;
+                return function () {
+                    return that.name;
+                };
+
+            }
+
+        };
+
+        alert(object.getNameFunc()());
+    </script>
+</body>
+
+</html>
