@@ -1,0 +1,74 @@
+# Vue Router
+
+[如何在Vue-router中配置路由守卫？](https://www.doubao.com/thread/w5c2ae1524f1aebdb)
+
+### 一、全局守卫（作用于所有路由）
+* 全局前置守卫（beforeEach）：最常用的守卫，常用于全局权限控制。
+* 全局解析守卫（beforeResolve）：导航确认前的最后检查。
+* 全局后置守卫（afterEach）：**无 next 函数**，常用于页面标题修改、统计分析等。
+    > 仅这一个守卫没有next函数
+
+### 二、路由独享守卫（作用于单个路由）
+* beforeEnter
+
+### 三、组件内守卫（作用于组件）  
+
+若是组合式API，应为：onBeforeRouteEnter...
+
+* beforeRouteEnter：进入组件前触发（组件实例未创建，无法访问 this）
+* beforeRouteUpdate：同一组件路由参数变化时触发（如 /profile/1 → /profile/2）
+* beforeRouteLeave：离开组件时触发（常用于**数据未保存的提示**）
+
+### 导航守卫中的 next 函数，用于决定导航行为：
+* next()：继续导航
+* next(false)：取消导航
+* next('/path') 或 next({ name: 'routeName' })：重定向到指定路由
+
+
+### 注意：
+* beforeRouteEnter 中不能直接使用 this（组件未实例化），需通过 next(vm => { ... }) 访问。
+```js
+  // 1. 进入组件前触发（组件实例未创建，无法访问 this）
+  beforeRouteEnter(to, from, next) {
+    // 通过 next 的回调访问组件实例
+    next(vm => {
+      // vm 即组件实例
+      console.log('进入个人资料页', vm.$route.params.id)
+    })
+  }
+```
+
+# 完整的导航解析流程
+旧的组件退出、再路由（**全局的、路由独有的、组件内的** 层层校验），
+
+导航被触发、失活组件离开前确认 beforeRouteLeave、
+**全局前置 beforeEach**、重用组件 beforeRouteUpdate （防止参数没更新导致出错）、
+`路由独享守卫 beforeEnter`、异步组件加载及解析、激活组件 beforeRouteEnter 
+**导航确认前最后校验 beforeResolve** 、导航被确认、**全局后置 afterEach**
+DOM更新、激活组件的 beforeRouteEnter 的next回调
+
+
+1. **导航被触发**：用户通过点击 `<router-link>`、调用 router.push/router.replace 等方式触发路由导航。
+2. **失活组件**的 `beforeRouteLeave`：即将离开的组件（若有）会先执行 beforeRouteLeave 守卫，可**用于 “离开前确认”（如表单未保存提示）**。
+
+3. **全局 `beforeEach`**：全局前置守卫，所有路由导航都会经过，常用于全局权限验证（如判断是否登录，未登录则重定向到登录页）。
+4. **重用组件**的 `beforeRouteUpdate`：
+    * 当路由变化但组件被复用时（如 /user/1 → /user/2，共用 User 组件），会触发 beforeRouteUpdate，可用于 “**同组件内路由参数变化时的逻辑**”（如重新加载用户数据）。
+    * 如果不先执行它，直接进入后续的 “路由独享守卫” 或 “组件进入守卫”，**组件内部可能因为参数未更新而出现逻辑错误**（比如显示旧用户的数据）。
+5. 路由配置的 `beforeEnter`：当前要进入的路由在路由表中配置的独享守卫，只对该路由生效，可做 “单路由级别的权限/逻辑校验”。
+6. 解析**异步路由组件**：
+    * 如果路由组件是异步加载的（如 `component: () => import('./Foo.vue')`），此时会去加载解析组件。才能确保后续 “组件进入守卫” 和 “DOM 渲染” 有可用的组件实例。
+    * 如果**先执行 “组件进入守卫”，但组件还没加载完成，**守卫内部就无法访问组件的实例或逻辑，所以必须先解析组件。
+7. **激活组件**的 `beforeRouteEnter`：
+    * 即将进入的组件会执行 beforeRouteEnter，注意此时组件实例还未创建，所以无法直接访问 this，若要访问需通过 next(vm => { /* vm 是组件实例 */ })。
+    * beforeRouteEnter 需要以“合法的路由” 和 “已准备的组件”为前提；
+
+<!-- 导航确认前、导航确认、导航完成后 -->
+8. **全局 beforeResolve**：全局解析守卫，在所有组件内守卫和异步路由组件解析完成后触发，常用于 “**导航确认前的最后校验**”（确保所有异步逻辑完成后再确认导航）。
+9. **导航被确认**：经过上述所有守卫校验后，导航被正式确认，准备更新 DOM。
+10. **全局 afterEach**：**导航完成后触发的全局钩子**，无 next 函数（因为导航已完成），常用于 “页面跳转后的副作用操作”（如修改页面标题、埋点统计）。
+<!--  -->
+
+11. 触发 DOM 更新：Vue 会更新 DOM，渲染新的路由组件内容。
+
+12. **beforeRouteEnter 的 next 回调**：如果 beforeRouteEnter 中使用了 next 的回调形式（`next(vm => { ... })`），此时组件实例已创建，回调会被调用，vm 即为组件实例，可用于 “组件创建后的数据初始化/操作”。
