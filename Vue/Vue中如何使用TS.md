@@ -86,4 +86,20 @@ const emit = defineEmits<{
     * 更符合 TypeScript 的 “类型推断优先” 原则，代码更简洁，比较推荐。
 
 
-## 其他reactive、computed等的类型写法，与ref差不多
+## 三、其他reactive、computed等的类型写法，与ref差不多
+
+## 四、TS不认识 .vue文件，怎么搞？
+新增 shims-vue.d.ts文件（Vue 3 项目中 通常自动生成），内容如下：
+```js
+declare module '*.vue' {  // 声明一个模块，该模块是以 .vue 结尾的文件；
+  import type { DefineComponent } from 'vue'   // 模块中导入 DefineComponent 类型。
+  const component: DefineComponent<{ }, { }, any>
+  export default component  // 表示每个 .vue 文件的默认导出（即组件本身）的类型是 component
+}
+```
+
+其中`const component: DefineComponent<{ }, { }, any>`，定义一个名为 component 的变量，类型是 DefineComponent，并通过泛型参数指定组件的细节：
+* 第一个泛型参数（{}）：组件 **props** 的类型（这里留空 {}，表示没有 props 或 props 类型自动推断）。
+* 第二个泛型参数（{}）：组件 **data** 的类型
+* 第三个泛型参数（any）：**组件的其他选项**（如 methods、computed 等）的类型
+
