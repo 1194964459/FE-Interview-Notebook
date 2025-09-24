@@ -85,12 +85,15 @@ import vue from '@vitejs/plugin-vue'
 import react from '@vitejs/plugin-react'
 
 export default defineConfig({
+  base:'/',  // 公共基础路径，部署时的路径！
+  // base修改后，由 JS 引入的资源 URL，CSS 中的 url() 引用以及 .html 文件中引用的资源在构建过程中都会自动调整，以适配此选项。
+
   plugins: [
     vue(),  // 支持 Vue 单文件组件（.vue）
     react(),  // 支持 React 的 JSX 和热更新等功能
   ],
 
-  // 开发服务器配置（server）
+  // 开发服务器配置（server），只在本地生效；构建生产环境（vite build）时会完全忽略该配置。
   server: {
     open: true
     port: 3000,
@@ -105,27 +108,47 @@ export default defineConfig({
 })
 ```
 Vite 内置了对静态资源的基本处理能力，开箱即用。
+
 Webpack 处理静态资源相对繁琐，需要手动配置各种 loader 和 plugin；但 Webpack 的优势在于其高度灵活的配置体系，可以针对各种复杂的需求进行定制化处理。
 
-### CSS处理：Vite 内置对 CSS 的支持，无需额外配置
+
+## 1. server跨域解决：
+* 你的前端项目（本地开发）：运行在 `http://localhost:3000`（域名 A）
+* 你需要请求的接口：部署在 `https://test-api.example.com`（域名 B）
+
+前端页面（域名 A）和接口（域名 B）不同源，因此接口请求会报错！
+
+Vite 的 server.proxy 配置会在本地启动一个 “代理服务器”（和前端页面同域 localhost）。具体过程：
+* 前端 → 代理服务器 
+    > 同源请求”（都是 http://localhost:3000），不会拦截。
+* 代理服务器 → 目标接口服务器
+    > “服务器之间的通信”，服务器没有跨域限制（跨域限制是浏览器特有的安全机制）
+* 代理服务器 → 前端
+
+`changeOrigin: true`：本地代理服务器在转发请求时，会 修改请求里的Origin字段，让其和目标服务器同域。因为有的服务器为了防止 CSRF 攻击（跨站请求伪造），可能会做同源验证。不过该行为并不是强制的，是服务器主动配置的。
+
+如果目标服务器主动做了 Origin 校验，即：服务器会配置一个可信列表，只有在可信列表中的请求 它才会响应。这时，如果上述的代理服务器 不修改 Origin的话，目标服务器就会因为 “同源的 主动校验逻辑” 拒绝这个请求！
+
+
+### 2. CSS处理：Vite 内置对 CSS 的支持，无需额外配置
 * 直接导入 CSS 文件：```import './style.css'```
 * 支持 CSS 模块：命名为 ```xxx.module.css```，导入后自动转为**模块化对象**(避免样式冲突)。
 * 支持**预处理器（Sass/Less）**：*安装对应依赖*即可直接使用
     ```js
         npm install sass  # 支持 .scss/.sass 文件
     ```
-### 静态资源处理
+### 3. 静态资源处理
 * 直接在代码中导入静态资源（图片、字体等），Vite 会自动处理。 ```import logo from './assets/logo.png'```
 * public 目录的资源 会被原样复制到输出目录(dist)，可通过根路径（'/'）访问
 
-### 常用插件推荐
+### 4. 常用插件推荐
 * vite-plugin-pwa：添加 PWA 支持
 * vite-plugin-compression：生产环境资源压缩（gzip/brotli）
 * unplugin-auto-import：自动导入 API（如 Vue 的 ref、reactive）
 * vite-plugin-html：动态修改 HTML 内容（如注入环境变量）
 
 
-### JS压缩：
+### 5. JS压缩：
 生产环境默认使用 esbuild 进行压缩，速度快。
 如果需要更高级的压缩功能，如使用 terser 压缩 JavaScript，可以通过 build.minify 和 build.minifyOptions 进行配置。
 ```js
