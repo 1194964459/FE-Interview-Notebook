@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+
+        setTimeout(function () { console.log('timer1') }, 0)
+
+        requestAnimationFrame(function () {
+            console.log('requestAnimationFrame')
+        })
+
+        setTimeout(function () { console.log('timer2') }, 0)
+
+        new Promise(function executor(resolve) {
+            console.log('promise 1')
+            resolve()
+            console.log('promise 2')
+        }).then(function () {
+            console.log('promise then')
+        })
+
+        console.log('end')
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
+
+<!-- 
+结果1：
+
+promise 1
+promise 2
+end
+promise then  // 微任务结束，第一轮事件循环结束
+timer1   // 第2轮结束
+timer2   // 第3轮结束
+requestAnimationFrame
+-->
+
+
+<!-- 
+结果2：
+promise 1
+promise 2
+end
+promise then    // 第一轮事件循环结束
+requestAnimationFrame
+timer1
+timer2 
+-->

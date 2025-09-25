@@ -183,3 +183,7 @@ export default defineConfig({
 疑问❓：**部署一个网站后，首页访问的是public目录？**  
 答：不是，Vite 等工具的「部署流程」有一个关键前提：**先执行构建命令（npm run build），生成可直接部署的「产物目录」（默认是 dist 文件夹）**，最终上传到服务器的是这个 dist 目录，而非源码中的 public 目录。这是生产环境的情况。
 > 若是开发环境，```通过 http://localhost:5173 访问```，本质是 Vite 开发服务器直接读取 ```public/index.html```作为入口；
+
+
+注意📢：**index.html 在引用 public 中的文件时，需使用根路径（以 / 开头）**，因为 public目录中的文件不参与构建打包 是直接复制到 dist 根目录的
+
