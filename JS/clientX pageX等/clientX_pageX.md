@@ -4,14 +4,14 @@
 
 
 ## 属性介绍
-关于js鼠标事件综合各大浏览器能获取到坐标的属性总共以下五种：
+关于js鼠标事件综合各大浏览器能获取到坐标的属性总共以下六种，分别是相对于**被触发的dom、视口、文档、显示屏**的位置：
 
-* clientX、clientY
-* pageX、pageY
-* offsetX、offsetY
-* screenX、screenY
-* clientWidth、clientHeight
-* offsetWidth、offsetHeight
+* clientX、clientY：相对视口..
+* pageX、pageY：相对文档..
+* offsetX、offsetY：相对被触发dom..
+* screenX、screenY：相对屏幕..
+* clientWidth、clientHeight：元素内部宽度，`padding + width`
+* offsetWidth、offsetHeight：元素的布局宽度，`滚动条的宽度 + border + padding + width`
 * offsetParent
 
 
@@ -29,8 +29,8 @@ pageY || (clienY + 随页面滚动的高度)
 pageX || (clienX + 随页面滚动的宽度)
 
 // 其中滚动位移的计算，不同浏览器表现不同：
-Chrome浏览器：document.body.scrollLeft(scrollTop)
-IE浏览器：document.documentElement.scrollLeft(scrollTop)
+IE浏览器：document.body.xx，(xx是scrollLeft、scrollTop)
+大部分现代浏览器，如Chrome：document.documentElement.xx (xx 是 scrollLeft、scrollTop)
 
 // 页面滚动宽度：
 scrollX = document.documentElement.scrollLeft || document.body.scrollLeft
@@ -41,6 +41,7 @@ scrollY = document.documentElement.scrollTop || document.body.scrollTop
 pageX = e.pageX || e.clientX + scrollX;
 pageY = e.pageY || e.clientY + scrollY;
 ```
+至于浏览器为什么会有这种差异？可以参考：[文档模式：标准模式、怪异模式](https://juejin.cn/post/6932769062909018125)
 
 ### 3. offsetX、offsetY
 * offsetX、offsetY 获取到是触发点相对**被触发dom**的左上角距离。
@@ -79,10 +80,9 @@ offsetTop 和 offsetLeft 都是相对于offsetParent内边距边界来计算的�
 
 兼容性：
 1. 在 Webkit 中，若：
-（1）该元素的style.display 为 "none"、style.position 被设为 "fixed"，
-（2）该元素的祖先元素的 style.display 为 "none"
-则该属性返回 null。
+    * 该元素的style.display 为 "none"、style.position 被设为 "fixed"，
+    * 该元素的祖先元素的 style.display 为 "none"
 
-2. 在 IE 9 中，若：
-（1）该元素的 style.position 被设置为 "fixed"（display:none 无影响。）
-则该属性返回 null。
+    则该属性返回 null。
+
+2. 在 IE 9 中，若该元素的 style.position 被设置为 "fixed"（display:none 无影响），则该属性返回 null。

@@ -1,4 +1,4 @@
-# requestAnimationFrame、setTimeout、requestIdleCallback 三者对比
+# requestAnimationFrame 与 requestIdleCallback
 参考：[事件循环](../JS/事件/event-loop.md)
 
 ## 疑问：
@@ -14,7 +14,7 @@
     答：requestIdleCallback 用于在浏览器空闲时间执行低优先级任务。在浏览器渲染之后执行。
     具体阶段：`渲染完成后 → 浏览器判断当前是否有空闲时间（如帧预算未用完）→ 若空闲，执行 requestIdleCallback 回调`
 
-## requestAnimationFrame：
+## 一、requestAnimationFrame：
 requestAnimationFrame：属于渲染相关任务，执行时机与渲染周期保持一致（如 60Hz 屏幕约每 16.7ms 一次）；每次重绘前，浏览器会收集所有 RAF 回调，批量执行后 再渲染。
 
 requestAnimationFrame不是将多次DOM操作优化为1次重排，它的核心价值是：
@@ -88,8 +88,7 @@ window.addEventListener('scroll', checkLazyLoad);
 window.addEventListener('scroll', throttle(checkLazyLoad));
 ```
 
-
-## requestIdleCallback
+## 二、requestIdleCallback
 属于低优先级任务，仅在浏览器 “空闲期” 执行。
 
 回调函数会接收一个 deadline 参数，包含 timeRemaining() 方法，可判断当前空闲时间是否充足，避免占用主线程。
