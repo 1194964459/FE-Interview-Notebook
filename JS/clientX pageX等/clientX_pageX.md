@@ -74,15 +74,52 @@ pageY = e.pageY || e.clientY + scrollY;
 ![offsetWidth](./icon/offsetWidth.png)
 
 ### 7. offsetParent 
-offsetParent 它返回一个指向最近的（指包含层级上的最近）包含该元素的定位元素或者最近的 table,td,th,body元素。
+offsetParent 返回**距离当前元素最近的**、满足以下条件之一的祖先元素：
+* 已定位元素（position 值除static外，剩余的4种：relative、absolute、fixed 或 sticky）。
+* `<table>、<td>、<th>` 元素（即使它们的 position 是默认的 static）。
+* 若以上都不存在，则返回根元素 `<html>` 或 `document.documentElement`。
+* 几种特殊情况：
+  * position: fixed 的元素，其 offsetParent 为 null（因为固定定位相对于视口，而非任何 DOM 元素）。
+  * 元素或其祖先元素 的 display 属性为 none 时，ofsetParent 为 null，适用于现代浏览器及IE9+
 
-offsetTop 和 offsetLeft 都是相对于offsetParent内边距边界来计算的。
+元素的 offsetTop 和 offsetLeft 计算偏移位置时，始终以其 offsetParent 为基准
 
-兼容性：
-1. 在 Webkit 中，若：
-    * 该元素的style.display 为 "none"、style.position 被设为 "fixed"，
-    * 该元素的祖先元素的 style.display 为 "none"
+示例：
+```html
+<div id="grandparent" style="position: relative; top: 20px;">
+  <div id="parent" style="margin: 10px;"> <!-- 未定位（position: static） -->
+    <div id="child" style="position: absolute; top: 30px;"></div>
+  </div>
+</div>
+```
 
-    则该属性返回 null。
+```js
+const child = document.getElementById('child');
+console.log(child.offsetParent); // 输出 #grandparent（因为它是最近的定位祖先）
+console.log(child.offsetTop);    // 输出 30px（相对于 #grandparent 的顶部偏移）
+```
 
-2. 在 IE 9 中，若该元素的 style.position 被设置为 "fixed"（display:none 无影响），则该属性返回 null。
+### scrollTop使用举例
+1. document.documentElement.scrollTop：作用于 **整个文档的根元素**（`<html>` 标签），用于获取**文档顶部到可视窗口顶部的距离**。
+
+
+浏览器可视窗口的垂直滚动距离。使用场景：
+    * 监听页面滚动到底部（如全局上拉加载）
+    * 实现返回顶部功能
+
+2. element.scrollTop：作用于 **任意可滚动的 DOM 元素**（需设置 overflow: auto/scroll 使其可滚动），表示从**元素顶部到当前视口顶部的距离**。用于控制 局部元素的滚动。
+
+
+3. scrollTop与scrollHeight关系：
+不同的元素，滚动范围是 即scrollTop 的取值怎样的？
+* 对于块级元素而言，滚动范围是从 0 到 `scrollHeight - clientHeight`
+* 对于整个文档，滚动范围是从 0 到 `document.documentElement.scrollHeight - window.innerHeight`
+
+当`scrollTop === scrollHeight - clientHeight` 时，表示元素的内容已经滚动到底部
+对于整个文档，当 scrollTop 等于 document.documentElement.scrollHeight - window.innerHeight 时
+
+
+
+
+
+
