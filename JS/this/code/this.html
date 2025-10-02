@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        // window.val = 1;
+        // var obj = {
+        //     val: 2,
+        //     dbl: function () {
+        //         this.val *= 2;
+        //         val *= 2;
+        //         console.log(val);
+        //         console.log(this.val);
+        //     }
+        // }
+        // obj.dbl(); // 2 4
+        // console.log('window.val:', window.val, 'obj.val:', obj.val)
+        // var func = obj.dbl;
+        // func(); // 8 8
+
+
+        var length = 10;
+        function fn() {
+            console.log(this.length);
+        }
+
+        const obj = {
+            length: 5,
+            method: function (fn) {
+                fn();
+                arguments[0]();
+            }
+        };
+
+        obj.method(fn, 1);
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
