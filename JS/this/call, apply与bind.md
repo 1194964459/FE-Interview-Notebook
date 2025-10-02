@@ -21,8 +21,8 @@ fun.bind(thisArg, param1, param2, ...)
 
 **3. 细节注意：**
 * 调用call/apply/bind的必须是个函数；
-* 非严格模式下：thisArg 指定为null，undefined，fun 中的 this 指向window对象.
-* 严格模式下：fun 的 this 为undefined
+* 非严格模式下：thisArg 如果指定为null，undefined，那么fun 中的 this 指向window对象.
+* 严格模式下：thisArg 如果指定为null，undefined，那么fun 的 this 为undefined
 * 值为原始值(数字，字符串，布尔值)的this会指向该原始值的自动包装对象，如 String、Number、Boolean
 
 
@@ -61,4 +61,10 @@ let max = Math.max.apply(null, array);
 
 // 获得数组的最小项
 let min = Math.min.apply(null, array)
+```
+apply 在这里的作用就是 “数组转参数列表”，解决了 Math.max 不支持数组参数的问题。
+
+现在，可以用ES6的扩展运算符（...）替代：
+```js
+const max = Math.max(...arr); // 直接展开数组为参数列表
 ```

@@ -7,6 +7,7 @@
 ```javascript
 console.log(this === window);//true
 ```
+
 * '函数'独立调用时，this默认绑定到window
 ```javascript
 function foo(){
@@ -14,6 +15,7 @@ function foo(){
 }
 foo(); //true
 ```
+
 * '被嵌套的函数'独立调用时，this默认绑定到window
 ```javascript
 var a = 0;
@@ -28,6 +30,7 @@ var obj = {
 }
 obj.foo();//0
 ```
+
 * 'IIFE立即执行函数'实际上是函数声明后直接调用执行
 ```javascript
 // 该样例与上一个样例等同
@@ -44,6 +47,7 @@ var obj = {
 obj.foo();//0
 
 ```
+
 * 闭包：闭包的this默认绑定到window对象，除非有意修改
 ```javascript
 var a = 0;
@@ -105,6 +109,7 @@ var bar = function foo(){
 }
 bar();//0
 ```
+
 * 参数传递
 ```javascript
 var a = 0;
@@ -132,16 +137,17 @@ bar(function foo(){
 });
 ```
 
-* 内置函数
-　　内置函数与上例类似，也会造成隐式丢失
+* 内置函数   
+内置函数与上例类似，也会造成隐式丢失
 ```javascript
 var a = 0;
 setTimeout(function foo(){
     console.log(this.a);
 },100);//0
 ```
-* 间接引用
-　　函数的"间接引用"一般都在无意间创建，最容易在赋值时发生，会造成隐式丢失
+
+* 间接引用   
+函数的"间接引用"一般都在无意间创建，最容易在赋值时发生，会造成隐式丢失
 ```javascript
 function foo() {
     console.log( this.a );
@@ -165,7 +171,8 @@ o.foo(); // 3
 p.foo = o.foo;
 p.foo();//4
 ```
-* 其他情况
+
+* 其他情况   
 在javascript引擎内部，obj和obj.foo储存在两个内存地址，简称为M1和M2。只有obj.foo()这样调用时，是从M1调用M2，因此this指向obj。但是，下面三种情况，都是直接取出M2进行运算，然后就在全局环境执行运算结果（还是M2），因此this指向全局环境
 ```javascript
 var a = 0;
