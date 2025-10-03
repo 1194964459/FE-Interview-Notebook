@@ -1,4 +1,4 @@
-function Otaku (name, age) {
+function Otaku(name, age) {
     this.name = name;
     this.age = age;
 
@@ -12,7 +12,8 @@ Otaku.prototype.sayYourName = function () {
 }
 
 function objectFactory() {
-    var obj = new Object(),
+    // var obj = new Object(),
+    var obj = {};
     Constructor = [].shift.call(arguments);
     obj.__proto__ = Constructor.prototype;
     Constructor.apply(obj, arguments);

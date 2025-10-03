@@ -6,7 +6,6 @@ Object.create()方法创建一个新对象，使用现有的对象来提供新�
 function create(o) {
     function F() {};
     F.prototype = o;
-    F.prototype.constructor = F;  //  要加吗？
     return new F();
 }
 let demo = {

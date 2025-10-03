@@ -5,7 +5,7 @@
 * new 创建了一个用户定义的对象类型的实例 或 具有构造函数的内置对象类型之一。
 
 ## new 实现的功能
-在模拟 new 之前，先看看 new 实现了哪些功能。具体可见[构造函数 的具体执行流程]()
+在模拟 new 之前，先看看 new 实现了哪些功能。具体可见[构造函数 的具体执行流程](./构造函数%20普通函数%20区别.md)
 
 ```JS
 function Otaku (name, age) {
@@ -63,7 +63,7 @@ function objectFactory(Otaku, ...) {
 
     var obj = new Object(),   // 创建新对象
 
-    Constructor = [].shift.call(arguments); // 取出构造函数（第一个参数），另外获取构造函数传入的参数
+    Constructor = [].shift.call(arguments); // arguments是类数组，需借用数组的shift方法；取出第一个参数（即：构造函数），另外此时arguments变量中的参数也少了一个
 
     obj.__proto__ = Constructor.prototype;  // 将新对象内部的 _proto_ 指针指向构造函数的prototype
 
