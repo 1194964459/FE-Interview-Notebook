@@ -36,4 +36,4 @@ function aryForEach(ary, fn) {
   ary.length && ary.forEach(fn);
 }
 
-console.log('对象：', isObject(9))
+console.log('对象：', type(9))

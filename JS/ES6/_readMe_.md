@@ -11,7 +11,7 @@ ES6 包含的新特性有：
 * [对象 扩展与新增](./5.0_扩展与新增_对象.md)
 * [数组 扩展与新增](./5.1_扩展与新增_数组.md)
 * [字符串 扩展与新增](./5.2_扩展与新增_字符串.md)
-* [Promise 对象](https://github.com/1194964459/FE-Interview-Notebook/blob/main/JS/promise%2C%20generator%2C%20async/promise%20%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.md)
+* [Promise 对象](../promise_generator_async/promise%20基础知识.md)
 * [Class 基本语法](https://github.com/1194964459/FE-Interview-Notebook/blob/main/JS/%E5%AF%B9%E8%B1%A1_%E7%B1%BB_%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/Class%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95.md)
 * [Class 继承](https://github.com/1194964459/FE-Interview-Notebook/blob/main/JS/%E5%AF%B9%E8%B1%A1_%E7%B1%BB_%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/Class%E7%BB%A7%E6%89%BF.md)
 * [Module_模块化](./6.0_Module.md)
