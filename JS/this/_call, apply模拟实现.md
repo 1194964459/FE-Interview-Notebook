@@ -59,13 +59,15 @@ delete foo.fn
 ```JS
 // 第一版
 Function.prototype.call2 = function(context) {
-    // 首先要获取调用call的函数，用this可以获取
+    // 首先要获取调用call的函数，用this可以获取。this指向“call的调用者”，call的调用者是个函数！
     context.fn = this;
     context.fn();
     delete context.fn;
 }
+```
 
-// 测试一下
+测试一下效果：
+```js
 var foo = {
     value: 1
 };
@@ -86,41 +88,41 @@ Function.prototype.call2 = function(context) {
 
     // 获取参数的两个方法 
     // 法1：
+    // 这里用call不合适，因为就是为了模拟实现call的！
     // let args = Array.prototype.slice.call(arguments, 1)
-    // context.fn(...args)  // 没问题
+    // context.fn(...args)  
 
     // 法2：
     var args = [];
     for(var i = 1, len = arguments.length; i < len; i++) {
-        args.push('arguments[' + i + ']');
+        args.push('arguments[' + i + ']');   // args为：['arguments[1]', 'arguments[2]']
     }
-    eval('context.fn(' + args +')');
+    eval('context.fn(' + args +')');  //  // 数组前加''，相当于调用arr.json(',')
+
     delete context.fn;
 }
 ```
 
 ### 模拟实现第三步（细节完善）
 * this 参数可以传 null、undefined，此时，this指向 window;
+```js
+bar.call(null); 
+```
+
 * 函数是可以有返回值的
 
 ```JS
 // 第三版
 Function.prototype.call2 = function (context) {
-    var context = context || window;  // this 为null、undefined
+    var context = context || window;  // context为null、undefined
     context.fn = this;
 
-    // 获取参数的两个方法 
-    // 法1：
-    // let args = Array.prototype.slice.call(arguments, 1)
-    // context.fn(...args)  // 没问题
-
-    // 法2：
     var args = [];
     for(var i = 1, len = arguments.length; i < len; i++) {
         args.push('arguments[' + i + ']');
     }
 
-    var result = eval('context.fn(' + args +')');
+    var result = eval('context.fn(' + args +')');  
 
     delete context.fn
     return result;  // 返回值
@@ -128,6 +130,8 @@ Function.prototype.call2 = function (context) {
 ```
 
 ## 二、apply 模拟实现
+apply 的实现跟 call 类似
+
 ```JS
 Function.prototype.apply = function (context, arr) {
     var context = Object(context) || window;

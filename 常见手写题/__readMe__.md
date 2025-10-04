@@ -18,6 +18,7 @@
 * 深拷贝deepCopy
 * es5 实现类的继承（5种方式）
 * 原型继承
+
 * ES5实现let、const
 * 实现Symbol 
 * 实现instanceof

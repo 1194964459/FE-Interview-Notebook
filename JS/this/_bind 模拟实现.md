@@ -3,9 +3,21 @@
 
 bind 函数的两个特点：
 * 返回一个函数
-* 可以传入参数
+* 可以预先传入部分参数，后续调用时只需补充剩余参数
 
-bind 后返回的函数也能使用new操作符创建对象：这种行为就像把原函数当成构造器。bind传入的 this 值被忽略，同时调用时的参数被提供给模拟函数。
+```js
+function add(a, b, c) {
+  return a + b + c;
+}
+
+// 绑定 this（这里用 null，因为函数不依赖 this），并预设第一个参数为 10
+const add10 = add.bind(null, 10);
+
+console.log(add10(2, 3)); // 15（10 + 2 + 3）
+console.log(add10(5, 5)); // 20（10 + 5 + 5）
+```
+
+当 bind 返回的新函数被用作构造函数时，bind 绑定的 this 会被忽略，新函数的 this 指向构造函数自身的实例对象，但预设参数仍然有效。
 
 ## 一、返回函数的模拟实现
 先举个例子：
@@ -74,8 +86,8 @@ Function.prototype.bind2 = function(context){
 ```
 
 ## 三、调用 bind 后创建的新函数作为构造函数
+当 bind 返回的新函数被用作构造函数时，bind 绑定的 this 会被忽略，新函数的 this 指向构造函数自身的实例对象，但预设参数仍然有效。举个例子：
 
-bind 后返回的函数也能使用new操作符创建对象： 即 bind 返回的函数作为构造函数的时候，bind 指定的 this 值会失效，即该this相关的属性都获取不到，但传入的参数依然生效。举个例子：
 ```JS
 var value = 2;
 
@@ -104,7 +116,7 @@ console.log('obj.friend: ', obj.friend);
 // obj.habit:  shopping
 // obj.friend:  kevin
 ```
-注意：尽管在全局和 foo 中都声明了 value 值，最后依然返回了 undefind，说明绑定的 this 失效了，如果大家了解 new 的模拟实现，就会知道这个时候的 this 已经指向了 obj。具体可看：[new 的模拟实现]()。
+注意：尽管在全局和 foo 中都声明了 value 值，最后依然返回了 undefined，说明绑定的 this 失效了，如果大家了解 new 的模拟实现，就会知道这个时候的 this 已经指向了 obj。
 
 因此可通过修改返回函数的原型来实现：
 ```JS

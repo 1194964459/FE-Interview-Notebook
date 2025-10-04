@@ -75,9 +75,11 @@ function objectFactory(Otaku, ...) {
 将上述代码复制到浏览器中运行，验证没问题，撒花！
 
 ### 2. 返回值效果实现
+参考：[造函数的返回值](./构造函数的返回值.md)
+
 构造函数在返回时，会判断返回值是否是对象：
-* 若返回值是**非空对象（是对象类型，且非空）**，则将构造函数返回值 返回即可；
-* 否则（没有返回值，或返回值是 原始值 或 空对象），将新建的对象作为返回值。
+* 若返回值是**非空对象（是对象类型，且非空）**，函数也是种特殊的对象，则将构造函数返回值 返回即可；
+* 否则（没有返回值，或返回值是 原始值 或 空对象null），将新建的对象作为返回值。
 
 考虑返回值的情况：
 
@@ -93,7 +95,8 @@ function objectFactory(Otaku, ...) {
 
     var ret = Constructor.apply(obj, arguments);  // 获取构造函数的返回值
 
-    return typeof ret === 'object' ? ret : obj;  // 依据返回值类型，分别返回
+    // return typeof ret === 'object' ? ret : obj;  // 依据返回值类型，分别返回
+    return (ret !== null && (typeof ret === 'object' || typeof ret === 'function')) ? ret : obj;
 };
 ```
 
