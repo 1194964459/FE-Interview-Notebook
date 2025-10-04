@@ -139,11 +139,35 @@ Function.prototype.bind2 = function (context) {
         return self.apply(this instanceof fBound ? this : context, args.concat(bindArgs));
     }
 
-    fBound.prototype = this.prototype;  //this为调用 bind 的函数
+    // 正确的原型继承
+    var F = function () {};
+    F.prototype = this.prototype;  //this为调用 bind 的函数
+    fBound.prototype = new F();
+
+    // fBound.prototype = this.prototype;   这种写法有问题！！❌
 
     return fBound;
 }
 ```
 
+详细代码解析：
 
+1. 检测当前函数是否通过 new 调用（即作为构造函数使用）
+```js
+this instanceof fBound    
+```
 
+2. 在处理构造函数的原型继承时：
+    * `fBound.prototype = this.prototype;`fBound.prototype 和 Foo.prototype 指向同一个对象。如果后续修改 fBound.prototype（比如 fBound.prototype.bar = 1），会直接修改 Foo.prototype，污染原函数的原型链。
+    * 我们的目标是“想实现原型继承，但不共享原型对象”，这里可以参考：[JS继承](../对象_类_面向对象/3.0_JS继承.md) 中的方案4 “原型式继承” 或者方案6 “寄生组合式继承”
+    ```js
+        const F = function () {};
+        F.prototype = this.prototype; // F 的原型指向原函数原型
+        fBound.prototype = new F();   // fBound 原型是 F 的实例
+    ```
+    
+    若上面方案比较繁琐的话，可以直接用 Object.create：
+    ```js
+    fBound.prototype = Object.create(this.prototype);
+    ```
+    原理：Object.create(proto) 会创建一个新对象，其 __proto__ 指向 proto（即原函数的原型）。
