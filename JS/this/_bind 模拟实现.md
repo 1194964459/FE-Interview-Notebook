@@ -156,6 +156,9 @@ Function.prototype.bind2 = function (context) {
 ```js
 this instanceof fBound    
 ```
+instanceof作用：检测函数的原型 是否 在实例的原型链上。bind返回的函数：
+* 若被当做普通函数调用时，this 指向全局对象（非严格模式）或 undefined（严格模式），显然不在 fBound 的原型链上，`this instanceof fBound`结果为 false。
+* 若被当做构造函数使用 new 调用，this 指向新创建的实例，`this instanceof fBound`结果为 true。
 
 2. 在处理构造函数的原型继承时：
     * `fBound.prototype = this.prototype;`fBound.prototype 和 Foo.prototype 指向同一个对象。如果后续修改 fBound.prototype（比如 fBound.prototype.bar = 1），会直接修改 Foo.prototype，污染原函数的原型链。
