@@ -8,8 +8,8 @@ const tt = new Date(t)
  * getTimezoneOffset(): -480
  */
 console.log('new Date(t):', new Date(t))
-console.log('Date.now():', Date.now())
-console.log('getTime()', tt.getTime())
+console.log('Date.now():', Date.now())  // 当前时间的毫秒数
+console.log('getTime()', tt.getTime())  // 某个时间tt的毫秒数
 console.log('getTimezoneOffset():', tt.getTimezoneOffset())
 console.log('-------', '\n')
 

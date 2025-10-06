@@ -15,19 +15,19 @@
 // 1. 
 let obj1 = {
   b: undefined,  // 被忽略 
-  sy: Symbol('key'),
+  sy: Symbol('key'),  // 被忽略 
   f() {  // 被忽略
     console.log('function')
   },
   data: new Date(),  // Date类型的数据会被转变成字符串。从而丢失Date的一些特性，如getTime()等格式化方法 
-  a: /he/g,  // 正则转为一个空对象
-  m: new Map(),  // Map转为空对象
-  s: new Set(),  // Set转为空对象
+  a: /he/g,  // 正则转为一个空对象{}
+  m: new Map(),  // Map转为空对象{}
+  s: new Set(),  // Set转为空对象{}
 }
 
 let obj2 = JSON.parse(JSON.stringify(obj1))
 
-console.log(obj1)
+console.log(obj2)
 // 打印结果：
 // {
 // b: undefined,

@@ -4,8 +4,6 @@ let arr2 = arr
 
 let arr3 = [1]
 console.log(arr == arr2)   // true
-console.log(arr === arr2)  // true
-console.log(arr != arr2)  // false
 console.log(arr === arr3)  // false
 
 

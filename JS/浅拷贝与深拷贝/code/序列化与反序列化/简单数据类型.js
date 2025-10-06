@@ -6,9 +6,9 @@
  */
 
 let obj1 = {
-  uu: undefined,
-  nan: NaN,
-  i: Infinity,
+  uu: undefined,  // 转为null
+  nan: NaN,    // 转为null
+  i: Infinity,   // 忽略
 
   // 
   a: 1,
@@ -30,9 +30,22 @@ console.log(obj1)
 console.log('\n')
 console.log(obj2)
 
+/**
+ * 转换后的值：
+ * 
+{
+  nan: null,
+  i: null,
+  a: 1,
+  b: [ 1, 2, 3 ],
+  c: 'ccc',
+  d: true,
+  e: null,
+  f: { c: 'ccc', d: true }
+}
+ */
 
 /**
  * 字符转数字
  * https://harttle.land/2020/11/22/javascript-string-to-number.html
- * 
  */
