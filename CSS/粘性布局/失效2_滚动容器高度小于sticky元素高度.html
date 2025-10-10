@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .bad-ancestor {
+            overflow: hidden;
+            /* transform: translateY(50px); */
+        }
+
+        .hah {
+            height: 200px;
+            background-color: blue;
+        }
+
+        .parent {
+            overflow: auto;
+            height: 300px;
+            border: 1px solid red;
+        }
+
+        .content {
+            height: 800px;
+            /* 内容足够长，能触发滚动 */
+            background-color: #f0f0f0;
+        }
+
+        .sticky {
+            position: sticky;
+            top: 10px;
+            background-color: yellow;
+            height: 400px;
+            /* padding: 10px; */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="parent">
+        <!-- <div class="bad-ancestor"> -->
+        <div class="hah">hhha</div>
+        <div class="sticky">粘性元素（已失效）</div>
+        <div class="content">很多很多内容...</div>
+        <!-- </div> -->
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>使用getBoundingClientRect实现滚动吸顶</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            margin: 0;
+            height: 2000px;
+            padding-top: 20px;
+        }
+
+        .header {
+            height: 150px;
+            background-color: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .sticky-nav {
+            height: 60px;
+            background-color: #3b82f6;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .sticky-nav.sticky {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .placeholder {
+            height: 0;
+            transition: height 0.3s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1 class="text-2xl font-bold text-gray-800">页面头部</h1>
+    </div>
+
+    <nav class="sticky-nav" id="stickyNav">
+        这是需要吸顶的导航栏
+    </nav>
+    <div class="placeholder" id="placeholder"></div>
+
+    <div class="content">
+        <h2 class="text-xl font-semibold mb-4">页面内容</h2>
+        <p class="mb-4">滚动页面可以看到导航栏吸顶效果</p>
+        <p>页面内容足够长，以便能够滚动...</p>
+    </div>
+
+    <script>
+        // 获取元素
+        const stickyNav = document.getElementById('stickyNav');
+        const placeholder = document.getElementById('placeholder');
+
+        // 记录导航栏高度，用于创建占位元素
+        const navHeight = stickyNav.offsetHeight;
+
+        // 获取初始位置（到文档顶部的距离）
+        function getInitialPosition() {
+            const rect = stickyNav.getBoundingClientRect();
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            return rect.top + scrollTop;
+        }
+
+        const initialPosition = getInitialPosition();
+
+        // 处理滚动事件的函数
+        function handleScroll() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+            // 判断是否需要吸顶
+            if (scrollTop >= initialPosition) {
+                // 添加吸顶样式
+                stickyNav.classList.add('sticky');
+
+                placeholder.style.paddingTop = `${navHeight}px`;
+            } else {
+                // 移除吸顶样式
+                stickyNav.classList.remove('sticky');
+
+                placeholder.style.paddingTop = '0px'
+            }
+        }
+
+        // 防抖函数，优化性能
+        function debounce(func, delay = 10) {
+            let timer;
+            return function () {
+                clearTimeout(timer);
+                timer = setTimeout(() => func.apply(this, arguments), delay);
+            };
+        }
+
+        // 初始检查
+        handleScroll();
+
+        // 监听滚动事件
+        window.addEventListener('scroll', debounce(handleScroll));
+    </script>
+</body>
+
+</html>

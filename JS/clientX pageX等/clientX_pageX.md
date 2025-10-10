@@ -73,53 +73,15 @@ pageY = e.pageY || e.clientY + scrollY;
   
 ![offsetWidth](./icon/offsetWidth.png)
 
-### 7. offsetParent 
-offsetParent 返回**距离当前元素最近的**、满足以下条件之一的祖先元素：
-* 已定位元素（position 值除static外，剩余的4种：relative、absolute、fixed 或 sticky）。
-* `<table>、<td>、<th>` 元素（即使它们的 position 是默认的 static）。
-* 若以上都不存在，则返回根元素 `<html>` 或 `document.documentElement`。
-* 几种特殊情况：
-  * position: fixed 的元素，其 offsetParent 为 null（因为固定定位相对于视口，而非任何 DOM 元素）。
-  * 元素或其祖先元素 的 display 属性为 none 时，ofsetParent 为 null，适用于现代浏览器及IE9+
+### 7. 三种Hight、Width比较
+clientHeight：元素可见区域高度。只包含元素高度、内边距padding两项；若该值超过“浏览器可视窗口高度”的话，会在浏览器右侧形成滚动条；可以理解为：该元素作为浏览器窗口的内容，超出了浏览器的限定高度。
 
-元素的 offsetTop 和 offsetLeft 计算偏移位置时，始终以其 offsetParent 为基准
+offsetHeight：元素在页面中实际占据的空间大小。除了clientHeight包含的，还有边框、滚动条
 
-示例：
-```html
-<div id="grandparent" style="position: relative; top: 20px;">
-  <div id="parent" style="margin: 10px;"> <!-- 未定位（position: static） -->
-    <div id="child" style="position: absolute; top: 30px;"></div>
-  </div>
-</div>
-```
+scrollHeight：元素内容的总高度（通常指的是其包含的子元素的高度总和）。
+  * 若元素的内容高度(子元素高度) ≤ 元素的可见高度（有明确height值设定的），scrollHeight 与 clientHeight相等；否则scrollHeight 大于 clientHeight，然后在元素内部形成滚动条。
+  * scrollHeight的最小值是clientHeight
+  * 若 scrollHeight - clientHeight == scrollTop，则表示滚动到底了
 
-```js
-const child = document.getElementById('child');
-console.log(child.offsetParent); // 输出 #grandparent（因为它是最近的定位祖先）
-console.log(child.offsetTop);    // 输出 30px（相对于 #grandparent 的顶部偏移）
-```
-
-### scrollTop使用举例
-1. document.documentElement.scrollTop：作用于 **整个文档的根元素**（`<html>` 标签），用于获取**文档顶部到可视窗口顶部的距离**。
-
-
-浏览器可视窗口的垂直滚动距离。使用场景：
-    * 监听页面滚动到底部（如全局上拉加载）
-    * 实现返回顶部功能
-
-2. element.scrollTop：作用于 **任意可滚动的 DOM 元素**（需设置 overflow: auto/scroll 使其可滚动），表示从**元素顶部到当前视口顶部的距离**。用于控制 局部元素的滚动。
-
-
-3. scrollTop与scrollHeight关系：
-不同的元素，滚动范围是 即scrollTop 的取值怎样的？
-* 对于块级元素而言，滚动范围是从 0 到 `scrollHeight - clientHeight`
-* 对于整个文档，滚动范围是从 0 到 `document.documentElement.scrollHeight - window.innerHeight`
-
-当`scrollTop === scrollHeight - clientHeight` 时，表示元素的内容已经滚动到底部
-对于整个文档，当 scrollTop 等于 document.documentElement.scrollHeight - window.innerHeight 时
-
-
-
-
-
+参考：[clientHeight计算](./code/clientHeight超出浏览器可视高度.html)、[滚动到底](./code/3种height的关系示例.html)
 

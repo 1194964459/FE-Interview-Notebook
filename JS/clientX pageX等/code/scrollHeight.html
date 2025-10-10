@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #box {
+            width: 200px;
+            height: 200px;
+            padding: 10px;
+            border: 1px solid #000;
+            overflow: auto;
+        }
+
+        #zi {
+            /* Height的3种情况： */
+            height: 300px;
+            /* height: 201px;  只要scrollHeight比 clientHeight大，就会有滚动条产生 */
+            height: 200px;
+            background: #f0f0f0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box">
+        <div id="zi"></div>
+    </div>
+
+    <script>
+        const box = document.getElementById('box');
+
+        // 若zi元素的高度设为300px
+        console.log('clientHeight:', box.clientHeight); // 220
+        console.log('scrollHeight:', box.scrollHeight); // 320（内容总高度 > 可见高度）
+        console.log('offsetHeight:', box.offsetHeight)  // 222
+        console.log('scrollTop:', box.scrollTop)  // 0
+
+
+        // 若zi元素的高度设为201px, box就会出现滚动条；
+        // scrollHeight: 221px
+        
+        // 设为200px时，是没有滚动条的。
+
+    </script>
+</body>
+
+</html>

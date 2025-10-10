@@ -15,5 +15,5 @@ const p2 = new Promise((resolve, reject) => {
 
 Promise.all([p1, p2])
   .then(result => console.log('all:', result))
-// .catch(e => console.log('\n\n error:', e));
-// ["hello", Error: 报错了]
+  .catch(e => console.log('\n\n error:', e));
+// all: ["hello", Error: 报错了]

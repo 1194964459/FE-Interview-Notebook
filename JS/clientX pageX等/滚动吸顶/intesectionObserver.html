@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>使用IntersectionObserver实现滚动吸顶</title>
+    <link href="https://cdn.tailwindcss.com" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            margin: 0;
+            height: 2000px;
+            padding-top: 20px;
+        }
+
+        .header {
+            height: 150px;
+            background-color: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .sticky-nav {
+            height: 60px;
+            background-color: #10b981;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .sticky-nav.sticky {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .placeholder {
+            height: 0;
+            transition: height 0.3s ease;
+        }
+
+        /* 用于观察的触发元素 */
+        .trigger {
+            position: fixed;
+            top: 0;
+            left: 0;
+            visibility: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1 class="text-2xl font-bold text-gray-800">页面头部</h1>
+    </div>
+
+    <!-- 触发观察的元素，与导航栏初始位置相同 -->
+    <div class="trigger" id="trigger"></div>
+
+    <nav class="sticky-nav" id="stickyNav">
+        这是需要吸顶的导航栏（IntersectionObserver实现）
+    </nav>
+    <div class="placeholder" id="placeholder"></div>
+
+    <div class="content">
+        <h2 class="text-xl font-semibold mb-4">页面内容</h2>
+        <p class="mb-4">滚动页面可以看到导航栏吸顶效果</p>
+        <p>页面内容足够长，以便能够滚动...</p>
+    </div>
+
+    <script>
+        // 获取元素
+        const stickyNav = document.getElementById('stickyNav');
+        const trigger = document.getElementById('trigger');
+        const placeholder = document.getElementById('placeholder');
+
+        // 记录导航栏高度
+        const navHeight = stickyNav.offsetHeight;
+
+        // 设置触发元素的位置与导航栏初始位置相同
+        const rect = stickyNav.getBoundingClientRect();
+        trigger.style.top = `${rect.top + window.pageYOffset}px`;
+        trigger.style.height = `${navHeight}px`;
+
+        // 创建IntersectionObserver实例
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                // 当触发元素离开视口时（isIntersecting为false），添加吸顶样式
+                if (!entry.isIntersecting) {
+                    stickyNav.classList.add('sticky');
+                    placeholder.style.height = `${navHeight}px`;
+                } else {
+                    // 当触发元素进入视口时，移除吸顶样式
+                    stickyNav.classList.remove('sticky');
+                    placeholder.style.height = '0';
+                }
+            });
+        }, {
+            threshold: 0, // 当元素完全离开视口时触发
+            rootMargin: `0px 0px -${navHeight}px 0px` // 调整触发区域
+        });
+
+        // 开始观察触发元素
+        observer.observe(trigger);
+
+
+    </script>
+</body>
+
+</html>

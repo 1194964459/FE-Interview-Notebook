@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 问题：父元素使用了 transform -->
+    <div style="position: fixed;height: 500px;">
+        <p>大量文本内容...</p>
+
+        <div style="position: sticky; top: 20px; background: yellow;">
+            这个元素不会触发 sticky 效果
+        </div>
+        <div style="height: 20000px; background: lightgray;"></div>
+        <p>大量文本内容...</p>
+    </div>
+</body>
+
+</html>

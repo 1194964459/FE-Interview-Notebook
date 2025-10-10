@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>滚动/非滚动容器中的sticky定位</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            padding: 2rem;
+            line-height: 1.6;
+        }
+
+        .demo-section {
+            margin-bottom: 4rem;
+            padding: 1.5rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        h2 {
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+
+        h3 {
+            margin: 1rem 0;
+            color: #555;
+        }
+
+        .explanation {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+
+        /* 非滚动容器样式 */
+        .non-scroll-container {
+            /* 非滚动容器必须保持overflow: visible */
+            overflow: visible;
+            border: 2px solid #2196F3;
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        /* 滚动容器样式 */
+        .scroll-container {
+            /* 滚动容器可以设置overflow: auto并指定高度 */
+            overflow: auto;
+            height: 300px;
+            border: 2px solid #FF9800;
+            padding: 1rem;
+        }
+
+        /* Sticky元素样式 */
+        .sticky-element {
+            position: sticky;
+            top: 10px;
+            padding: 0.8rem;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        /* 内容样式 */
+        .content-block {
+            height: 150px;
+            background-color: #f0f0f0;
+            margin: 1rem 0;
+            padding: 1rem;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Sticky定位在不同容器中的表现</h1>
+
+    <!-- 非滚动容器中的sticky -->
+    <section class="demo-section">
+        <h2>1. 非滚动容器中的sticky定位</h2>
+        <div class="explanation">
+            <p><strong>容器特性：</strong>overflow: visible（默认值），没有固定高度，随内容自适应</p>
+            <p><strong>Sticky行为：</strong>会相对于浏览器视口粘住，直到整个容器滚出视口</p>
+        </div>
+
+        <div class="non-scroll-container">
+            <div class="content-block">上方内容块 1</div>
+            <div class="sticky-element">我是non-scroll容器中的sticky元素（粘住视口）</div>
+            <div class="content-block">下方内容块 1</div>
+            <div class="content-block">下方内容块 2</div>
+            <div class="content-block">下方内容块 3</div>
+            <div class="content-block">下方内容块 4</div>
+        </div>
+    </section>
+
+    <!-- 滚动容器中的sticky -->
+    <section class="demo-section">
+        <h2>2. 滚动容器中的sticky定位</h2>
+        <div class="explanation">
+            <p><strong>容器特性：</strong>overflow: auto，有固定高度（300px），形成独立滚动区域</p>
+            <p><strong>Sticky行为：</strong>只会在滚动容器内部粘住，不会超出容器范围</p>
+        </div>
+
+        <div class="scroll-container">
+            <div class="content-block">上方内容块 A</div>
+            <div class="sticky-element">我是scroll容器中的sticky元素（仅在容器内粘住）</div>
+            <div class="content-block">下方内容块 A</div>
+            <div class="content-block">下方内容块 B</div>
+            <div class="content-block">下方内容块 C</div>
+            <div class="content-block">下方内容块 D</div>
+            <div class="content-block">下方内容块 E</div>
+        </div>
+    </section>
+
+    <div class="explanation">
+        <h3>关键区别总结：</h3>
+        <ul>
+            <li>非滚动容器中的sticky元素：随页面滚动，粘住浏览器视口</li>
+            <li>滚动容器中的sticky元素：仅在容器内部滚动时粘住，受限于容器边界</li>
+            <li>非滚动容器必须保持overflow: visible才能让sticky生效</li>
+            <li>滚动容器需要设置overflow: auto/scroll和固定高度</li>
+        </ul>
+    </div>
+</body>
+
+</html>

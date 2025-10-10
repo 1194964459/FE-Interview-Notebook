@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>滚动相关数值演示</title>
+    <link href="https://cdn.tailwindcss.com" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+        #scrollContainer {
+            width: 400px;
+            height: 300px;
+            padding: 20px;
+            border: 5px solid #3b82f6;
+            margin: 20px auto;
+            overflow: auto;
+            position: relative;
+        }
+
+        .content {
+            height: 800px;
+            /* 内容高度超过容器，会出现滚动条 */
+            background: linear-gradient(180deg, #f0f9ff 0%, #e6f7ff 100%);
+            padding: 10px;
+        }
+
+        .info-panel {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            background-color: #f9fafb;
+        }
+
+        .value-box {
+            display: inline-block;
+            width: 120px;
+            padding: 8px 12px;
+            margin: 5px;
+            border-radius: 4px;
+            background-color: #fff;
+            border: 1px solid #d1d5db;
+        }
+
+        .label {
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        .client {
+            color: #10b981;
+        }
+
+        .offset {
+            color: #f59e0b;
+        }
+
+        .scroll {
+            color: #6366f1;
+        }
+
+        .scroll-top {
+            color: #ec4899;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-2xl font-bold text-center mb-8">滚动相关数值演示</h1>
+
+        <div class="scroll-container" id="scrollContainer"> <!-- 300px -->
+            <div class="content"> <!-- 800px -->
+                <h3 class="text-lg font-semibold mb-4">滚动我观察数值变化</h3>
+                <p>容器高度: 300px (设置的height)</p>
+                <p>内边距: 20px (上下各20px)</p>
+                <p>边框: 5px (上下各5px)</p>
+                <p>内容高度: 800px (超过容器高度)</p>
+                <hr class="my-4">
+                <p>继续向下滚动...</p>
+            </div>
+        </div>
+
+        <div class="info-panel">
+            <h2 class="text-xl font-semibold mb-4">实时数值</h2>
+            <div>
+                <div class="value-box">
+                    <span class="label client">clientHeight:</span>
+                    <span id="clientHeight">0</span>px
+                </div>
+                <div class="value-box">
+                    <span class="label offset">offsetHeight:</span>
+                    <span id="offsetHeight">0</span>px
+                </div>
+                <div class="value-box">
+                    <span class="label scroll">scrollHeight:</span>
+                    <span id="scrollHeight">0</span>px
+                </div>
+                <div class="value-box">
+                    <span class="label scroll-top">scrollTop:</span>
+                    <span id="scrollTop">0</span>px
+                </div>
+            </div>
+
+            <!-- <div class="mt-6">
+                <h3 class="font-semibold mb-2">数值说明:</h3>
+                <ul class="list-disc pl-5 space-y-1">
+                    <li><span class="client font-semibold">clientHeight:</span> 可见区域高度 (内容高度 + 内边距 - 滚动条高度)</li>
+                    <li><span class="offset font-semibold">offsetHeight:</span> 实际占据高度 (内容高度 + 内边距 + 边框 + 滚动条高度)</li>
+                    <li><span class="scroll font-semibold">scrollHeight:</span> 内容总高度 (所有内容高度 + 内边距)</li>
+                    <li><span class="scroll-top font-semibold">scrollTop:</span> 已向上滚动的距离</li>
+                </ul>
+            </div> -->
+        </div>
+    </div>
+
+    <script>
+        // 获取元素
+        const scrollContainer = document.getElementById('scrollContainer');
+        const clientHeightEl = document.getElementById('clientHeight');
+        const offsetHeightEl = document.getElementById('offsetHeight');
+        const scrollHeightEl = document.getElementById('scrollHeight');
+        const scrollTopEl = document.getElementById('scrollTop');
+
+        // 更新数值显示的函数
+        function updateValues() {
+            console.log('lall')
+            // 获取各种高度值
+            const clientHeight = scrollContainer.clientHeight;
+            const offsetHeight = scrollContainer.offsetHeight;
+            const scrollHeight = scrollContainer.scrollHeight;
+            const scrollTop = scrollContainer.scrollTop;
+
+            // 更新显示
+            clientHeightEl.textContent = clientHeight;
+            offsetHeightEl.textContent = offsetHeight;
+            scrollHeightEl.textContent = scrollHeight;
+            scrollTopEl.textContent = scrollTop;
+        }
+
+        // 初始加载时更新一次
+        updateValues();
+
+        // 监听滚动事件，实时更新数值
+        scrollContainer.addEventListener('scroll', updateValues);
+    </script>
+</body>
+
+</html>

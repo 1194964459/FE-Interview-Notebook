@@ -2,7 +2,7 @@ function fetch(url) {
     return new Promise(resolve => {   // 模拟接口请求
         setTimeout(() => {
             resolve(url)
-        }, 10000 * Math.random())
+        }, 1000 * Math.random())
     })
 }
 
