@@ -16,3 +16,7 @@ function binarySearch(array, target) {
     }
     return -1;
 }
+
+let arr = [3, 6, 2, 4, 1]
+console.log(binarySearch(arr, 5))  // -1
+console.log(binarySearch(arr, 4))  // 3

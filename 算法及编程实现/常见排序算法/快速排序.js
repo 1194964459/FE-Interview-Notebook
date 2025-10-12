@@ -1,43 +1,24 @@
-// 参考：https://blog.csdn.net/nrsc272420199/article/details/82587933
+function quickSort(arr) {
+    // 递归终止条件：数组长度 ≤ 1
+    if (arr.length <= 1) return arr;
 
+    const pivotIndex = Math.floor(arr.length / 2); // 选中间元素为基准（避免极端情况）
+    const pivot = arr.splice(pivotIndex, 1)[0]; // 取出基准值，从原数组删除
 
-let nums = [5,2,3,1]
+    const left = []; // 存放小于基准的元素
+    const right = []; // 存放大于基准的元素
 
-var sortArray = function(nums) {
-    // 基于快速排序
-    function quickSort(nums, low, high){
-        if(low < high){
-            let lownIndex = getIndex(nums, low, high)
-            quickSort(nums, low, lownIndex-1)
-            quickSort(nums, lownIndex + 1, high)
-        }
-        return nums
+    // 遍历数组，按基准值分割
+    for (const item of arr) {
+        item < pivot ? left.push(item) : right.push(item);
     }
 
-    function getIndex(arr, low, high){
-        let tmp = arr[low]
-        while(low < high){
-            // 查找比 tmp 小的数
-            while(low < high && arr[high] >= tmp){
-                high--
-            }
-            arr[low] = arr[high]
+    // 递归排序左右子数组，再与基准值合并
+    return quickSort(left).concat(pivot, quickSort(right));
+}
 
-            // 查找比 tmp 大的数
-            while(low < high && arr[low] <= tmp){
-                low++
-            }
-            arr[high] = arr[low]
-        }
-        // low == high
-        // 跳出循环时low和high相等,此时的low或high就是tmp的正确索引位置
-        arr[low] = tmp
-        return low
-    }
+// let nums = [5, 2, 3, 1]
+let nums = [3, 6, 2, 4, 1]
 
-    return quickSort(nums, 0, nums.length-1)
-};
-
-
-let res = sortArray(nums)
-console.log('res: ', res)
+let res = quickSort(nums)
+console.log(res)
