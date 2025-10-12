@@ -1,4 +1,6 @@
 # 开放平台
+参考：[SenseInception相关页面](https://blog.csdn.net/2302_81579422/article/details/149420166)
+
 参考：[monorepo](./monorepo与微前端.md)
 
 开放平台相关的技术栈：
