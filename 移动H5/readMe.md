@@ -11,6 +11,10 @@ https://share.note.youdao.com/s/V8RR2HLJ
 讲解的超级详细，有图画、有代码：
 https://blog.csdn.net/weixin_57677300/article/details/129164050
 
+
+知乎上点赞贼多
+https://www.zhihu.com/collection/990708757
+
 内容很精简：
 https://blog.csdn.net/weixin_37632943/article/details/95471535?utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromMachineLearnPai2%7Edefault-3.baidujs&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromMachineLearnPai2%7Edefault-3.baidujs
 

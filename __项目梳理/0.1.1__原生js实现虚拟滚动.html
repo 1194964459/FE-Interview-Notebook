@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="container" style="height: 500px; overflow-y: auto; border: 1px solid #ccc;">
+        <div id="content"></div> <!-- 实际渲染的内容 -->
+    </div>
+</body>
+
+<script>
+    const data = Array.from({ length: 100000 }, (_, i) => `第 ${i + 1} 条数据`);  // TODO:
+    const container = document.getElementById('container');
+    const content = document.getElementById('content');
+    const itemHeight = 30; // 固定每条数据高度
+    const containerHeight = 500; // 容器可视高度
+    let startIndex = 0;
+
+    // 初始化：设置容器总高度（虚拟高度）
+    container.style.height = `${containerHeight}px`;
+    // const totalHeight = data.length * itemHeight;
+    // content.style.height = `${totalHeight}px`; // 关键：让滚动条正常显示
+
+    content.style.height = '1000px'
+
+    // 渲染可视区数据
+    function renderVisible() {
+        const scrollTop = container.scrollTop;
+        // 计算起始索引（滚动过的距离 / 每条高度 = 跳过的条数）
+        startIndex = Math.floor(scrollTop / itemHeight);
+        // 计算结束索引（可视区能装的条数 + 缓冲10条）
+        const visibleCount = Math.ceil(containerHeight / itemHeight);
+        const endIndex = Math.min(startIndex + visibleCount + 10, data.length);
+
+        // 只渲染[startIndex, endIndex)之间的数据
+        const fragment = document.createDocumentFragment();
+        for (let i = startIndex; i < endIndex; i++) {
+            const li = document.createElement('div');
+            li.style.height = `${itemHeight}px`;
+            li.style.lineHeight = `${itemHeight}px`;
+            li.textContent = data[i];
+            fragment.appendChild(li);
+        }
+
+        // 清空旧内容，添加新内容
+        content.innerHTML = '';
+        content.appendChild(fragment);
+
+        // 调整渲染区域位置（关键：让内容“对齐”滚动位置）
+        // content.style.transform = `translateY(${startIndex * itemHeight}px)`;
+        // content.style.transform = `translateY(600px)`
+    }
+
+    // 初始化渲染
+    renderVisible();
+
+    // 监听滚动事件（节流优化：避免频繁触发）
+    container.addEventListener('scroll', () => {
+        console.log('scroll')
+        // 简单节流：用requestAnimationFrame确保在重绘前执行
+        requestAnimationFrame(renderVisible);
+    });
+</script>
+
+</html>
