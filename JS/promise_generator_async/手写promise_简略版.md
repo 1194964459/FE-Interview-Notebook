@@ -1,13 +1,13 @@
 # 实现Promise
 
 参考：
-    https://juejin.cn/post/6844903625769091079
-    https://juejin.cn/post/6844903665686282253
+* https://juejin.cn/post/6844903625769091079
 
-https://juejin.cn/post/6844903872842956814
-https://juejin.cn/post/6844904096525189128
-https://juejin.cn/post/6844903617619558408
-https://zhuanlan.zhihu.com/p/144058361（通俗易懂）
+* https://juejin.cn/post/6844903665686282253
+* https://juejin.cn/post/6844903872842956814
+* https://juejin.cn/post/6844904096525189128
+* https://juejin.cn/post/6844903617619558408
+* https://zhuanlan.zhihu.com/p/144058361（通俗易懂）
 
 **思考**：
 * 为什么能在异步事件执行完成的回调之后再去触发 then 中的函数?
@@ -33,10 +33,9 @@ class Mypromise {
         this.failFun = [];
 
         let resolve = val => {
-        
             // 保持状态改变不可变（resolve和reject只准触发一种）
             if (this.state !== "pending") return;
-
+            
             // 成功触发时机  改变状态 同时执行在then注册的回调事件
             this.state = "success";
             
@@ -50,9 +49,7 @@ class Mypromise {
 
         let reject = err => {
             if (this.state !== "pending") return;
-            
             this.state = "fail";
-            
             setTimeout(() => {
                 this.failFun.forEach(item => item.call(this, err));
             });
