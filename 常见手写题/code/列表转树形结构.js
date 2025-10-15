@@ -16,9 +16,9 @@ let result = [
         pid: 0,
         children: [
             {
-                id:2,
+                id: 2,
                 text: '节点1_1',
-                pid:1
+                pid: 1
             }
         ]
     }
@@ -32,72 +32,65 @@ result = [
         pid: 0,
         children: [
             {
-                id:2,
+                id: 2,
                 text: '节点1_1',
-                pid:1,
-                children:[]
+                pid: 1,
+                children: []
             }
         ]
     }
 ]
 
-function resolve(data){
-    // 先将数组用map暂存 
-    for(let item of data){
+function listToTree(data) {
+    let temp = {};
+    let treeData = [];
 
+    for (let it of data) {
+        temp[it.id] = it;
     }
 
+    for (let i in temp) {
+        let it_pid = temp[i].pid
+        if (it_pid != 0) {
+            if (!temp[it_pid].children) {
+                temp[it_pid].children = [];
+            }
+
+            temp[it_pid].children.push(temp[i]);
+        } else {
+            treeData.push(temp[i]);
+        }
+    }
+
+    return treeData;
 }
 
-let res = resolve(arr)
+let res = listToTree(arr)
 
 
-// function listToTree(data) {
-//     let temp = {};
-//     let treeData = [];
+function arrayToTree(items) {
+    const result = [];   // 存放结果集
+    const itemMap = {};  // 
 
-//     for (let i = 0; i < data.length; i++) {
-//         temp[data[i].id] = data[i];
-//     }
-    
-//     for (let i in temp) {
-//         if (+temp[i].pid != 0) {
-//             if (!temp[temp[i].pid].children) {
-//                 temp[temp[i].pid].children = [];
-//             }
-            
-//             temp[temp[i].pid].children.push(temp[i]);
-//         } else {
-//             treeData.push(temp[i]);
-//         }
-//     }
-    
-//     return treeData;
-// }
+    // 先转成map存储
+    for (const item of items) {
+        itemMap[item.id] = { ...item, children: [] }
+    }
 
-// let res = listToTree(arr)
+    for (const item of items) {
+        const pid = item.pid;
+        const treeItem = itemMap[item.id];
+        // 根节点
+        if (pid === 0) {
+            result.push(treeItem);
+        }
+        // 若是子节点，找到其父节点并将它假如children
+        else {
+            itemMap[pid].children.push(treeItem)
+        }
 
-// function arrayToTree(items) {
-//     const result = [];   // 存放结果集
-//     const itemMap = {};  // 
-
-//     // 先转成map存储
-//     for (const item of items) {
-//         itemMap[item.id] = { ...item, children: [] }
-//     }
-
-//     for (const item of items) {
-//         const id = item.id;
-//         const pid = item.pid;
-//         const treeItem = itemMap[id];
-//         if (pid === 0) {
-//             result.push(treeItem);
-//         } else {
-//             itemMap[pid].children.push(treeItem)
-//         }
-
-//     }
-//     return result;
-// }
+    }
+    return result;
+}
 // let res = arrayToTree(arr)
 console.log(JSON.stringify(res))

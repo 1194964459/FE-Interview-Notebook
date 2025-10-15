@@ -1,0 +1,56 @@
+/**
+ * 树形结构转列表：将children里的id为2的结构转成
+ */
+
+let arr = [
+    {
+        id: 1,
+        text: '节点1',
+        parentId: 0,
+        children: [
+            {
+                id: 2,
+                text: '节点1_1',
+                parentId: 1
+            }
+        ]
+    }
+]
+// 转成
+// [
+//     {
+//         id: 1,
+//         text: '节点1',
+//         parentId: 0 //这里用0表示为顶级节点
+//     },
+//     {
+//         id: 2,
+//         text: '节点1_1',
+//         parentId: 1 //通过这个字段来确定子父级
+//     }
+//     ...
+// ]
+
+function treeToList(arr) {
+    let res = []
+
+    function dfs(node) {
+        // 复制当前节点的属性，但移除children属性
+        const { children, ...rest } = node;
+        res.push(rest)
+
+        if (children && children.length > 0) {
+            for (let item of children) {
+                dfs(item)
+            }
+        }
+    }
+
+    for (let node of arr) {
+        dfs(node)
+    }
+    console.log(res)
+}
+
+
+treeToList(arr)

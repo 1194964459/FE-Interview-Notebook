@@ -7,17 +7,17 @@
  * }
  */
 
-var inorderTraversal = function(root) {
+var inorderTraversal = function (root) {
     let res = []
 
-    let inOrder = (root)=>{
-        if(!root) return ;
+    let traverse = (root) => {
+        if (!root) return;
 
-        inOrder(root.left)
+        traverse(root.left)
         res.push(root.val)
-        inOrder(root.right)
+        traverse(root.right)
     }
-    inOrder(root)
+    traverse(root)
 
     return res;
 }
