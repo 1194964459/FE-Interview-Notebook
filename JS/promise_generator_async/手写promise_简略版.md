@@ -54,6 +54,7 @@ class Mypromise {
                 this.failFun.forEach(item => item.call(this, err));
             });
         };
+        
         // 调用函数
         try {
             fn(resolve, reject);
@@ -70,9 +71,7 @@ class Mypromise {
             : resolveCallback;
         
         rejectCallback == typeof rejectCallback !== "function"
-            ? err => {
-                throw err;
-            }
+            ? err => { throw err; }
             : rejectCallback;
 
         // 为了保持链式调用  继续返回promise

@@ -6,8 +6,12 @@
  */
 
 async function fetchData(url) {
-    const res = await fetch(url)
-    return res.json()
+    try {
+        const res = await fetch(url); // 等待当前请求完成
+        return res.json();
+    } catch (error) {
+        throw new Error(`请求 ${url} 失败`);
+    }
 }
 
 const urls = [

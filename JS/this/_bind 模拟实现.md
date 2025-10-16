@@ -2,7 +2,7 @@
 参考：https://github.com/mqyqingfeng/Blog/issues/12
 
 bind 函数的两个特点：
-* 返回一个函数
+* 返回一个函数，这个函数内会调用原始函数 并绑定this
 * 可以预先传入部分参数，后续调用时只需补充剩余参数
 
 ```js
