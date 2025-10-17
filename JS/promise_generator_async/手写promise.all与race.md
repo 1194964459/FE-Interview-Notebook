@@ -1,45 +1,52 @@
 # 手写promise.all
 
 ```JS
-//静态方法
-static all(promiseArr) {
-    let result = [];
-    //声明一个计数器 每一个promise返回就+1
-    let count = 0
+/** 
+ * 静态方法
+ * 
+ * 参数：
+ *    1. 必须是数组
+ *    2. 另外数组中每个成员都必须是Promise（如果不是promise，需要用Promise.resolve将其转为promise）
+ */
+static function PromiseAll(promises) {
+    let count = 0, res = []
 
-    return new Mypromise((resolve, reject) => {
-        for (let i = 0; i < promiseArr.length; i++) {
-            promiseArr[i].then(
-                res => {
-                    //这里不能直接push数组  因为要控制顺序一一对应(感谢评论区指正)
-                    result[i] = res
-                    count++
-                    
-                    //只有全部的promise执行成功之后才resolve出去
-                    if (count === promiseArr.length) {
-                        resolve(result);
-                    }
-                },
-                err => {
-                    reject(err);
-                }
-            );
+    return new Promise((resolve, reject) => {
+        if (!Array.isArray(promises)) {
+            reject('参数必须是数组')
         }
-    });
+
+        for (let i = 0; i < promises.length; i++) {
+            Promise.resolve(promises[i])
+                .then((value) => {
+                    res[i] = value
+                    count++
+                    if (count === promises.length) {
+                        resolve(res)
+                    }
+                })
+                
+        }
+
+    })
+
 }
+
 //静态方法
 static race(promiseArr) {
     return new Mypromise((resolve, reject) => {
+        if (!Array.isArray(promises)) {
+            reject('参数必须是数组')
+        }
         for (let i = 0; i < promiseArr.length; i++) {
-            promiseArr[i].then(
-                res => {
-                //promise数组只要有任何一个promise 状态变更  就可以返回
+            Promise.resolve(promiseArr[i])
+                .then(res => {
+                    //promise数组只要有任何一个promise 状态变更  就可以返回
                     resolve(res);
-                },
-                err => {
-                    reject(err);
-                }
-            );
+                })
+                .catch((err) => {
+                    reject(err)
+                })
         }
     });
 }

@@ -30,7 +30,9 @@ class Promise {
         }
     }
 
-
+    /**
+     * then实现
+     */
     then(onFulfilled, onRejected) {
         onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : value => value;
         onRejected = typeof onRejected === 'function' ? onRejected : err => { throw err };
@@ -84,6 +86,10 @@ class Promise {
         });
         return promise2;
     }
+
+    /**
+     * catch
+     */
     catch(fn) {
         return this.then(null, fn);
     }

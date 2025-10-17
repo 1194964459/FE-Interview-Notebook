@@ -37,7 +37,7 @@ position可能的取值:
 粘性布局失效的几种情况：
 * 阈值没显式设置
 * 滚动容器高度 < sticky 元素高度时，没有足够滚动空间，导致 sticky 失效。
-* 粘性约束元素和容器元素之间存在 overflow: hidden/auto/scroll  的元素
+* 粘性约束元素和容器元素之间存在 overflow 值不是visible（即：hidden/auto/scroll）的元素
 
 
 祖先元素使用：fixed/absolute/relative 定位，transform 样式 可能不会导致sticky失效！这与浏览器版本有关系，早期浏览器中可能会有问题；现代主流桌面和移动浏览器（更新到较新版本）中，基本能正确呈现这种干扰。

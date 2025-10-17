@@ -55,3 +55,7 @@ Worker 线程无法读取本地文件，即不能打开本机的文件系统（f
 **3. 生命周期管理**
 * 任务完成后及时终止 Worker，释放系统资源。
 * 对长期运行的 Worker（如 Service Worker），合理管理其生命周期。
+
+## Service worker
+
+参考：https://zhuanlan.zhihu.com/p/115243059
