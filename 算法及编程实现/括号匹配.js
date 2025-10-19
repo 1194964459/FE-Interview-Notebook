@@ -1,16 +1,31 @@
-function resolve(strs){
+/**
+ * 给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串 s ，判断字符串是否有效。
+	
+	https://leetcode.cn/problems/valid-parentheses/
+
+ * @param {string} s
+ * @return {boolean}
+ */
+var isValid = function (s) {
 	let arr = []
-	for(let i = 0; i < strs.length; i++){
-		if(strs[i]=='(' || strs[i]=='[' || strs[i]=='{'){
-			arr.push(strs[i])   
-		}else if(strs[i]==')' || strs[i]==']' || strs[i]=='}'){
-			let num =  arr.pop()
-			if(num==''){
-			   return false
+	for (let it of s) {
+		if (it == '(' || it == '[' || it == '{') {
+			arr.push(it)
+		}
+		else if (it == ')' || it == ']' || it == '}') {
+			let cur = arr.pop()
+			if (
+				cur == '(' && it == ')'
+				|| cur == '[' && it == ']'
+				|| cur == '{' && it == '}'
+			) {
+				continue;
+			} else {
+
+				return false
 			}
 		}
 	}
-	if(!arr.length){
-	   return true
-	}
-}
+
+	return arr.length === 0
+};

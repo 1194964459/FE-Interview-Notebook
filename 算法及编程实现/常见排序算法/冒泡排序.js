@@ -19,6 +19,8 @@ function bubbleSort(arr) {
     for (let j = 0; j < len - 1 - i; j++) {   // - i，已冒好的元素不需要比较了
       if (arr[j] > arr[j + 1]) {
         [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+        // 有交换，标记为false
+        isSorted = false;
       }
     }
     if (isSorted) {

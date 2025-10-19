@@ -37,7 +37,6 @@ function helper(nums, idx, target, zuhe, res) {
   // TODO:若5不行的话，其实没必要遍历6，因为6肯定不行!!!  
   let lst = nums.findLastIndex(a => a === nums[idx])
   if (lst != -1) {
-
     zuhe.push(nums[idx]);
     helper(nums, idx + 1, target - nums[idx], zuhe, res);
     zuhe.pop();
