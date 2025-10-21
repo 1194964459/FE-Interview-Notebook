@@ -13,3 +13,6 @@ Three.js零基础入门：
 https://segmentfault.com/a/1190000012238576
 
 ![Three.js基本知识](./icon/three.js.webp)
+
+自己搞的3D项目中总结的：
+https://github.com/1194964459/3D-test/tree/main/doc
