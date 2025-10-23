@@ -3,13 +3,14 @@
  */
 
 a = '34'; b = '1234567'; // 返回 2
-console.log(isContain(a, b))
+console.log(isContain(a, b), func(a, b))
+
 
 a = '35'; b = '1234567'; // 返回 -1
-console.log(isContain(a, b))
+console.log(isContain(a, b), func(a, b))
 
 a = '355'; b = '12354355'; // 返回 5
-console.log(isContain(a, b))
+console.log(isContain(a, b), func(a, b))
 
 
 if (a.length < b.length) {
@@ -33,3 +34,10 @@ function isContain(short, long) {
     // }
 }
 
+function func(a, b) {
+    // if (a.length >= b.length) {
+    //     return a.indexOf(b)
+    // }
+
+    return a.length >= b.length ? a.indexOf(b) : b.indexOf(a)
+}

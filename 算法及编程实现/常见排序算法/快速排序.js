@@ -1,3 +1,6 @@
+/**
+ * TODO:一定要将基准值从原数组删掉！！！
+ */
 function quickSort(arr) {
     // 递归终止条件：数组长度 ≤ 1
     if (arr.length <= 1) return arr;

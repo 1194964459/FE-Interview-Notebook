@@ -9,12 +9,12 @@
  * @param {*} sum
  * 
  */
-function SumOfkNumber(n, sum){
-    if(n<=0 || sum<=0){
+function SumOfkNumber(n, sum) {
+    if (n <= 0 || sum <= 0) {
         return false;
     }
-    
-    
+
+
 
 }
 
