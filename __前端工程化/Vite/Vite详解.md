@@ -169,6 +169,8 @@ export default defineConfig({
 
 
 ## 四、Public目录：
+参考：[网站部署目录、域名](../网站部署目录_域名.md)
+
 用于存放那些**不需要参与构建过程的静态资源**。例如：网站的图标。
 
 * Vite 中的 public 目录：

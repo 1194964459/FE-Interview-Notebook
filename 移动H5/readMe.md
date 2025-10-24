@@ -45,18 +45,54 @@ https://www.zhihu.com/question/63663871
 移动端设计稿通常以iPhone 6为标准，但具体尺寸是750px（物理像素宽度）而不是iPhone 6的逻辑像素宽度375px
 
 
-## rem 计算
+
+## 如何使用rem进行移动端适配
+基于postcss-pxtorem 插件，将px转成rem。通过插件自动转换后，只需根据屏幕宽度 动态调整根元素的font-size，即可实现页面整体缩放。  
+
+**1. 定义转换规则**  
+配置rootValue值，1rem等于多少px？让postcss按照这个来换算。如设置1rem=100px，那么设计稿中 200px 的元素，会被转换为 2rem
+
+在postcss.config.js中配置：
 ```js
-var designWidth = 375;  		// 设计稿宽度
-var remPx = 100;               // 在屏幕宽度375px，的时候，设置根元素字体大小 100px
-
-// document.documentElement.clientWidth 
-var scale = window.innerWidth / designWidth； //计算当前屏幕的宽度与设计稿比例
-
-// 根据屏幕宽度 动态计算根元素的 字体大小
-document.documentElement.style.fontSize = scale * remPx + 'px';
+module.exports = {
+  plugins: {
+    'postcss-pxtorem': {
+      rootValue: 16, // 根元素 font-size（设计稿基准值，通常为 16px 或设计稿宽度/10）
+      propList: ['*'], // 需要转换的属性（* 表示所有属性）
+      selectorBlackList: ['ignore'], // 类名包含 'ignore' 的元素不转换
+      replace: true, // 直接替换 px 为 rem，不保留原 px
+      mediaQuery: false, // 不转换媒体查询中的 px
+      minPixelValue: 2 // 小于 2px 的值不转换
+    }
+  }
+};
 ```
-根元素 fontSize 设置为 100px，只是为了方便，也可以设置成其他大小？
+
+**2. 计算不同设备对应的根元素 font-size**  
+根元素的 font-size 需要根据屏幕宽度动态计算，确保 “屏幕上的 1rem” 与 “设计稿中的 1rem” 成比例：
+```
+ （屏幕宽度/设计稿宽度）× 设计稿中1rem的px值
+```
+1rem按照100px来：
+```js
+const rootFontSize = (屏幕宽度 / 375) * 100;
+document.documentElement.style.fontSize = rootFontSize + 'px';
+```
+当屏幕宽度 = 375px（与设计稿一致）：rootFontSize = 100px → `之前已经换算过的2rem` = 200px（正确还原设计稿）。
+当屏幕宽度 = 750px（设计稿的 2 倍）：rootFontSize = 200px → 2rem = 400px（按比例放大，正确适配）。
+
+### 3. 疑问❓：1rem 设为多少比较好？
+常见的有3种方案：
+* 按设计稿宽度的 1/10 设置：
+  > 严格还原设计稿，移动端适配的首选方案
+* 按 100px 简化计算：
+  > 手动估算方便，但可能除不尽导致适配偏差
+* 按 16px（浏览器默认字体大小）设置：
+  > 仅适合 PC 端项目
+
+![根元素字体换算](./icon/rem换算.jpg)
+
+
 
 ## rem与vw 对比
 | 维度| 	rem 分 10 份方案| 	vw 方案| 

@@ -1,5 +1,7 @@
 # path 模块
 
+**从右到左**处理路径片段，将其解析为绝对路径
+
 ## path.resolve
 * path.resolve **从右到左**处理路径片段，**直到遇到第一个绝对路径**。
 * 如果某个路径片段是绝对路径，path.resolve 会从该路径开始解析，忽略之前的路径片段。
@@ -8,6 +10,8 @@
 
 具体例子，见：[path.resolve](./code/path.js)
 
+## path.normalize：
+仅清理路径中的冗余符号（.、..、多斜杠），输出规范化的路径。
 
 
 ## __dirname 与 pwd命令
