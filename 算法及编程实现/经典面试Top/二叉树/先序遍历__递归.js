@@ -25,13 +25,16 @@ function TreeNode(val) {
 
 function preOrder(root) {
     const result = [];
+
     function traverse(node) {
-        if (node) {
-            result.push(node.val);
-            traverse(node.left);
-            traverse(node.right);
-        }
+        if (!node) return;
+
+        result.push(node.val);
+        traverse(node.left);
+        traverse(node.right);
     }
+
     traverse(root);
+
     return result;
 }

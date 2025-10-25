@@ -12,19 +12,20 @@
  * @return {number}
  */
 var lengthOfLIS = function (nums) {
-    let len = nums.length - 1
-    // if (nums.length >= 1) {
-    //     max = 1
-    // }
-    let dp = []
-    for (let i = len; i >= 0; i--) {
-        if (!dp.length) {  // 最后一项
-            dp.push(1)
-        } else {
-            /**
-             * arr[i+1, ..., len]中的最大值
-             */
-
+    let len = nums.length
+    let dp = new Array(len).fill(0);
+    dp[0] = 1
+    for (let i = 1; i < len; i++) {
+        // Max.max(...dp.slice(0,i))
+        let max = 0;
+        for (let j = 0; j < i; j++) {
+            if (nums[j] < nums[i]) {
+                if (max < dp[j]) {
+                    max = dp[j]
+                }
+            }
         }
+        dp[i] = max + 1;
     }
+    return Math.max(...dp)
 };
