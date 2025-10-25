@@ -93,7 +93,6 @@ document.documentElement.style.fontSize = rootFontSize + 'px';
 ![根元素字体换算](./icon/rem换算.jpg)
 
 
-
 ## rem与vw 对比
 | 维度| 	rem 分 10 份方案| 	vw 方案| 
 | ---- | ---- | ---- | 
