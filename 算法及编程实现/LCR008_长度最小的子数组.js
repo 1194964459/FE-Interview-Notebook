@@ -14,8 +14,9 @@ https://leetcode.cn/problems/2VG8Kg/
     输出：0
  */
 
-// 数组全是正数，可以用滑动窗口机制
-
+/**
+ * 数组全是正数，可以用滑动窗口机制
+ */
 var minSubArrayLen = function (target, nums) {
     let left = 0; // 窗口左边界
     let currentSum = 0; // 当前窗口的和

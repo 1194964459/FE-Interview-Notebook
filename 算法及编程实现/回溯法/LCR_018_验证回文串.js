@@ -36,6 +36,19 @@ var isPalindrome = function (s) {
   return true;
 };
 
+// 方法2：
+var isHuiwen = function (s) {
+  let str = s.toLowerCase().replace(/[^0-9a-zA-Z]/g, '')
+  let len = str.length - 1
+  for (let i = 0; i < str.length / 2; i++) {
+    if (str[i] != str[len - i]) {
+      return falstre
+    }
+  }
+  return true
+}
+
+
 // console.log(isPalindrome("A man, a plan, a canal: Panama")); // true
 // console.log(isPalindrome("race a car")); // false
 // console.log(isPalindrome(" ")); // true

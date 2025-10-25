@@ -1,4 +1,6 @@
 // https://leetcode.cn/problems/QTMn0o/description/
+// 给定一个整数数组和一个整数 k ，请找到该数组中和为 k 的连续子数组的个数。
+
 // 数组中有负数
 
 
@@ -45,8 +47,8 @@ var subarraySum = function (nums, k) {
     return count;
 };
 
-let nums = [1, 2, 3], k = 3
-// let nums = [1, 1, 1], k = 2
+let nums = [1, 2, 3], k = 3  // 2
+// let nums = [1, 1, 1], k = 2   // 2
 // let nums = [1], k = 0
 
 console.log(subarraySum(nums, k))
