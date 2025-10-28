@@ -25,17 +25,17 @@ static function PromiseAll(promises) {
                         resolve(res)
                     }
                 })
-                
+                .catch(err=>{
+                    reject(err)
+                })          
         }
-
     })
-
 }
 
 //静态方法
 static race(promiseArr) {
     return new Mypromise((resolve, reject) => {
-        if (!Array.isArray(promises)) {
+        if (!Array.isArray(promiseArr)) {
             reject('参数必须是数组')
         }
         for (let i = 0; i < promiseArr.length; i++) {

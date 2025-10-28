@@ -51,16 +51,15 @@ Mdn介绍：https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Flexible_Box_La
 ```
 
 * flex：
-> 1. flex属性是flex-grow, flex-shrink 和 flex-basis的简写，默认值为0 1 auto。后两个属性可选。
-> 2. 该属性有四个快捷值：
-> > initial (0 1 auto),即把flex元素重置为Flexbox的初始值。
-> > auto (1 1 auto)
-> > none (0 0 auto)
-> > 1 (1 1 0)，可以平分容器空间。
-> > > 若flex-basis设置为auto，则不会平分容器空间。是根据项目内容的大小来分的
-> > > 设置flex：1, 会为flex-basis添加上单位 % 或单位 px
-> > > ' flex: 1; ' === ' flex: 1 1 任意数字+任意长度单位; '
-
+  1. flex属性是flex-grow, flex-shrink 和 flex-basis的简写，默认值为0 1 auto。后两个属性可选。
+  2. 该属性有四个快捷值：
+      * initial (0 1 auto),即把flex元素重置为Flexbox的初始值。
+      * auto (1 1 auto)
+      * none (0 0 auto)
+      * 1 (1 1 0)，可以平分容器空间。 （PS：只有1个元素，则它占据剩余空间；多个元素的flex为1，平分剩余空间）
+    > 若flex-basis设置为auto，则不会平分容器空间。是根据项目内容的大小来分的   
+    > 设置flex：1, 会为flex-basis添加上单位 % 或单位 px   
+    > ' flex: 1; ' === ' flex: 1 1 任意数字+任意长度单位; '   
 
 > 3. 建议优先使用这个属性，而不是单独写三个分离的属性，因为浏览器会推算相关值。
 
