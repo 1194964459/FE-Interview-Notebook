@@ -1,3 +1,5 @@
+// 采用回溯法解决问题时如果到达树形结构的叶节点，就找到了问题的一个解。采用回溯法解决问题的过程实质上是在树形结构中从根节点开始进行深度优先遍历。
+
 /**
  * 输入一个不含重复数字的数据集合，请找出它的所有子集
  * 
@@ -43,7 +45,8 @@ function subsets(nums) {
   return result;
 }
 
-let arr = [1, 2, 3];
+// let arr = [1, 2, 3];
+let arr = [1, 2];
 const res = subsets(arr);
 
 console.log('所有子集：', res);

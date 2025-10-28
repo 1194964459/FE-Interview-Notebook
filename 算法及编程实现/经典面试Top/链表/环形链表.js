@@ -1,3 +1,5 @@
+// 判断链表中是否存在环？
+
 /**
  * Definition for singly-linked list.
  * function ListNode(val) {
@@ -10,18 +12,16 @@
  * @param {ListNode} head
  * @return {boolean}
  */
- var hasCycle = function(head) {
+var hasCycle = function (head) {
     // 判断是否存在环？
     var fast = head
     var slow = head
 
-    while (fast && fast.next)
-    {
+    while (fast && fast.next) {
         fast = fast.next.next
         slow = slow.next
 
-        if (fast == slow)
-        {
+        if (fast == slow) {
             return true
         }
     }

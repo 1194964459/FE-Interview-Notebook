@@ -4,24 +4,22 @@
    你可以按 任何顺序 返回答案
 
 示例 1：
-
-输入: n = 4, k = 2
-输出:
-[
-  [2,4],
-  [3,4],
-  [2,3],
-  [1,2],
-  [1,3],
-  [1,4],
-]
+  输入: n = 4, k = 2
+  输出:
+  [
+    [2,4],
+    [3,4],
+    [2,3],
+    [1,2],
+    [1,3],
+    [1,4],
+  ]
 
 示例 2：
-
-输入: n = 1, k = 1
-输出: [[1]]
- * 
+  输入: n = 1, k = 1
+  输出: [[1]]
  */
+
 function helper(nums, idx, k, zuhe, res) {
   if (zuhe.length === k) {
     res.push(zuhe.slice());
@@ -32,10 +30,10 @@ function helper(nums, idx, k, zuhe, res) {
   }
 
   zuhe.push(nums[idx]);
-  helper(nums, idx + 1, k, zuhe, res);
+  helper(nums, idx + 1, k, zuhe, res);  // TODO:当前字符包含进去后，考虑下一个字符
   zuhe.pop();
 
-  helper(nums, idx + 1, k, zuhe, res);
+  helper(nums, idx + 1, k, zuhe, res);  // 不把当前字符加进去... 直接考虑下一个字符
 }
 
 /**

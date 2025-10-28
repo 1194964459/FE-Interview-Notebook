@@ -1,5 +1,7 @@
 /**
- * 给定一个可能有重复数字的整数数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。
+ https://leetcode.cn/problems/4sjJUc/description/
+ * 
+ * 给定一个可能有“重复数字”的整数数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。
 candidates 中的每个数字在每个组合中只能使用一次，解集不能包含重复的组合。 
 
 示例 1：
@@ -24,6 +26,7 @@ var combinationSum2 = function (candidates, target) {
   let res = []
   helper(candidates, 0, target, [], res);
   console.log(res);
+  return res;
 };
 
 function helper(nums, idx, target, zuhe, res) {
@@ -36,25 +39,29 @@ function helper(nums, idx, target, zuhe, res) {
   }
   // TODO:若5不行的话，其实没必要遍历6，因为6肯定不行!!!  
   let lst = nums.findLastIndex(a => a === nums[idx])
-  if (lst != -1) {
-    zuhe.push(nums[idx]);
-    helper(nums, idx + 1, target - nums[idx], zuhe, res);
-    zuhe.pop();
 
-    // 数字不重复
-    if (lst === idx) {
+  if (lst != -1) {
+    if (lst === idx) { // 数字不重复
+      zuhe.push(nums[idx]);
+      helper(nums, idx + 1, target - nums[idx], zuhe, res);
+      zuhe.pop();
+
       helper(nums, idx + 1, target, zuhe, res);
     }
-    // 数字重复
-    else {
-      helper(nums, lst + 1, target, zuhe, res);  // TODO:此处是否应该return?
+    else { // 数字重复
+      zuhe.push(nums[idx]);
+      helper(nums, idx + 1, target - nums[idx], zuhe, res);
+      let cur = zuhe.pop();
+      if (nums[idx] === cur) {
+        helper(nums, lst + 1, target, zuhe, res);  // TODO:此处是否应该return?
+      }
     }
   }
 }
 
-// let arr = [10, 1, 2, 7, 6, 1, 5], target = 8;
+let arr = [10, 1, 2, 7, 6, 1, 5], target = 8;
 // let arr = [2, 5, 2, 1, 2], target = 5;
-let arr = [2, 2, 2], target = 2;
+// let arr = [2, 2, 2], target = 2;
 
 combinationSum2(arr, target)
 
@@ -68,3 +75,5 @@ combinationSum2(arr, target)
  * 
  *    假设求[2，2，2]的组合，如果在处理第1个2时决定跳过它并跳过所有的2，那么得到的是一个空的组合。如果选择第1个2之后决定跳过第2个2并连带跳过后面的2，那么得到的是组合[2]​。如果选择前两个2之后决定跳过第3个2，那么得到的是组合[2，2]​。
  */
+
+
