@@ -67,7 +67,7 @@ pageY = e.pageY || e.clientY + scrollY;
 
 
 ### 6. offsetWidth、offsetHeight
-* offsetWidth 为一个元素的布局宽度。由包含元素的边框、水平线上的内边距、竖直方向滚动条（如果存在的话）、以及CSS设置的宽度 共同组成。
+* offsetWidth 为一个元素的布局宽度。由包含元素的边框、水平线上的内边距padding、竖直方向滚动条（如果存在的话）、以及CSS设置的宽度 共同组成。
 * 如果元素被隐藏（例如 元素style.display被设置为none），则返回0。
 * 不包含:before或:after等伪类元素的宽度。
   

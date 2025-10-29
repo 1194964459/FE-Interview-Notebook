@@ -24,6 +24,6 @@ getBoundingClientRect() 方法会返回一个包含元素尺寸（width、height
 
 ## 如何判断元素在视口内？
 从纵向看，排除掉 2 种情况：出现在视口下方（top大于innerHeight）、出现在视口上方（bottom < 0）。所以纵向在视口内的条件是：
-`element.top < window.innerHeight && element.bottom > 0`。
+`element.bottom > 0` && `element.top < window.innerHeight`。
 
-横向在视口内：`element.left < window.innerWidth && element.right > 0`，即 元素左侧小于视口宽度，且元素右侧大于 0
+横向在视口内：`element.right > 0` && `element.left < window.innerWidth`，即 元素左侧小于视口宽度，且元素右侧大于 0
