@@ -10,12 +10,12 @@
 var inorderTraversal = function (root) {
     let res = []
 
-    let traverse = (root) => {
-        if (!root) return;
+    let traverse = (node) => {
+        if (!node) return;
 
-        traverse(root.left)
-        res.push(root.val)
-        traverse(root.right)
+        traverse(node.left)
+        res.push(node.val)
+        traverse(node.right)
     }
     traverse(root)
 

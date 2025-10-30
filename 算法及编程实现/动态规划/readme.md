@@ -4,3 +4,4 @@
 * 5最长回文子串：https://leetcode.cn/problems/longest-palindromic-substring/description/
 
 674 最长连续递增序列：https://leetcode.cn/problems/longest-continuous-increasing-subsequence/description/
+最长公共子序列：https://leetcode.cn/problems/qJnOS7/description/

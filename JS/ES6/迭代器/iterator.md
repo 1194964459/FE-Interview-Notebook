@@ -1,6 +1,6 @@
 ## Iterator
-迭代器对象：有next方法的一个对象，且 next() 方法的返回值是形如{ value: any, done: boolean } 的对象
-Iterator 接口： 一个对象只要部署了 Symbol.iterator 属性，就称它为 “可迭代对象”。（该属性是一个遍历器生成函数，调用后会返回一个遍历器对象）
+* 遍历器对象：有**next方法**的一个对象，且 next() 方法的返回值是形如{ value: any, done: boolean } 的对象
+* Iterator 接口： 一个对象只要部署了 Symbol.iterator 属性，就称它为 “可迭代对象”。（该属性是一个遍历器生成函数，调用后会返回一个遍历器对象）
 
 
 ### 背景：
