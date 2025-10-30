@@ -50,7 +50,7 @@ unity与js交互（通过webview）
 * debug：是否开启debug
 
 一、JS调用UE：
-基于这2个方法：）
+基于这2个方法：
 `invokeUeMethod`（H5主动反馈当前的进度、状态）
 `invokeUeMethodWithRetVal`(H5有依赖数据需要UE提供)
 
@@ -62,6 +62,8 @@ unity与js交互（通过webview）
 
 
 二、UE调用JS：通常是下达执行指令
+新建、取消新建、导入绘制区域、显示/隐藏绘制区域、切换地图视角
+
 ```JS
 window.fe = {
   resetCamera,  // 地图回到默认视角
