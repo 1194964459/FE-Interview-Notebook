@@ -3,6 +3,8 @@
 
 https://www.doubao.com/thread/w637d8f9ae500a324
 
+https://juejin.cn/collection/6951421692875014180
+
 
 编译时 vs 运行时的核心区别
 * 编译时：代码在 “打包构建阶段” 的处理（比如用 Babel 转换语法），输出的是 “可在目标平台运行的代码”，不涉及代码执行。
