@@ -42,7 +42,7 @@ var isHuiwen = function (s) {
   let len = str.length - 1
   for (let i = 0; i < str.length / 2; i++) {
     if (str[i] != str[len - i]) {
-      return falstre
+      return false
     }
   }
   return true
