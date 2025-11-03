@@ -1,13 +1,31 @@
+
+```js
 function resolve(N) {
     // 初始值构建
-    let triangle = Array.from({ length: N + 2 }, (_, row) =>
-        Array(N + 2).fill(1)
-    )
+    // ES6语法创建
+    // let triangle = Array.from({ length: N + 2 }, (_, row) =>
+    //     Array(N + 2).fill(1)
+    // )
+    // for (let i = 1; i <= N; i++) {
+    //     for (let j = 1; j <= N - i + 1; j++) {
+    //         triangle[i][j] = 0
+    //     }
+    // }
+
+    // ES5语法创建
+    let triangle = []
+    for (let i = 0; i < N + 2; i++) {
+        triangle[i] = []
+        for (let j = 0; j < N + 2; j++) {
+            triangle[i][j] = 1
+        }
+    }
     for (let i = 1; i <= N; i++) {
         for (let j = 1; j <= N - i + 1; j++) {
             triangle[i][j] = 0
         }
     }
+
     // console.log(triangle)
 
     let row = 1, col = 1;
@@ -57,3 +75,5 @@ function resolve(N) {
 }
 
 resolve(5)
+
+```
