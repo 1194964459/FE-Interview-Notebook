@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SVG 标注工具（点线面+数据导出）</title>
+    <style>
+        #annotation-container {
+            position: relative;
+            width: 1200px;
+            height: 800px;
+            border: 1px solid #ccc;
+        }
+
+        #annotation-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .control-bar {
+            margin: 10px 0;
+        }
+
+        button {
+            margin-right: 10px;
+            padding: 5px 10px;
+        }
+
+        select {
+            padding: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 控制栏：选择标注类型、标签、导出数据 -->
+    <div class="control-bar">
+        <button id="btn-point">绘制点</button>
+        <button id="btn-line">绘制线</button>
+        <button id="btn-polygon">绘制面（多边形）</button>
+        <button id="btn-rect">绘制面（矩形）</button>
+        <button id="btn-clear">清空标注</button>
+        <select id="label-select">
+            <option value="car">车辆</option>
+            <option value="lane">车道线</option>
+            <option value="pedestrian">行人</option>
+            <option value="obstacle">障碍物</option>
+        </select>
+        <button id="btn-export-json">导出 JSON</button>
+        <button id="btn-export-yolo">导出 YOLO 格式</button>
+    </div>
+
+    <!-- SVG 标注画布（含三层分组：辅助层/标注层/交互层） -->
+    <div id="annotation-container">
+        <svg id="annotation-svg" viewBox="0 0 1920 1080"> <!-- viewBox 与原始图像分辨率一致（关键！） -->
+            <!-- 辅助层：背景图（算法标注的原始素材） -->
+            <g id="auxiliary-layer">
+                <image xlink:href="原始图像.jpg" x="0" y="0" width="1920" height="1080" /> <!-- 与 viewBox 一致 -->
+            </g>
+            <!-- 标注层：用户绘制的点线面（核心数据） -->
+            <g id="annotation-layer"></g>
+            <!-- 交互层：临时绘制反馈（如未闭合的线、悬停高亮） -->
+            <g id="interaction-layer"></g>
+        </svg>
+    </div>
+
+    <script>
+        // -------------- 核心变量初始化 --------------
+        const svg = document.getElementById('annotation-svg');
+        const annotationLayer = document.getElementById('annotation-layer');
+        const interactionLayer = document.getElementById('interaction-layer');
+        const labelSelect = document.getElementById('label-select');
+
+        // 标注模式：point/line/polygon/rect（默认无）
+        let drawMode = null;
+        // 结构化标注数据（最终导出给算法）
+        let annotationData = [];
+        // 临时绘制数据（未完成的标注）
+        let tempData = {
+            points: [], // 临时坐标集合
+            element: null // 临时 SVG 元素
+        };
+
+        // 原始图像分辨率（必须与 viewBox 一致，算法需要像素级坐标）
+        const IMAGE_WIDTH = 1920;
+        const IMAGE_HEIGHT = 1080;
+        // -------------- 1. 绘制交互实现 --------------
+        // （1）切换标注模式
+        document.getElementById('btn-point').addEventListener('click', () => {
+            drawMode = 'point';
+            resetTempData();
+        });
+        document.getElementById('btn-line').addEventListener('click', () => {
+            drawMode = 'line';
+            resetTempData();
+        });
+        document.getElementById('btn-polygon').addEventListener('click', () => {
+            drawMode = 'polygon';
+            resetTempData();
+        });
+        document.getElementById('btn-rect').addEventListener('click', () => {
+            drawMode = 'rect';
+            resetTempData();
+        });
+        document.getElementById('btn-clear').addEventListener('click', () => {
+            annotationLayer.innerHTML = '';
+            interactionLayer.innerHTML = '';
+            annotationData = [];
+            drawMode = null;
+            resetTempData();
+        });
+
+        // （2）鼠标事件：交互式绘制
+        svg.addEventListener('click', handleSvgClick);
+        svg.addEventListener('mousemove', handleSvgMouseMove);
+        svg.addEventListener('dblclick', handleSvgDblClick); // 双击结束线/多边形绘制
+
+        // 重置临时数据
+        function resetTempData() {
+            if (tempData.element) {
+                interactionLayer.removeChild(tempData.element);
+            }
+            tempData = { points: [], element: null };
+        }
+
+        // 获取 SVG 坐标系下的鼠标坐标（与图像像素对齐）
+        function getSvgPoint(e) {
+            const pt = svg.createSVGPoint();
+            pt.x = e.clientX;
+            pt.y = e.clientY;
+            // 转换为 SVG 内部坐标（不受画布缩放影响，确保与 viewBox 一致）
+            const ctm = svg.getScreenCTM().inverse();
+            const pos = pt.matrixTransform(ctm);
+            // 限制坐标在图像范围内（避免超出边界）
+            return {
+                x: Math.max(0, Math.min(pos.x, IMAGE_WIDTH)),
+                y: Math.max(0, Math.min(pos.y, IMAGE_HEIGHT))
+            };
+        }
+
+        // 点击绘制（点/线/面/矩形）
+        function handleSvgClick(e) {
+            if (!drawMode) return;
+            const { x, y } = getSvgPoint(e);
+            const point = [x, y]; // 存储为 [x,y] 数组（算法常用格式）
+
+            switch (drawMode) {
+                case 'point':
+                    // 绘制点：点击直接完成
+                    const pointElem = createSvgElement('circle', {
+                        cx: x, cy: y, r: 4,
+                        fill: 'red', stroke: 'white', 'stroke-width': 1,
+                        class: 'annotation-point'
+                    });
+                    annotationLayer.appendChild(pointElem);
+                    // 存入标注数据
+                    annotationData.push({
+                        id: generateId(),
+                        type: 'point',
+                        label: labelSelect.value,
+                        coordinates: [x, y], // 点坐标：[x,y]
+                        timestamp: new Date().toISOString()
+                    });
+                    break;
+
+                case 'line':
+                    // 绘制线：点击添加顶点，双击结束
+                    tempData.points.push(point);
+                    updateTempLine();
+                    break;
+
+                case 'polygon':
+                    // 绘制多边形：点击添加顶点，双击闭合
+                    tempData.points.push(point);
+                    updateTempPolygon();
+                    break;
+
+                case 'rect':
+                    // 绘制矩形：第一次点击起点，第二次点击终点
+                    if (tempData.points.length === 0) {
+                        tempData.points.push(point); // 起点
+                    } else {
+                        const [startX, startY] = tempData.points[0];
+                        const [endX, endY] = point;
+                        // 计算矩形四个顶点（算法常用：左上、右上、右下、左下，顺时针）
+                        const rectPoints = [
+                            [startX, startY],
+                            [endX, startY],
+                            [endX, endY],
+                            [startX, endY]
+                        ];
+                        // 绘制矩形（用 polygon 标签，便于算法解析包围盒）
+                        const rectElem = createSvgElement('polygon', {
+                            points: rectPoints.flat().join(' '),
+                            fill: 'rgba(0,255,0,0.2)',
+                            stroke: 'green', 'stroke-width': 2,
+                            class: 'annotation-polygon'
+                        });
+                        annotationLayer.appendChild(rectElem);
+                        // 存入标注数据（矩形本质是多边形，算法可直接用）
+                        annotationData.push({
+                            id: generateId(),
+                            type: 'polygon',
+                            label: labelSelect.value,
+                            coordinates: rectPoints, // 多边形坐标：[[x1,y1], [x2,y2], ...]
+                            bbox: [ // 额外存储边界框（xmin, ymin, xmax, ymax），算法常用
+                                Math.min(startX, endX),
+                                Math.min(startY, endY),
+                                Math.max(startX, endX),
+                                Math.max(startY, endY)
+                            ],
+                            timestamp: new Date().toISOString()
+                        });
+                        resetTempData(); // 重置临时数据，准备下一个矩形
+                    }
+                    break;
+            }
+        }
+
+        // 鼠标移动：更新临时线/多边形
+        function handleSvgMouseMove(e) {
+            if (!drawMode || (drawMode !== 'line' && drawMode !== 'polygon') || tempData.points.length === 0) {
+                return;
+            }
+            const { x, y } = getSvgPoint(e);
+            const tempPoints = [...tempData.points, [x, y]]; // 临时添加当前鼠标坐标
+
+            if (drawMode === 'line') {
+                updateTempLine(tempPoints);
+            } else if (drawMode === 'polygon') {
+                updateTempPolygon(tempPoints);
+            }
+        }
+
+        // 双击结束线/多边形绘制
+        function handleSvgDblClick(e) {
+            if (!drawMode || (drawMode !== 'line' && drawMode !== 'polygon') || tempData.points.length < 2) {
+                return;
+            }
+
+            const finalPoints = tempData.points;
+            let svgElem, dataType;
+
+            if (drawMode === 'line') {
+                // 绘制最终线
+                svgElem = createSvgElement('polyline', {
+                    points: finalPoints.flat().join(' '),
+                    stroke: 'blue', 'stroke-width': 2, fill: 'none',
+                    'stroke-linecap': 'round', class: 'annotation-line'
+                });
+                dataType = 'line';
+            } else {
+                // 绘制最终多边形（闭合）
+                svgElem = createSvgElement('polygon', {
+                    points: finalPoints.flat().join(' '),
+                    fill: 'rgba(255,0,0,0.2)',
+                    stroke: 'red', 'stroke-width': 2,
+                    class: 'annotation-polygon'
+                });
+                dataType = 'polygon';
+            }
+
+            annotationLayer.appendChild(svgElem);
+            // 计算边界框（算法训练常用）
+            const xList = finalPoints.map(p => p[0]);
+            const yList = finalPoints.map(p => p[1]);
+            const bbox = [
+                Math.min(...xList),
+                Math.min(...yList),
+                Math.max(...xList),
+                Math.max(...yList)
+            ];
+            // 存入标注数据
+            annotationData.push({
+                id: generateId(),
+                type: dataType,
+                label: labelSelect.value,
+                coordinates: finalPoints, // 线/多边形坐标：[[x1,y1], [x2,y2], ...]
+                bbox: bbox, // 边界框（xmin, ymin, xmax, ymax）
+                timestamp: new Date().toISOString()
+            });
+
+            resetTempData(); // 重置临时数据
+        }
+
+        // 更新临时线（交互层显示）
+        function updateTempLine(points = tempData.points) {
+            if (tempData.element) {
+                interactionLayer.removeChild(tempData.element);
+            }
+            const lineElem = createSvgElement('polyline', {
+                points: points.flat().join(' '),
+                stroke: 'rgba(255,0,0,0.6)', 'stroke-width': 2, fill: 'none',
+                'stroke-dasharray': '5,5'
+            });
+            interactionLayer.appendChild(lineElem);
+            tempData.element = lineElem;
+        }
+
+        // 更新临时多边形（交互层显示）
+        function updateTempPolygon(points = tempData.points) {
+            if (tempData.element) {
+                interactionLayer.removeChild(tempData.element);
+            }
+            const polygonElem = createSvgElement('polygon', {
+                points: points.flat().join(' '),
+                fill: 'rgba(255,0,0,0.1)',
+                stroke: 'rgba(255,0,0,0.6)', 'stroke-width': 2,
+                'stroke-dasharray': '5,5'
+            });
+            interactionLayer.appendChild(polygonElem);
+            tempData.element = polygonElem;
+        }
+
+        // 工具函数：创建 SVG 元素
+        function createSvgElement(tag, attrs) {
+            const elem = document.createElementNS('http://www.w3.org/2000/svg', tag);
+            Object.entries(attrs).forEach(([key, value]) => {
+                elem.setAttribute(key, value);
+            });
+            return elem;
+        }
+
+        // 工具函数：生成唯一 ID（避免标注冲突）
+        function generateId() {
+            return 'anno_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+        }
+
+        // -------------- 2. 标注数据导出（算法核心需求） --------------
+        // 导出 JSON 格式（通用格式，支持所有标注类型）
+        document.getElementById('btn-export-json').addEventListener('click', () => {
+            if (annotationData.length === 0) {
+                alert('无标注数据可导出！');
+                return;
+            }
+            // 构建标准 JSON 结构（算法可直接解析）
+            const exportData = {
+                image_info: {
+                    image_path: '原始图像.jpg', // 算法需要关联图像路径
+                    image_width: IMAGE_WIDTH,
+                    image_height: IMAGE_HEIGHT,
+                    annotation_count: annotationData.length
+                },
+                annotations: annotationData
+            };
+            // 下载 JSON 文件
+            downloadFile(
+                JSON.stringify(exportData, null, 2),
+                'annotation_' + new Date().getTime() + '.json',
+                'application/json'
+            );
+        });
+
+        // 导出 YOLO 格式（目标检测算法常用，仅支持矩形包围盒）
+        document.getElementById('btn-export-yolo').addEventListener('click', () => {
+            // 筛选出矩形/多边形标注（YOLO 只支持边界框）
+            const bboxAnnotations = annotationData.filter(anno =>
+                anno.type === 'polygon' || anno.type === 'rect'
+            );
+            if (bboxAnnotations.length === 0) {
+                alert('无边界框标注可导出 YOLO 格式！');
+                return;
+            }
+            // 标签映射（YOLO 要求用整数索引，需与算法同学约定）
+            const labelMap = {
+                car: 0,
+                lane: 1,
+                pedestrian: 2,
+                obstacle: 3
+            };
+            // 构建 YOLO 格式内容（每行一个标注：class x_center y_center width height）
+            let yoloContent = '';
+            bboxAnnotations.forEach(anno => {
+                const { bbox, label } = anno;
+                const [xmin, ymin, xmax, ymax] = bbox;
+                // YOLO 坐标转换：归一化到 [0,1]，中心坐标+宽高
+                const x_center = (xmin + xmax) / 2 / IMAGE_WIDTH;
+                const y_center = (ymin + ymax) / 2 / IMAGE_HEIGHT;
+                const width = (xmax - xmin) / IMAGE_WIDTH;
+                const height = (ymax - ymin) / IMAGE_HEIGHT;
+                // 标签索引（必须与算法同学确认映射关系）
+                const classIdx = labelMap[label] || -1;
+                if (classIdx === -1) return;
+                // 保留 6 位小数（YOLO 标准）
+                yoloContent += `${classIdx} ${x_center.toFixed(6)} ${y_center.toFixed(6)} ${width.toFixed(6)} ${height.toFixed(6)}\n`;
+            });
+            // 下载 YOLO 文件（文件名与图像一致，算法自动关联）
+            downloadFile(
+                yoloContent.trim(),
+                '原始图像.txt', // 约定：YOLO 文件名与图像文件名相同
+                'text/plain'
+            );
+        });
+
+        // 工具函数：下载文件
+        function downloadFile(content, filename, mimeType) {
+            const blob = new Blob([content], { type: mimeType });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+
+</html>
