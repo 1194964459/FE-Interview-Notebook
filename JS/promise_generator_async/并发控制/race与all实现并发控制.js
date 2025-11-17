@@ -21,8 +21,13 @@ async function asyncPool(limit, arr) {
         const p = timeout(delay);
         results.push(p);
 
-        const e = p.then(() => executing.splice(executing.indexOf(e), 1));
-        executing.push(e);
+        p.finally(() => {
+            const idx = executing.indexOf(p)
+            if (idx != -1) {
+                executing.splice(idx, 1)
+            }
+        })
+        executing.push(p)
 
         if (executing.length >= limit) {
             await Promise.race(executing);
