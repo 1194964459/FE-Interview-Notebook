@@ -42,7 +42,7 @@ Mdn介绍：https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Flexible_Box_La
 > 2. 若所有项目的flex-shrink属性都为1，当空间不足时，都将等比例缩小。
 > 3. 若一个项目的flex-shrink属性为0，其他项目都为1，则空间不足时，前者不缩小。
 
-* flex-basis：项目占据的主轴空间（main size）。在分配多余空间之前，一般会参考该属性
+* flex-basis：项目占据的主轴空间（main size）。默认值为auto(即项目本来的大小)
 ```css
 /* 默认值为auto(即项目本来的大小)，也可设为px等固定值 */
 .item {
