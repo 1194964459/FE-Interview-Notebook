@@ -19,7 +19,7 @@ Babel 本身是一个 “模块化工具链”，核心功能由**核心包**和
 
 | 包名	| 作用 |
 | ---- |---- |
-| @babel/core |	Babel 核心引擎，提供代码解**析、转换、生成**的核心 API（如 **transform** 方法）。|
+| @babel/core |	Babel 核心引擎，提供代码**解析、转换、生成**的核心 API（如 **transform** 方法）。|
 | @babel/parser |（原 babylon）负责**将源代码(字符串) 解析为 抽象语法树（AST）**，是转换的基础。|
 | @babel/traverse|	**遍历并修改 AST**（如将箭头函数节点替换为普通函数节点）。|
 | @babel/generator|	将**修改后的 AST 重新生成低版本 JavaScript 代码**。|

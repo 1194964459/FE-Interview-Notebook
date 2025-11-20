@@ -64,3 +64,5 @@ var longestCommonSubsequence = function (text1, text2) {
 console.log(longestCommonSubsequence("abcde", "ace")); // 3
 console.log(longestCommonSubsequence("abc", "abc")); // 3
 console.log(longestCommonSubsequence("abc", "def")); // 0
+
+

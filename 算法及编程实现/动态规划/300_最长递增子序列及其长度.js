@@ -29,3 +29,7 @@ var lengthOfLIS = function (nums) {
     }
     return Math.max(...dp)
 };
+
+
+let arr = [0, 3, 1, 6, 2, 2, 7]
+lengthOfLIS(arr)
