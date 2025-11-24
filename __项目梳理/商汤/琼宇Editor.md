@@ -1,4 +1,11 @@
 # 琼宇Editor中实现2D裁剪优化
+CesiumJs：https://cesium.com/learn/cesiumjs-learn/cesiumjs-quickstart/
+
+Google Map Tiles API：
+https://developers.google.com/maps/documentation/tile?hl=en&_gl=1*1yq4ggm*_ga*MTI2MDg4OTAzNy4xNzYzODczNzk2*_ga_NRWSTWS78N*czE3NjM4NzM3OTYkbzEkZzEkdDE3NjM4NzUyMjkkajI1JGwwJGgw
+
+
+
 H5大致的功能就是：把地图加载出来（有些是nerf相关的配置），做面积裁剪；然后把裁剪区域给到UE
 
 ## 基本功能、流程
